@@ -15,10 +15,6 @@ public class UserDAOImpl implements UserDAO {
 	userDatabase.add(new User("JShin", "password", "Jane", "Shin"));
 	}
 	
-	public UserDAOImpl() {
-		super();
-	}
-
 	public User getUser(String username) {
 		
 		User ret = null;
