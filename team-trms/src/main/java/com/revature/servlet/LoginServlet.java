@@ -1,6 +1,7 @@
 package com.revature.servlet;
 
 import java.io.IOException;
+import static com.revature.util.LoggerUtil.info;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,6 +43,7 @@ public class LoginServlet extends HttpServlet {
 		
 		if(user != null) {
 			request.getSession().setAttribute("user", user);
+			info("User " + user.getUsername() + " has logged in successfully.");
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
 				response.sendRedirect("employeehome");
 			}
@@ -58,8 +60,9 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 		else {
-			// Placeholder until we figure how to display alert to login.html
+			// Placeholder until we figure how to display alert to login.html)
 			response.getWriter().write("Invalid Username / Password");
+			
 		}
 		
 		

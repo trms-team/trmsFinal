@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.sql.Connection;
+import static com.revature.util.LoggerUtil.trace;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ public class UserDAOImpl implements UserDAO {
 			}
 			
 		} catch (SQLException e) {
+			trace("username " + username + " is not on record in the database");
 			e.printStackTrace();
 		}
 		
