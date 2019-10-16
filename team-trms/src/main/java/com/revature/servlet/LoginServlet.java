@@ -1,16 +1,17 @@
 package com.revature.servlet;
 
 import java.io.IOException;
-import static com.revature.util.LoggerUtil.info;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pojo.User;
 import com.revature.service.UserService;
 import com.revature.service.UserServiceImpl;
+import static com.revature.util.LoggerUtil.info;
 
 /**
  * Servlet implementation class LoginServlet
@@ -59,11 +60,7 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("bencohome");
 			}
 		}
-		else {
-			// Placeholder until we figure how to display alert to login.html)
-			response.getWriter().write("Invalid Username / Password");
-			
-		}
+		
 		
 		
 	}
