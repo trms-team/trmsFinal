@@ -48,13 +48,13 @@ public class LoginServlet extends HttpServlet {
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
 				response.sendRedirect("employeehome");
 			}
-			// Need to decide which one we will redirect to for user with
-			// both direct supervisor and department head roles
-			else if (user.getRoles().contains(User.Role.DIRECT_SUPERVISOR)) {
-				response.sendRedirect("directsupervisorhome");
-			}
+			// This order is to give people with both dep head and dir sup
+			// roles the dep head page
 			else if (user.getRoles().contains(User.Role.DEPARTMENT_HEAD)) {
 				response.sendRedirect("departmentheadhome");
+			}
+			else if (user.getRoles().contains(User.Role.DIRECT_SUPERVISOR)) {
+				response.sendRedirect("directsupervisorhome");
 			}
 			else {
 				response.sendRedirect("bencohome");
@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		else {
 			// Maybe add in an alert using JS
+			info("Invalid username / password");
 			response.sendRedirect("login.html");
 		}
 		
