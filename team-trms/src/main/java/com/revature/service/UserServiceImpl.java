@@ -8,10 +8,6 @@ public class UserServiceImpl implements UserService{
 
 	private static UserDAO userDAO = new UserDAOImpl();
 	
-	public UserServiceImpl() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public User login(String username, String password) {
 
 		User user = userDAO.getUser(username);

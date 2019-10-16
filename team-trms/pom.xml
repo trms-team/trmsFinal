@@ -6,6 +6,21 @@
 	<artifactId>team-trms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
+	<build>
+	  	<plugins>
+	    	<plugin>
+	        	<groupId>org.apache.maven.plugins</groupId>
+	            	<artifactId>maven-compiler-plugin</artifactId>
+	            	<version>3.8.1</version>
+	            	<configuration>
+	                	<source>1.8</source>
+	                	<target>1.8</target>
+	            	</configuration>
+	    	</plugin>
+		</plugins>
+	  </build>
+	
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
@@ -27,6 +42,13 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.10.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>42.2.8</version>
 		</dependency>
 	</dependencies>
 </project>

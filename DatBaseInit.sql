@@ -3,7 +3,7 @@ CREATE TABLE user_test(
 	password varchar(16),
 	firstName varchar(30),
 	lastName varchar(30),
-	roles varchar(50),
+	roles varchar[],
 	reportsTo varchar(16)
 );
 

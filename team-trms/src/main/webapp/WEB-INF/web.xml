@@ -13,7 +13,6 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
-
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>com.revature.servlet.LoginServlet</servlet-class>
@@ -25,20 +24,39 @@
 
 
 	<servlet>
-		<description></description>
-		<display-name>HomeServlet</display-name>
-		<servlet-name>HomeServlet</servlet-name>
-		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>HomeServlet</servlet-name>
-		<url-pattern>/home</url-pattern>
-	</servlet-mapping>
-
-
-	<servlet>
 		<servlet-name>EmpHome</servlet-name>
 		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>EmpHome</servlet-name>
+		<url-pattern>/employeehome</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>DirSupHome</servlet-name>
+		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DirSupHome</servlet-name>
+		<url-pattern>/directsupervisorhome</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DepHeadHome</servlet-name>
+		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DepHeadHome</servlet-name>
+		<url-pattern>/departmentheadhome</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>BenCoHome</servlet-name>
+		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BenCoHome</servlet-name>
+		<url-pattern>/bencohome</url-pattern>
+	</servlet-mapping>
 
 </web-app>

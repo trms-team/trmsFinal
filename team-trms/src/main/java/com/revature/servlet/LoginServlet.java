@@ -35,16 +35,32 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		User user = userService.login(username, password);
 		
 		if(user != null) {
 			request.getSession().setAttribute("user", user);
-			response.sendRedirect("home");
+			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
+				response.sendRedirect("employeehome");
+			}
+			// Need to decide which one we will redirect to for user with
+			// both direct supervisor and department head roles
+			else if (user.getRoles().contains(User.Role.DIRECT_SUPERVISOR)) {
+				response.sendRedirect("directsupervisorhome");
+			}
+			else if (user.getRoles().contains(User.Role.DEPARTMENT_HEAD)) {
+				response.sendRedirect("departmentheadhome");
+			}
+			else {
+				response.sendRedirect("bencohome");
+			}
 		}
-		
+		else {
+			// Placeholder until we figure how to display alert to login.html
+			response.getWriter().write("Invalid Username / Password");
+		}
 		
 		
 	}

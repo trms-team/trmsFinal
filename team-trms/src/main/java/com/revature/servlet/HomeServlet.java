@@ -26,8 +26,8 @@ public class HomeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = (User) request.getAttribute("user");
-		response.getWriter().write("Welcome to you homepage " + user.getUsername());
+		User user = (User) (request.getSession().getAttribute("user"));
+		response.getWriter().write("Welcome to your homepage " + user.getUsername());
 	}
 
 	/**
