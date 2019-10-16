@@ -1,3 +1,25 @@
+body {
+	background-image: url('https://images.pexels.com/photos/247478/pexels-photo-247478.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+	background: rgba(0,0,0,0.4);
+}
+
+.navbar-brand {
+	color: white;
+}
+
+.nav-link {
+	color: white;
+}
+
+a:hover {
+	color: #D3D3D3 !important;
+}
+
 .card {
 	margin-top: 70px;
     width: 400px;
@@ -5,11 +27,13 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-
-
 .form-row {
     margin-top: 20px;
     margin-bottom: 30px;
+}
+
+.btn {
+	width: 100px;
 }
 
 .under-link {
