@@ -60,8 +60,10 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("bencohome");
 			}
 		}
-		
-		
+		else {
+			// Maybe add in an alert using JS
+			response.sendRedirect("login.html");
+		}
 		
 	}
 
