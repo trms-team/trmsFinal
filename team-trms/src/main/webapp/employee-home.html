@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Reimbursement Status</title>
+	<link rel='stylesheet' type='text/css' media='screen' href='employee-home.css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<!-- Log out -->
+	<nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
+		<a class="navbar-brand" href="employee-home.html">J&J Inc.</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<!-- Need to implement JS for the collapse toggle button to expand -->
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link " href="employee-home.html">Dashboard</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link " href="reimbursement-form.html">New Reimbursement</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="collapse navbar-collapse justify-content-end">
+			<ul class="navbar-nav">
+				<a class="nav-link" href="#">Logout</a>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h2>Reimbursements</h2>
+
+		<ul class="nav nav-tabs" id="emp-tab" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" 
+					aria-controls="pending" aria-selected="true">Pending</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" id="accepted-tab" data-toggle="tab" href="#accepted" role="tab" 
+					aria-controls="accepted" aria-selected="false">Accepted</a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" id="rejected-tab" data-toggle="tab" href="#rejected" role="tab" 
+					aria-controls="rejected" aria-selected="false">Rejected</a>
+			</li>
+		</ul>
+
+		<div class="tab-content" id="emp-content">
+			<!-- These are placeholder tables. We will implement this using JS -->
+			<!-- Also, need to decide on what columns we'll show for each table -->
+			<div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+				<table class="table">
+					<thead class="thead-light">
+						<tr>
+							<!-- Make event name a link to see more info -->
+							<th>Event Name</th>
+							<th>Event Type</th>
+							<th>Reimburse Amount</th>
+							<th>Submitted Date</th>
+							<th>Grading Format</th>
+						</tr>
+					</thead>
+
+					<tbody>	
+						
+					</tbody>
+				</table>
+			</div>
+
+			<div class="tab-pane fade" id="accepted" role="tabpanel" aria-labelledby="accepted-tab">
+				<table class="table">
+					<thead class="thead-light">
+					
+					</thead>
+				</table>
+			</div>
+
+			<div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
+				<table>
+
+				</table>
+			</div>
+		</div>
+
+
+		<h2></h2>
+	</div>
+</body>
+</html>

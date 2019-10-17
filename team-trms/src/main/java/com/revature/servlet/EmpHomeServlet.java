@@ -12,13 +12,13 @@ import com.revature.pojo.User;
 /**
  * Servlet implementation class HomeServlet
  */
-public class HomeServlet extends HttpServlet {
+public class EmpHomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomeServlet() {
+    public EmpHomeServlet() {
         super();
     }
 

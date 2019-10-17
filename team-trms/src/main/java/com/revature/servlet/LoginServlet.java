@@ -1,5 +1,7 @@
 package com.revature.servlet;
 
+import static com.revature.util.LoggerUtil.info;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -7,11 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pojo.User;
 import com.revature.service.UserService;
 import com.revature.service.UserServiceImpl;
-import static com.revature.util.LoggerUtil.info;
 
 /**
  * Servlet implementation class LoginServlet
@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			info("User " + user.getUsername() + " has logged in successfully.");
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
-				response.sendRedirect("employeehome");
+				response.sendRedirect("employee-home.html");
 			}
 			// This order is to give people with both dep head and dir sup
 			// roles the dep head page

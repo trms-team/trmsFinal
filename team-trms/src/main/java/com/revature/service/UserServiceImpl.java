@@ -1,9 +1,14 @@
 package com.revature.service;
 
-import com.revature.dao.UserDAO;
 import static com.revature.util.LoggerUtil.info;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
 import com.revature.pojo.User;
+import com.revature.pojo.User.Role;
 
 public class UserServiceImpl implements UserService{
 
@@ -18,7 +23,6 @@ public class UserServiceImpl implements UserService{
 		}
 		return null;
 	}
-	
 	
 
 }
