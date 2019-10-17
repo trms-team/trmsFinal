@@ -8,6 +8,8 @@ public class Reimbursement {
 		TECHNICAL_TRAINING, OTHER
 	}
 	
+	private int reimbursement_id;
+	
 	private String employeeUsername;
 	
 	private String email;
@@ -42,11 +44,12 @@ public class Reimbursement {
 		super();
 	}
 
-	public Reimbursement(String employeeUsername, String email, String phone, LocalDateTime eventTime, String location,
-			String eventName, EventType eventType, String description, double cost, int gradingFormatId,
-			String workRelatedJustification, double workHoursMissed, double awardedAmount, int statusId,
-			LocalDateTime submissionTime) {
+	public Reimbursement(int reimbursement_id, String employeeUsername, String email, String phone,
+			LocalDateTime eventTime, String location, String eventName, EventType eventType, String description,
+			double cost, int gradingFormatId, String workRelatedJustification, double workHoursMissed,
+			double awardedAmount, int statusId, LocalDateTime submissionTime) {
 		super();
+		this.reimbursement_id = reimbursement_id;
 		this.employeeUsername = employeeUsername;
 		this.email = email;
 		this.phone = phone;
@@ -62,6 +65,14 @@ public class Reimbursement {
 		this.awardedAmount = awardedAmount;
 		this.statusId = statusId;
 		this.submissionTime = submissionTime;
+	}
+
+	public int getReimbursement_id() {
+		return reimbursement_id;
+	}
+
+	public void setReimbursement_id(int reimbursement_id) {
+		this.reimbursement_id = reimbursement_id;
 	}
 
 	public String getEmployeeUsername() {
@@ -202,6 +213,7 @@ public class Reimbursement {
 		result = prime * result + gradingFormatId;
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + reimbursement_id;
 		result = prime * result + statusId;
 		result = prime * result + ((submissionTime == null) ? 0 : submissionTime.hashCode());
 		temp = Double.doubleToLongBits(workHoursMissed);
@@ -262,6 +274,8 @@ public class Reimbursement {
 				return false;
 		} else if (!phone.equals(other.phone))
 			return false;
+		if (reimbursement_id != other.reimbursement_id)
+			return false;
 		if (statusId != other.statusId)
 			return false;
 		if (submissionTime == null) {
@@ -281,12 +295,12 @@ public class Reimbursement {
 
 	@Override
 	public String toString() {
-		return "Reimbursement [employeeUsername=" + employeeUsername + ", email=" + email + ", phone=" + phone
-				+ ", eventTime=" + eventTime + ", location=" + location + ", eventName=" + eventName + ", eventType="
-				+ eventType + ", description=" + description + ", cost=" + cost + ", gradingFormatId=" + gradingFormatId
-				+ ", workRelatedJustification=" + workRelatedJustification + ", workHoursMissed=" + workHoursMissed
-				+ ", awardedAmount=" + awardedAmount + ", statusId=" + statusId + ", submissionTime=" + submissionTime
-				+ "]";
+		return "Reimbursement [reimbursement_id=" + reimbursement_id + ", employeeUsername=" + employeeUsername
+				+ ", email=" + email + ", phone=" + phone + ", eventTime=" + eventTime + ", location=" + location
+				+ ", eventName=" + eventName + ", eventType=" + eventType + ", description=" + description + ", cost="
+				+ cost + ", gradingFormatId=" + gradingFormatId + ", workRelatedJustification="
+				+ workRelatedJustification + ", workHoursMissed=" + workHoursMissed + ", awardedAmount=" + awardedAmount
+				+ ", statusId=" + statusId + ", submissionTime=" + submissionTime + "]";
 	}
-	
+
 }
