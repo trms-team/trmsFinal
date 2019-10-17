@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<title>Login</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' type='text/css' media='screen' href='login.css'>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar sticky-top navbar-expand-lg">
+		<a class="navbar-brand" href="login.html" style="font-family: serif"> J&J
+			Inc.</a>
+
+		<div class="collapse navbar-collapse justify-content-end">
+			<ul class="navbar-nav">
+				<a class="nav-link " href="login.html">Login</a>
+				<a class="nav-link" href="register.html">Register</a>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="d-flex justify-content-center h-100">
+			<div class="card">
+				<div class="card-header">
+					<div class="d-flex justify-content-center">
+						<h2>Login</h2>
+					</div>
+				</div>
+
+				<div class="card-body">
+					<form action="login" method="POST">
+						<div class="form-row">
+							<input type="text" id="username" name="username" class="form-control"
+								placeholder="Username" required>
+						</div>
+
+						<div class="form-row">
+							<input type="password" id="password" name="password" class="form-control"
+								placeholder="Password" required>
+						</div>
+
+						<div class="text-center">
+							<input type="submit" class="btn btn-primary" id="login-button" value="Login">
+						</div>
+					</form>
+				</div>
+
+				<div class="card-footer">
+					<div class="d-flex justify-content-center">
+						<a href="register.html" class="under-link">New User?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src='login.js'></script>
+</body>
+</html>
