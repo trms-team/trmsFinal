@@ -1,6 +1,8 @@
 package com.revature.servlet;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.pojo.Reimbursement;
 import com.revature.pojo.User;
 import com.revature.service.ReimbursementService;
 import com.revature.service.ReimbursementServiceImpl;
@@ -35,12 +38,10 @@ public class EmpHomeServlet extends HttpServlet {
 		
 		User user = (User) (request.getSession().getAttribute("user"));
 		
-		// This is just a test to see if it's properly retrieving from database
-		if (reimbursementService.showEmployeePending(user.getUsername()).size() == 0) {
-			System.out.println("none");
-		}
-		else {
-			System.out.println("something is here");
+		List<Reimbursement> pending = reimbursementService.showEmployeePending(user.getUsername());
+		
+		for (Reimbursement r : pending) {
+			System.out.println(r.toString());
 		}
 		
 	}
