@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			info("User " + user.getUsername() + " has logged in successfully.");
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
-				response.sendRedirect("employee-home.html");
+				response.sendRedirect("employee-home");
 			}
 			// This order is to give people with both dep head and dir sup
 			// roles the dep head page
