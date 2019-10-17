@@ -23,7 +23,7 @@ CREATE TABLE reimbursement_test (
 	work_hours_missed numeric(6, 2),
 	awarded_amount numeric(6, 2),
 	status_id integer,
-	submission_date timestamp(0),
+	submission_time timestamp(0),
 	FOREIGN KEY (employee_username) REFERENCES user_test (username),
 	FOREIGN KEY (format_id) REFERENCES grading_format_test (format_id),
 	FOREIGN KEY (status_id) references status_test (status_id)
