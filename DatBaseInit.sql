@@ -39,3 +39,11 @@ CREATE TABLE grading_format_test(
 	format_id serial PRIMARY KEY,
 	format varchar(),
 );
+
+create table file_table (
+	file_id serial primary key,
+	FOREIGN KEY (reimbursment_id) references reimbursement_test reimbursment_id,
+	filename varchar(100),
+	file_type varchar(3),
+	file bytea
+	);
