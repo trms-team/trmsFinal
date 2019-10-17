@@ -10,6 +10,7 @@ body {
 
 .navbar-brand {
 	color: white;
+	font-family: serif
 }
 
 .nav-link {
@@ -23,7 +24,7 @@ a:hover {
 .card {
 	margin-top: 70px;
     width: 400px;
-    height: 360px;
+    height: 330px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
