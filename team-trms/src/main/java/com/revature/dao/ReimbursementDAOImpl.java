@@ -2,10 +2,14 @@ package com.revature.dao;
 
 import static com.revature.util.LoggerUtil.warn;
 
+import static com.revature.util.LoggerUtil.trace;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,8 +26,35 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	
 	@Override
 	public void createReimbursement(Reimbursement reimbursement) {
-		// TODO Auto-generated method stub
-
+		String sql = "insert into reimbursment_test values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, 1);
+			stmt.setString(2, reimbursement.getEmployeeUsername());
+			stmt.setString(3, reimbursement.getEmail());
+			stmt.setString(4, reimbursement.getPhone());
+			stmt.setTimestamp(5, timeConvert(reimbursement.getEventTime()));
+			stmt.setString(6, reimbursement.getLocation());
+			stmt.setString(7, reimbursement.getEventName());
+			stmt.setString(8, reimbursement.getEventType().toString());
+			stmt.setString(9, reimbursement.getDescription());
+			stmt.setDouble(10, reimbursement.getCost());
+			stmt.setInt(11, reimbursement.getGradingFormatId());
+			stmt.setString(12, reimbursement.getWorkRelatedJustification());
+			stmt.setDouble(13, reimbursement.getWorkHoursMissed());
+			stmt.setDouble(14, reimbursement.getAwardedAmount());
+			stmt.setInt(15, reimbursement.getStatusId());
+			stmt.setTimestamp(16, timeConvert(reimbursement.getSubmissionTime()));
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			trace("SQL exception in createReimbursement");
+		}
+	}
+	
+	private static Timestamp timeConvert(LocalDateTime time) {
+		return Timestamp.valueOf(time);
 	}
 
 	@Override

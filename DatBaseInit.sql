@@ -9,7 +9,7 @@ CREATE TABLE user_test(
 
 CREATE TABLE reimbursement_test (
 	reimbursement_id serial PRIMARY KEY,
-	employee_username varchar(16),
+	FOREIGN KEY (employee_username) REFERENCES user_test (username),
 	email varchar(50),
 	phone varchar(10),
 	event_time timestamp(0),
@@ -18,15 +18,12 @@ CREATE TABLE reimbursement_test (
 	event_type varchar(50),
 	description text,
 	cost numeric(6, 2),
-	format_id integer,
+	FOREIGN KEY (format_id) REFERENCES grading_format_test (format_id),
 	work_related_just text,
 	work_hours_missed numeric(6, 2),
 	awarded_amount numeric(6, 2),
-	status_id integer,
-	submission_time timestamp(0),
-	FOREIGN KEY (employee_username) REFERENCES user_test (username),
-	FOREIGN KEY (format_id) REFERENCES grading_format_test (format_id),
 	FOREIGN KEY (status_id) references status_test (status_id)
+	submission_time timestamp(0),
 );
 
 CREATE TABLE status_test(
