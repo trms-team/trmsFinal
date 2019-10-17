@@ -24,9 +24,9 @@ CREATE TABLE reimbursement_test (
 	cost NUMERIC(6, 2),
 	format_id integer, --foriegn key
 	amount double precision(6,2)
-	FOREIGN KEY (status_id) refrences status_table status_id
+	FOREIGN KEY (status_id) references status_table status_id
 );
-?
+
 CREATE TABLE status_test(
 	status_id serial PRIMARY KEY,
 	direct_sup_status varchar(10),
@@ -34,7 +34,7 @@ CREATE TABLE status_test(
 	ben_co_status varchar(10),
 	
 );
-?
+
 CREATE TABLE grading_format_test(
 	format_id serial PRIMARY KEY,
 	format varchar(),
