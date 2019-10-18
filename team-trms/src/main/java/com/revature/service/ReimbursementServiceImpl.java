@@ -23,6 +23,12 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 		return reimbursementDAO.getAcceptedReimbursementsByEmployee(username);
 	}
 
+	@Override
+	public List<Reimbursement> showEmployeeRejected(String username) {
+		info("showing rejected requests by employee " + username);
+		return reimbursementDAO.getRejectedReimbursementsByEmployee(username);
+	}
+
 	
 	
 }

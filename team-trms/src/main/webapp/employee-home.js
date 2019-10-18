@@ -96,7 +96,22 @@ function getAcceptedReimbursements() {
 }
 
 function getRejectedReimbursements() {
-    
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                displayReimbursements("rejected", JSON.parse(xhr.responseText));
+            }
+            else {
+                console.log("failed to retrieve reimbursements");
+            }
+        }
+        else {
+            console.log("fetching request");
+        }
+    }
+    xhr.open("GET", "employee-home/rejected", true);
+    xhr.send();
 }
 
 

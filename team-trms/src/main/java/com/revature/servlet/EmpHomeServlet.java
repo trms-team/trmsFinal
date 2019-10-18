@@ -50,7 +50,8 @@ public class EmpHomeServlet extends HttpServlet {
 				response.getWriter().write(om.writeValueAsString(accepted));
 			}
 			else {
-				
+				List<Reimbursement> rejected = reimbursementService.showEmployeeRejected(user.getUsername());
+				response.getWriter().write(om.writeValueAsString(rejected));
 			}
 			
 		}
