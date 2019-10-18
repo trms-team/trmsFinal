@@ -108,6 +108,47 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	}
 	
 	@Override
+	public List<Reimbursement> getAcceptedReimbursementsByEmployee(String username) {
+		String sql = "select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
+				+ " where status_test.direct_sup_status = 'ACCEPTED' and status_test.dep_head_status = 'ACCEPTED' and status_test.ben_co_status = 'ACCEPTED'"
+				+ " and reimbursement_test.employee_username = ?";
+
+		List<Reimbursement> acceptedReimbursements = new LinkedList<>();
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, username);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
+						rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
+						rs.getDouble(14), rs.getInt(15), rs.getTimestamp(16).toLocalDateTime());
+				
+				if (rs.getInt(11) == 1) {
+					r.setGradingFormat(GradeFormat.LETTER);
+				}
+				else if (rs.getInt(11) == 2) {
+					r.setGradingFormat(GradeFormat.PERCENT);
+				}
+				acceptedReimbursements.add(r);
+			}
+		} catch (SQLException e) {
+			warn(e.getMessage());
+		}
+		
+		return acceptedReimbursements;
+	}
+
+	@Override
+	public List<Reimbursement> getRejectedReimbursementsByEmployee(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public List<Reimbursement> getAllReimbursements() {
 		String sql = "select * from reimbursement_test";
 		

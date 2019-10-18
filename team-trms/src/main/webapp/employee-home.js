@@ -23,7 +23,6 @@ class Reimbursement {
 
 function displayReimbursements(status, reimbursements) {
     let currTbody = document.getElementById(status + "-table").getElementsByTagName("tbody")[0];
-    
     currTbody.innerHTML = '';
 
     for (r of reimbursements) {
@@ -78,7 +77,22 @@ function getPendingReimbursements() {
 }
 
 function getAcceptedReimbursements() {
-    
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                displayReimbursements("accepted", JSON.parse(xhr.responseText));
+            }
+            else {
+                console.log("failed to retrieve reimbursements");
+            }
+        }
+        else {
+            console.log("fetching request");
+        }
+    }
+    xhr.open("GET", "employee-home/accepted", true);
+    xhr.send();
 }
 
 function getRejectedReimbursements() {

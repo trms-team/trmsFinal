@@ -34,21 +34,28 @@ public class EmpHomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) (request.getSession().getAttribute("user"));
 		
-		ObjectMapper om = new ObjectMapper();
-		String name = request.getPathInfo();
-		
-		if (name == null || "".equals(name.substring(1))) {
+		if (user != null) {
+			ObjectMapper om = new ObjectMapper();
+			String name = request.getPathInfo();
 			
-		}
-		else if (name.substring(1).equals("pending")) {
-			List<Reimbursement> pending = reimbursementService.showEmployeePending(user.getUsername());
-			response.getWriter().write(om.writeValueAsString(pending));
-		}
-		else if (name.substring(1).equals("accepted")) {
+			if (name == null || "".equals(name.substring(1))) {
+				
+			}
+			else if (name.substring(1).equals("pending")) {
+				List<Reimbursement> pending = reimbursementService.showEmployeePending(user.getUsername());
+				response.getWriter().write(om.writeValueAsString(pending));
+			}
+			else if (name.substring(1).equals("accepted")) {
+				List<Reimbursement> accepted = reimbursementService.showEmployeeAccepted(user.getUsername());
+				response.getWriter().write(om.writeValueAsString(accepted));
+			}
+			else {
+				
+			}
 			
 		}
 		else {
-			
+			response.sendRedirect("login.html");
 		}
 		
 	}

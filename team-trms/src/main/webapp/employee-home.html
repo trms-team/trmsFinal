@@ -55,13 +55,10 @@
 		</ul>
 
 		<div class="tab-content" id="emp-content">
-			<!-- These are placeholder tables. We will implement this using JS -->
-			<!-- Also, need to decide on what columns we'll show for each table -->
 			<div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
 				<table class="table" id="pending-table">
 					<thead class="thead-light">
 						<tr>
-							<!-- Make event name a link to see more info -->
 							<th>Event Name</th>
 							<th>Event Type</th>
 							<th>Reimbursed Amount</th>
@@ -77,16 +74,38 @@
 			</div>
 
 			<div class="tab-pane fade" id="accepted" role="tabpanel" aria-labelledby="accepted-tab">
-				<table class="table">
+				<table class="table" id="accepted-table">
 					<thead class="thead-light">
-					
+						<tr>
+							<th>Event Name</th>
+							<th>Event Type</th>
+							<th>Reimbursed Amount</th>
+							<th>Submitted Date</th>
+							<th>Grading Format</th>
+						</tr>
 					</thead>
+
+					<tbody id="accepted-body">	
+						
+					</tbody>
 				</table>
 			</div>
 
 			<div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
-				<table>
+				<table class="table" id="rejected-table">
+					<thead class="thead-light">
+						<tr>
+							<th>Event Name</th>
+							<th>Event Type</th>
+							<th>Reimbursed Amount</th>
+							<th>Submitted Date</th>
+							<th>Grading Format</th>
+						</tr>
+					</thead>
 
+					<tbody id="rejected-body">	
+						
+					</tbody>
 				</table>
 			</div>
 		</div>

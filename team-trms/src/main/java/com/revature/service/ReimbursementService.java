@@ -6,4 +6,6 @@ import com.revature.pojo.Reimbursement;
 
 public interface ReimbursementService {
 	public List<Reimbursement> showEmployeePending(String username);
+	
+	public List<Reimbursement> showEmployeeAccepted(String username);
 }
