@@ -32,7 +32,7 @@ function displayReimbursements(status, reimbursements) {
         let a = document.createElement('a');
         let linkText = document.createTextNode(r.reimbursement_id);
         a.appendChild(linkText);
-        a.href="#";
+        a.href=`reimbursement/${r.reimbursement_id}.html`;
         cell1.appendChild(a);
 
         let cell2 = newRow.insertCell(1);
