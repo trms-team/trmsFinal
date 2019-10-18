@@ -49,7 +49,7 @@ public class EmpHomeServlet extends HttpServlet {
 				List<Reimbursement> accepted = reimbursementService.showEmployeeAccepted(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(accepted));
 			}
-			else {
+			else if (name.substring(1).equals("rejected")) {
 				List<Reimbursement> rejected = reimbursementService.showEmployeeRejected(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(rejected));
 			}
