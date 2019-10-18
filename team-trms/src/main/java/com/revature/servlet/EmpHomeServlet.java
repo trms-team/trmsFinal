@@ -1,15 +1,14 @@
 package com.revature.servlet;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pojo.Reimbursement;
 import com.revature.pojo.User;
 import com.revature.service.ReimbursementService;
@@ -33,15 +32,23 @@ public class EmpHomeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher view = request.getRequestDispatcher("employee-home.html");
-		view.forward(request, response);
-		
 		User user = (User) (request.getSession().getAttribute("user"));
 		
-		List<Reimbursement> pending = reimbursementService.showEmployeePending(user.getUsername());
+		ObjectMapper om = new ObjectMapper();
+		String name = request.getPathInfo();
 		
-		for (Reimbursement r : pending) {
-			System.out.println(r.toString());
+		if (name == null || "".equals(name.substring(1))) {
+			
+		}
+		else if (name.substring(1).equals("pending")) {
+			List<Reimbursement> pending = reimbursementService.showEmployeePending(user.getUsername());
+			response.getWriter().write(om.writeValueAsString(pending));
+		}
+		else if (name.substring(1).equals("accepted")) {
+			
+		}
+		else {
+			
 		}
 		
 	}

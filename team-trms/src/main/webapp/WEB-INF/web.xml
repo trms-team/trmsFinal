@@ -29,7 +29,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>EmpHomeServlet</servlet-name>
-		<url-pattern>/employee-home</url-pattern>
+		<url-pattern>/employee-home/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
