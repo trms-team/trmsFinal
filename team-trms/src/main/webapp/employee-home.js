@@ -3,9 +3,9 @@ class Reimbursement {
             eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
             awardedAmount, statusId, submissionTime) {
         this.reimbursement_id = reimbursement_id;
-        this.employeeUsername =  employeeUsername;
+        this.employeeUsername = employeeUsername;
         this.email = email; 
-        this.phone;
+        this.phone = phone;
         this.eventTime = eventTime;
         this.location = location;
         this.eventName = eventName;
@@ -27,32 +27,45 @@ function displayReimbursements(status, reimbursements) {
 
     for (r of reimbursements) {
         let newRow = currTbody.insertRow();
+
         let cell1 = newRow.insertCell(0);
         let a = document.createElement('a');
-        let linkText = document.createTextNode(r.eventName);
+        let linkText = document.createTextNode(r.reimbursement_id);
         a.appendChild(linkText);
         a.href="#";
         cell1.appendChild(a);
 
         let cell2 = newRow.insertCell(1);
-        cell2.appendChild(document.createTextNode(r.eventType));
+        cell2.appendChild(document.createTextNode(r.eventName));
 
         let cell3 = newRow.insertCell(2);
-        cell3.appendChild(document.createTextNode("$" + r.awardedAmount));
+        let text = "";
+        if (r.eventType === 'UNIVERSITY_COURSE') {
+            text = "University Course";
+        }
+        else if (r.eventType === 'SEMINAR') {
+            text = "Seminar";
+        }
+        else if (r.eventType === 'CERTIFICATION_PREP_CLASS') {
+            text = "Certification Preparation Class";
+        }
+        else if (r.eventType === 'CERTIFICATION') {
+            text = "Certification";
+        }
+        else if (r.eventType === 'TECHNICAL_TRAINING') {
+            text = "Technical Training";
+        }
+        else {
+            text = "Other";
+        }
+        cell3.appendChild(document.createTextNode(text));
 
         let cell4 = newRow.insertCell(3);
-        cell4.appendChild(document.createTextNode(r.submissionTime.month + " " 
-            + r.submissionTime.dayOfMonth + ", " + r.submissionTime.year));
+        cell4.appendChild(document.createTextNode("$" + r.awardedAmount));
 
-        // Needs to be changed so you can see grading format, not its id
         let cell5 = newRow.insertCell(4);
-        if (r.gradingFormat === "LETTER") {
-            cell5.appendChild(document.createTextNode("A - F"));
-        }
-        else if (r.gradingFormat === "PERCENT") {
-            cell5.appendChild(document.createTextNode("0 - 100"));
-        }
-        
+        cell5.appendChild(document.createTextNode(r.submissionTime.monthValue + "/" 
+            + r.submissionTime.dayOfMonth + "/" + r.submissionTime.year));
     }
 }
 
