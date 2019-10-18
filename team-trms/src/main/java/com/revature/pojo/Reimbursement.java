@@ -5,7 +5,11 @@ import java.time.LocalDateTime;
 public class Reimbursement {
 	public enum EventType {
 		UNIVERSITY_COURSE, SEMINAR, CERTIFICATION_PREP_CLASS, CERTIFICATION,
-		TECHNICAL_TRAINING, OTHER
+		TECHNICAL_TRAINING, OTHER;
+	}
+	
+	public enum GradeFormat {
+		LETTER, PERCENT;
 	}
 	
 	private int reimbursement_id;
@@ -28,7 +32,7 @@ public class Reimbursement {
 	
 	private double cost;
 	
-	private int gradingFormatId;
+	private GradeFormat gradingFormat;
 	
 	private String workRelatedJustification;
 	
@@ -46,7 +50,7 @@ public class Reimbursement {
 
 	public Reimbursement(int reimbursement_id, String employeeUsername, String email, String phone,
 			LocalDateTime eventTime, String location, String eventName, EventType eventType, String description,
-			double cost, int gradingFormatId, String workRelatedJustification, double workHoursMissed,
+			double cost, GradeFormat gradingFormat, String workRelatedJustification, double workHoursMissed,
 			double awardedAmount, int statusId, LocalDateTime submissionTime) {
 		super();
 		this.reimbursement_id = reimbursement_id;
@@ -59,7 +63,7 @@ public class Reimbursement {
 		this.eventType = eventType;
 		this.description = description;
 		this.cost = cost;
-		this.gradingFormatId = gradingFormatId;
+		this.gradingFormat = gradingFormat;
 		this.workRelatedJustification = workRelatedJustification;
 		this.workHoursMissed = workHoursMissed;
 		this.awardedAmount = awardedAmount;
@@ -147,12 +151,12 @@ public class Reimbursement {
 		this.cost = cost;
 	}
 
-	public int getGradingFormatId() {
-		return gradingFormatId;
+	public GradeFormat getGradingFormat() {
+		return gradingFormat;
 	}
 
-	public void setGradingFormatId(int gradingFormatId) {
-		this.gradingFormatId = gradingFormatId;
+	public void setGradingFormat(GradeFormat gradingFormat) {
+		this.gradingFormat = gradingFormat;
 	}
 
 	public String getWorkRelatedJustification() {
@@ -210,7 +214,7 @@ public class Reimbursement {
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
 		result = prime * result + ((eventTime == null) ? 0 : eventTime.hashCode());
 		result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
-		result = prime * result + gradingFormatId;
+		result = prime * result + ((gradingFormat == null) ? 0 : gradingFormat.hashCode());
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + reimbursement_id;
@@ -262,7 +266,7 @@ public class Reimbursement {
 			return false;
 		if (eventType != other.eventType)
 			return false;
-		if (gradingFormatId != other.gradingFormatId)
+		if (gradingFormat != other.gradingFormat)
 			return false;
 		if (location == null) {
 			if (other.location != null)
@@ -298,9 +302,9 @@ public class Reimbursement {
 		return "Reimbursement [reimbursement_id=" + reimbursement_id + ", employeeUsername=" + employeeUsername
 				+ ", email=" + email + ", phone=" + phone + ", eventTime=" + eventTime + ", location=" + location
 				+ ", eventName=" + eventName + ", eventType=" + eventType + ", description=" + description + ", cost="
-				+ cost + ", gradingFormatId=" + gradingFormatId + ", workRelatedJustification="
-				+ workRelatedJustification + ", workHoursMissed=" + workHoursMissed + ", awardedAmount=" + awardedAmount
-				+ ", statusId=" + statusId + ", submissionTime=" + submissionTime + "]";
+				+ cost + ", gradingFormat=" + gradingFormat + ", workRelatedJustification=" + workRelatedJustification
+				+ ", workHoursMissed=" + workHoursMissed + ", awardedAmount=" + awardedAmount + ", statusId=" + statusId
+				+ ", submissionTime=" + submissionTime + "]";
 	}
 
 }

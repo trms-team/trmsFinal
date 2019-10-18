@@ -1,6 +1,6 @@
 class Reimbursement {
     constructor(reimbursement_id, employeeUsername, email, phone, eventTime, location, eventName, 
-            eventType, description, cost, gradingFormatId, workRelatedJustification, workHoursMissed,
+            eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
             awardedAmount, statusId, submissionTime) {
         this.reimbursement_id = reimbursement_id;
         this.employeeUsername =  employeeUsername;
@@ -12,7 +12,7 @@ class Reimbursement {
         this.eventType = eventType;
         this.description = description;
         this.cost = cost;
-        this.gradingFormatId = gradingFormatId;
+        this.gradingFormat = gradingFormat;
         this.workRelatedJustification = workRelatedJustification;
         this.workHoursMissed = workHoursMissed;
         this.awardedAmount = awardedAmount;
@@ -47,7 +47,13 @@ function displayReimbursements(status, reimbursements) {
 
         // Needs to be changed so you can see grading format, not its id
         let cell5 = newRow.insertCell(4);
-        cell5.appendChild(document.createTextNode(r.gradingFormatId));
+        if (r.gradingFormat === "LETTER") {
+            cell5.appendChild(document.createTextNode("A - F"));
+        }
+        else if (r.gradingFormat === "PERCENT") {
+            cell5.appendChild(document.createTextNode("0 - 100"));
+        }
+        
     }
 }
 

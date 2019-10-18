@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.revature.pojo.Reimbursement;
 import com.revature.pojo.Reimbursement.EventType;
+import com.revature.pojo.Reimbursement.GradeFormat;
 import com.revature.util.ConnectionFactory;
 
 public class ReimbursementDAOImpl implements ReimbursementDAO {
@@ -40,7 +41,14 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 			stmt.setString(8, reimbursement.getEventType().toString());
 			stmt.setString(9, reimbursement.getDescription());
 			stmt.setDouble(10, reimbursement.getCost());
-			stmt.setInt(11, reimbursement.getGradingFormatId());
+			
+			if (reimbursement.getGradingFormat() == GradeFormat.LETTER) {
+				stmt.setInt(11, 1);
+			}
+			else if (reimbursement.getGradingFormat() == GradeFormat.PERCENT) {
+				stmt.setInt(11, 2);
+			}
+			
 			stmt.setString(12, reimbursement.getWorkRelatedJustification());
 			stmt.setDouble(13, reimbursement.getWorkHoursMissed());
 			stmt.setDouble(14, reimbursement.getAwardedAmount());
@@ -79,10 +87,18 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				pendingReimbursements.add(new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
-						rs.getDouble(10), rs.getInt(11), rs.getString(12), rs.getDouble(13),
-						rs.getDouble(14), rs.getInt(15), rs.getTimestamp(16).toLocalDateTime()));
+						rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
+						rs.getDouble(14), rs.getInt(15), rs.getTimestamp(16).toLocalDateTime());
+				
+				if (rs.getInt(11) == 1) {
+					r.setGradingFormat(GradeFormat.LETTER);
+				}
+				else if (rs.getInt(11) == 2) {
+					r.setGradingFormat(GradeFormat.PERCENT);
+				}
+				pendingReimbursements.add(r);
 			}
 		} catch (SQLException e) {
 			warn(e.getMessage());
@@ -103,10 +119,18 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				reimbursements.add(new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 					rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
-					rs.getDouble(10), rs.getInt(11), rs.getString(12), rs.getDouble(13),
-					rs.getDouble(14), rs.getInt(15), rs.getTimestamp(16).toLocalDateTime()));
+					rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
+					rs.getDouble(14), rs.getInt(15), rs.getTimestamp(16).toLocalDateTime());
+				
+				if (rs.getInt(11) == 1) {
+					r.setGradingFormat(GradeFormat.LETTER);
+				}
+				else if (rs.getInt(12) == 2) {
+					r.setGradingFormat(GradeFormat.PERCENT);
+				}
+				reimbursements.add(r);
 			}
 			
 		} catch (SQLException e) {

@@ -44,7 +44,10 @@ CREATE TABLE status_test(
 
 CREATE TABLE grading_format_test(
 	format_id serial PRIMARY KEY,
-	format varchar(30)
+	format varchar(30),
+	lowest varchar(20),
+	passing varchar(20),
+	highest varchar(20)
 );
 
 create table file_table (
