@@ -47,25 +47,7 @@ function displayReimbursements(status, reimbursements) {
         cell2.appendChild(document.createTextNode(r.eventName));
 
         let cell3 = newRow.insertCell(2);
-        let text = "";
-        if (r.eventType === 'UNIVERSITY_COURSE') {
-            text = "University Course";
-        }
-        else if (r.eventType === 'SEMINAR') {
-            text = "Seminar";
-        }
-        else if (r.eventType === 'CERTIFICATION_PREP_CLASS') {
-            text = "Certification Preparation Class";
-        }
-        else if (r.eventType === 'CERTIFICATION') {
-            text = "Certification";
-        }
-        else if (r.eventType === 'TECHNICAL_TRAINING') {
-            text = "Technical Training";
-        }
-        else {
-            text = "Other";
-        }
+        let text = formatEventType(r.eventType);
         cell3.appendChild(document.createTextNode(text));
 
         let cell4 = newRow.insertCell(3);
@@ -81,6 +63,58 @@ function showSingleRow(table, key, value) {
     let row = table.insertRow();
     row.insertCell().innerHTML = `<b>${key}</b>`;
     row.insertCell().innerHTML = value;
+}
+
+function formatEventType(eventType) {
+    if (eventType === "UNIVERSITY_COURSE") {
+        return "University Course";
+    }
+    else if (eventType === "SEMINAR") {
+        return "Seminar";
+    }
+    else if (eventType === "CERTIFICATION_PREP_CLASS") {
+        return "Certification Preparation Class";
+    }
+    else if (eventType === "CERTIFICATION") {
+        return "Certification";
+    }
+    else if (eventType === "TECHNICAL_TRAINING") {
+        return "Technical Training";
+    }
+    else {
+        return "Other";
+    }
+}
+
+function formatTime(hour, minute) {
+    let ampm;
+    let newHour = hour;
+
+    if (hour == 0) {
+        newHour = 12;
+        ampm = "AM";
+    }
+    else if (hour > 0 && hour < 12) {
+        ampm = "AM";
+    }
+    else if (hour == 12) {
+        ampm = "PM";
+    }
+    else {
+        newHour = hour - 12;
+        ampm = "PM";
+    }
+    let newMinute = (minute < 10) ? `${minute}0` : minute;
+    return `${newHour}:${newMinute} ${ampm}`;
+}
+
+function formatGradingFormat(gradingFormat) {
+    if (gradingFormat === "LETTER") {
+        return "A - F";
+    }
+    else {
+        return "0 - 100";
+    }
 }
 
 function displaySingleReimbursement(id) {
@@ -107,14 +141,16 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Email", c.email);
             showSingleRow(modalTable, "Phone", c.phone);
             showSingleRow(modalTable, "Event Name", c.eventName);
-            showSingleRow(modalTable, "Event Type", c.eventType);
+            let fixedEventType = formatEventType(c.eventType);
+            showSingleRow(modalTable, "Event Type", fixedEventType);
+            let fixedTime = formatTime(r.eventTime.hour, r.eventTime.minute);
             showSingleRow(modalTable, "Event Time", 
-                `${r.eventTime.monthValue}/${r.eventTime.dayOfMonth}/${r.eventTime.year} - ${r.eventTime.hour}:${r.eventTime.minute.toFixed(2)}`);
-            console.log(r.submissionTime);
+                `${r.eventTime.monthValue}/${r.eventTime.dayOfMonth}/${r.eventTime.year} - ${fixedTime}`);
             showSingleRow(modalTable, "Location", c.location);
             showSingleRow(modalTable, "Description", c.description);
             showSingleRow(modalTable, "Cost", `$${c.cost.toFixed(2)}`);
-            showSingleRow(modalTable, "Grade Format", c.gradingFormat);
+            let fixedGradingFormat = formatGradingFormat(c.gradingFormat);
+            showSingleRow(modalTable, "Grade Format", fixedGradingFormat);
             showSingleRow(modalTable, "Work Related Justification", c.workRelatedJustification);
             showSingleRow(modalTable, "Work Hours Missed", c.workHoursMissed.toFixed(2));
             showSingleRow(modalTable, "Awarded Amount", `$${c.awardedAmount.toFixed(2)}`);
