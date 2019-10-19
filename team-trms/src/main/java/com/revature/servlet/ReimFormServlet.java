@@ -38,6 +38,7 @@ public class ReimFormServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
 		User user = userService.getCurrentUser();
 		
 		String email = request.getParameter("input-email");
@@ -67,6 +68,9 @@ public class ReimFormServlet extends HttpServlet {
 				
 		)
 				
+=======
+		
+>>>>>>> 8f1062ccbfd952fc23148acc8f02fe06f5003e35
 	
 	}
 }
