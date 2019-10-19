@@ -1,0 +1,3 @@
+2019-10-18 11:11:39 ERROR root:14 - issue with initializing spy prepared statement
+2019-10-18 11:11:39 ERROR root:14 - issue with initializing spy prepared statement
+2019-10-18 11:11:40 ERROR root:14 - issue with initializing spy prepared statement
