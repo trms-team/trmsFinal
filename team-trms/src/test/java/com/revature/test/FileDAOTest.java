@@ -107,14 +107,17 @@ public class FileDAOTest {
 		}
 		assertEquals(true, fileDAO.uploadFile(myPDF, r));
 	}
-
+	
 	@Test
-	public void testUploadFileContents() {
-		fail("Not yet implemented");
+	public void testGetFile() {
+		
+		File myFile = new File("D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.txt");
+		
+		assertEquals(myFile, fileDAO.getFile(1));
 	}
 
 	@Test
-	public void testGetFile() {
+	public void testUploadFileContents() {
 		fail("Not yet implemented");
 	}
 
