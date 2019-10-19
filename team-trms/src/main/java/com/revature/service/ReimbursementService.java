@@ -10,4 +10,8 @@ public interface ReimbursementService {
 	public List<Reimbursement> showEmployeeAccepted(String username);
 	
 	public List<Reimbursement> showEmployeeRejected(String username);
+	
+	public void submitReimbursement(Reimbursement newReimbursement);
+	
+	public List<Double> getPendingAndAwardedAmounts(String username);
 }

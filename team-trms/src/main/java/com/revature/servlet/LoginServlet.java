@@ -19,6 +19,7 @@ import com.revature.service.UserServiceImpl;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static UserService userService = new UserServiceImpl();
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,7 +44,6 @@ public class LoginServlet extends HttpServlet {
 		User user = userService.login(username, password);
 		
 		if(user != null) {
-			request.getSession().setAttribute("user", user);
 			info("User " + user.getUsername() + " has logged in successfully.");
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
 				response.sendRedirect("employee-home.html");

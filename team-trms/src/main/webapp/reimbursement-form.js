@@ -18,3 +18,12 @@ class Reimbursement {
         this.submissionTime = submissionTime;
     }
 }
+
+function submitForm() {
+	
+}
+
+
+window.onload = function() {
+	this.document.getElementById("submit-btn").addEventListener("click", submitForm);
+}

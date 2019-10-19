@@ -2,6 +2,7 @@ package com.revature.service;
 
 import static com.revature.util.LoggerUtil.info;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.revature.dao.ReimbursementDAO;
@@ -29,6 +30,24 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 		return reimbursementDAO.getRejectedReimbursementsByEmployee(username);
 	}
 
+	@Override
+	public void submitReimbursement(Reimbursement newReimbursement) {
+		info("submitting reimbursement id#" + newReimbursement.getReimbursement_id());
+		reimbursementDAO.createReimbursement(newReimbursement);
+	}
 	
+	@Override
+	public List<Double> getPendingAndAwardedAmounts(String username) {
+		List<Reimbursement> reimbursements = showEmployeePending(username);
+		reimbursements.addAll(showEmployeeAccepted(username));
+		
+		List<Double> amounts = new LinkedList<>();
+		
+		for (Reimbursement r : reimbursements) {
+			amounts.add(r.getAwardedAmount());
+		}
+		
+		return amounts;
+	}
 	
 }
