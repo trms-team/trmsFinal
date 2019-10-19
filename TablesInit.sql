@@ -46,7 +46,6 @@ create table file_table (
 	file_id serial primary key,
 	reimbursement_id integer,
 	filename varchar(100),
-	file_type varchar(3),
 	file bytea,
 	FOREIGN KEY (reimbursement_id) references reimbursement_test (reimbursement_id)
 );
