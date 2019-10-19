@@ -23,7 +23,7 @@ class Reimbursement {
 
 let currentReims = [];
 
-function displayReimbursements(status, reimbursements) {
+function displayReimbursements(status, reimbursements) { 
     currentReims = [];
     let currTbody = document.getElementById(status + "-table").getElementsByTagName("tbody")[0];
     currTbody.innerHTML = '';
@@ -69,12 +69,18 @@ function displayReimbursements(status, reimbursements) {
         cell3.appendChild(document.createTextNode(text));
 
         let cell4 = newRow.insertCell(3);
-        cell4.appendChild(document.createTextNode("$" + r.awardedAmount));
+        cell4.appendChild(document.createTextNode("$" + r.awardedAmount.toFixed(2)));
 
         let cell5 = newRow.insertCell(4);
         cell5.appendChild(document.createTextNode(r.submissionTime.monthValue + "/" 
             + r.submissionTime.dayOfMonth + "/" + r.submissionTime.year));
     }
+}
+
+function showSingleRow(table, key, value) {
+    let row = table.insertRow();
+    row.insertCell().innerHTML = `<b>${key}</b>`;
+    row.insertCell().innerHTML = value;
 }
 
 function displaySingleReimbursement(id) {
@@ -91,21 +97,29 @@ function displaySingleReimbursement(id) {
 
             modalHeader.appendChild(reimTitle);
 
-            let modalContainer = document.getElementById("modal-container");
+            let modalTable = document.getElementById("modalTable");
             
-            while (modalContainer.firstChild) {
-                modalContainer.removeChild(modalContainer.firstChild);
+            while (modalTable.firstChild) {
+                modalTable.removeChild(modalTable.firstChild);
             }
-
-            for (let key in c) {
-                let row = document.createElement("div");
-                row.className= "row";
-                if (c.hasOwnProperty(key)) {
-                    let val = c[key];
-                    row.innerHTML = `${key}: ${val}`;
-                }
-                modalContainer.appendChild(row);
-            }
+            
+            showSingleRow(modalTable, "Username", c.employeeUsername);
+            showSingleRow(modalTable, "Email", c.email);
+            showSingleRow(modalTable, "Phone", c.phone);
+            showSingleRow(modalTable, "Event Name", c.eventName);
+            showSingleRow(modalTable, "Event Type", c.eventType);
+            showSingleRow(modalTable, "Event Time", 
+                `${r.eventTime.monthValue}/${r.eventTime.dayOfMonth}/${r.eventTime.year} - ${r.eventTime.hour}:${r.eventTime.minute.toFixed(2)}`);
+            console.log(r.submissionTime);
+            showSingleRow(modalTable, "Location", c.location);
+            showSingleRow(modalTable, "Description", c.description);
+            showSingleRow(modalTable, "Cost", `$${c.cost.toFixed(2)}`);
+            showSingleRow(modalTable, "Grade Format", c.gradingFormat);
+            showSingleRow(modalTable, "Work Related Justification", c.workRelatedJustification);
+            showSingleRow(modalTable, "Work Hours Missed", c.workHoursMissed.toFixed(2));
+            showSingleRow(modalTable, "Awarded Amount", `$${c.awardedAmount.toFixed(2)}`);
+            showSingleRow(modalTable, "Date Submitted",
+                `${r.submissionTime.monthValue}/${r.submissionTime.dayOfMonth}/${r.submissionTime.year}`);
             break;
         }
     }
@@ -116,7 +130,14 @@ function getPendingReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                displayReimbursements("pending", JSON.parse(xhr.responseText));
+                // In case a non-employee tries to access
+                if (xhr.responseText === "") {
+                    history.back();
+                }
+                else {
+                    displayReimbursements("pending", JSON.parse(xhr.responseText));
+                }
+                
             }
             else {
                 console.log("failed to retrieve reimbursements");
@@ -180,12 +201,4 @@ window.onload = function() {
     this.document.getElementById("pending-tab").addEventListener("click", getPendingReimbursements, false);
     this.document.getElementById("accepted-tab").addEventListener("click", getAcceptedReimbursements, false);
     this.document.getElementById("rejected-tab").addEventListener("click", getRejectedReimbursements, false);
-    
-    /*let reimLink = this.document.getElementsByTagName("a");
-    for (let r of reimLink) {
-        r.addEventListener("click", function(event) {
-            console.log("sdkjfhsjdfksdfdsf");
-        }
-    )};*/
-
 }

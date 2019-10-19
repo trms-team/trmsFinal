@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.pojo.Reimbursement;
 import com.revature.pojo.User;
+import com.revature.pojo.User.Role;
 import com.revature.service.ReimbursementService;
 import com.revature.service.ReimbursementServiceImpl;
 
@@ -34,14 +35,11 @@ public class EmpHomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) (request.getSession().getAttribute("user"));
 		
-		if (user != null) {
+		if (user != null && user.getRoles().contains(Role.EMPLOYEE)) {
 			ObjectMapper om = new ObjectMapper();
 			String name = request.getPathInfo();
 			
-			if (name == null || "".equals(name.substring(1))) {
-				
-			}
-			else if (name.substring(1).equals("pending")) {
+			if (name.substring(1).equals("pending")) {
 				List<Reimbursement> pending = reimbursementService.showEmployeePending(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(pending));
 			}
@@ -55,10 +53,6 @@ public class EmpHomeServlet extends HttpServlet {
 			}
 			
 		}
-		else {
-			response.sendRedirect("login.html");
-		}
-		
 	}
 
 	/**

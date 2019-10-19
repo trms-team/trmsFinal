@@ -32,6 +32,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, 1);
+			
 			stmt.setString(2, reimbursement.getEmployeeUsername());
 			stmt.setString(3, reimbursement.getEmail());
 			stmt.setString(4, reimbursement.getPhone());

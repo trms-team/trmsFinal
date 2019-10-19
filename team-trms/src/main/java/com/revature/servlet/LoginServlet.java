@@ -51,13 +51,13 @@ public class LoginServlet extends HttpServlet {
 			// This order is to give people with both dep head and dir sup
 			// roles the dep head page
 			else if (user.getRoles().contains(User.Role.DEPARTMENT_HEAD)) {
-				response.sendRedirect("departmentheadhome");
+				response.sendRedirect("departmenthead-home.html");
 			}
 			else if (user.getRoles().contains(User.Role.DIRECT_SUPERVISOR)) {
-				response.sendRedirect("directsupervisorhome");
+				response.sendRedirect("directsupervisor-home.html");
 			}
 			else {
-				response.sendRedirect("bencohome");
+				response.sendRedirect("benco-home.html");
 			}
 		}
 		else {
