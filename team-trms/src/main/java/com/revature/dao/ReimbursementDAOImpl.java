@@ -27,7 +27,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	
 	@Override
 	public void createReimbursement(Reimbursement reimbursement) {
-		String sql = "insert into reimbursment_test values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into reimbursement_test values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);

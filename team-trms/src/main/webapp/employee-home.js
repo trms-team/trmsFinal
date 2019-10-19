@@ -192,7 +192,13 @@ function getAcceptedReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                displayReimbursements("accepted", JSON.parse(xhr.responseText));
+                // In case a non-employee tries to access
+                if (xhr.responseText === "") {
+                    history.back();
+                }
+                else {
+                    displayReimbursements("accepted", JSON.parse(xhr.responseText));
+                }
             }
             else {
                 console.log("failed to retrieve reimbursements");
@@ -211,7 +217,13 @@ function getRejectedReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                displayReimbursements("rejected", JSON.parse(xhr.responseText));
+                // In case a non-employee tries to access
+                if (xhr.responseText === "") {
+                    history.back();
+                }
+                else {
+                    displayReimbursements("rejected", JSON.parse(xhr.responseText));
+                }
             }
             else {
                 console.log("failed to retrieve reimbursements");
