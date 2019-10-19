@@ -24,39 +24,39 @@
 
 
 	<servlet>
-		<servlet-name>EmpHome</servlet-name>
-		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+		<servlet-name>EmpHomeServlet</servlet-name>
+		<servlet-class>com.revature.servlet.EmpHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>EmpHome</servlet-name>
-		<url-pattern>/employeehome</url-pattern>
+		<servlet-name>EmpHomeServlet</servlet-name>
+		<url-pattern>/employee-home/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>DirSupHome</servlet-name>
-		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+		<servlet-name>DirSupHomeServlet</servlet-name>
+		<servlet-class>com.revature.servlet.DirSupHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>DirSupHome</servlet-name>
-		<url-pattern>/directsupervisorhome</url-pattern>
+		<servlet-name>DirSupHomeServlet</servlet-name>
+		<url-pattern>/directsupervisor-home/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>DepHeadHome</servlet-name>
-		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+		<servlet-name>DepHeadHomeServlet</servlet-name>
+		<servlet-class>com.revature.servlet.DepHeadHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>DepHeadHome</servlet-name>
-		<url-pattern>/departmentheadhome</url-pattern>
+		<servlet-name>DepHeadHomeServlet</servlet-name>
+		<url-pattern>/departmenthead-home/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>BenCoHome</servlet-name>
-		<servlet-class>com.revature.servlet.HomeServlet</servlet-class>
+		<servlet-name>BenCoHomeServlet</servlet-name>
+		<servlet-class>com.revature.servlet.BenCoHomeServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>BenCoHome</servlet-name>
-		<url-pattern>/bencohome</url-pattern>
+		<servlet-name>BenCoHomeServlet</servlet-name>
+		<url-pattern>/benco-home/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
