@@ -43,21 +43,21 @@
 			<div class="form-group row">
 				<label for="input-email" class="col-sm-2 col-form-label">Email</label>
 				<div class="col-sm-3">
-					<input type="email" class="form-control" id="input-email" name="input-email" placeholder="email">
+					<input type="email" class="form-control" id="input-email" name="input-email" placeholder="email" required>
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-phone" class="col-sm-2 col-form-label">Phone</label>
 				<div class="col-sm-3">
-					<input type="tel" class="form-control" id="input-phone" name="input-phone" placeholder="phone">
+					<input type="tel" pattern="[0-9]{10}" class="form-control" id="input-phone" name="input-phone" placeholder="phone number" required>
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-event-name" class="col-sm-2 col-form-label">Event Name</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="input-event-name" name="input-event-name" placeholder="event name">
+					<input type="text" class="form-control" id="input-event-name" name="input-event-name" placeholder="event name" required>
 				</div>
 			</div>
 			
@@ -78,28 +78,28 @@
 			<div class="form-group row">
 				<label for="input-event-date-time" class="col-sm-2 col-form-label">Event Time</label>
 				<div class="col-sm-3">
-					<input type="datetime-local" class="form-control" id="input-event-date-time" name="input-event-date-time">
+					<input type="datetime-local" class="form-control" id="input-event-date-time" name="input-event-date-time" required>
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-location" class="col-sm-2 col-form-label">Location</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="input-location" name="input-location" placeholder="location">
+					<input type="text" class="form-control" id="input-location" name="input-location" placeholder="location" required>
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-description" class="col-sm-2 col-form-label">Description</label>
 				<div class="col-sm-4">
-					<textarea class="form-control" id="input-description" name="input-description" placeholder="describe the event"></textarea>
+					<textarea class="form-control" id="input-description" name="input-description" placeholder="describe the event" required></textarea>
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-cost" class="col-sm-2 col-form-label">Cost</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="input-cost" name="input-cost" placeholder="xx.xx">
+					<input type="number" min="0.00" step="0.01" class="form-control" id="input-cost" name="input-cost" placeholder="xx.xx" required>
 				</div>
 			</div>
 
@@ -117,14 +117,14 @@
 			<div class="form-group row">
 				<label for="input-work-rel-justification" class="col-sm-2 col-form-label">Work Related Justification</label>
 				<div class="col-sm-4">
-						<textarea class="form-control" id="input-work-rel-justification" name="input-work-rel-justification" placeholder="describe how this is work-related"></textarea>
+						<textarea class="form-control" id="input-work-rel-justification" name="input-work-rel-justification" placeholder="describe how this is work-related" required></textarea>
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<label for="input-work-hours-missed" class="col-sm-2 col-form-label">Work Hours Missed</label>
 				<div class="col-sm-4">
-						<input type="text" class="form-control" id="input-work-hours-missed" name="input-work-hours-missed" placeholder="0">
+						<input type="number" min="0.00" step="0.01" class="form-control" id="input-work-hours-missed" name="input-work-hours-missed" placeholder="0.00" required>
 				</div>
 			</div>
 	
