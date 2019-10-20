@@ -83,14 +83,10 @@ public class FileDAOTest {
 		try {
 			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
-		} catch (SQLException e) {
-			fail("there was an sql exception");
-		}
-		assertEquals(true, fileDAO.uploadFile(myTxt, r));
-		try {
+			assertEquals(true, fileDAO.uploadFile(myTxt, r));
 			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {
-			fail("SQL exception");
+			fail("there was an sql exception");
 		}
 	}
 	
@@ -120,7 +116,10 @@ public class FileDAOTest {
 	@Test
 	public void testGetFile() {
 		File dbFile =  fileDAO.getFile(1);
-		fail();
+		File myTxt = new File(
+				"D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.txt");
+		
+		assertEquals(myTxt, dbFile);
 		
 	}
 

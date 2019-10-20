@@ -10,3 +10,8 @@
 2019-10-20 15:58:06 TRACE root:30 - sql exception in upload file
 2019-10-20 15:58:07 TRACE root:30 - sql exception in upload file
 2019-10-20 15:58:07 TRACE root:30 - sql exception in upload file
+2019-10-20 16:32:22 TRACE root:30 - sql exception in upload file
+2019-10-20 16:32:23 TRACE root:30 - sql exception in upload file
+2019-10-20 16:32:24 ERROR root:14 - file not found exception in get file
+2019-10-20 16:32:28 ERROR root:14 - file not found exception in get file
+2019-10-20 16:33:11 ERROR root:14 - file not found exception in get file
