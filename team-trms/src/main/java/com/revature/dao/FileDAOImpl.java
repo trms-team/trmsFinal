@@ -3,13 +3,13 @@ package com.revature.dao;
 import static com.revature.util.LoggerUtil.error;
 import static com.revature.util.LoggerUtil.trace;
 import static com.revature.util.LoggerUtil.warn;
-import static com.revature.util.LoggerUtil.fatal;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,75 +32,67 @@ public class FileDAOImpl implements FileDAO {
 
 	@Override
 	public boolean uploadFile(File file, Reimbursement r) {
-		String filename = file.getName();
 		int reimbursementId = r.getReimbursement_id();
-		byte[] data = new byte[1_000_000]; // 1 megabyte per file
-		try (FileInputStream fis = new FileInputStream(file)) {
-			fis.read(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			warn("File not found exception in upload file");
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			error("IO exception in upload file");
-			return false;
-		}
-
-		String sql = "insert into file_test values (?, ?, ?, ?)";
-
-		try {
+		String filename = file.getPath();
+		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
+		
+		try(FileInputStream fis = new FileInputStream(file)) {
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, 1);
-			stmt.setInt(2, reimbursementId);
-			stmt.setString(3, filename);
-			stmt.setBytes(4, data);
+			stmt.setInt(1, reimbursementId);
+			stmt.setString(2, filename);
+			stmt.setBinaryStream(3, fis);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			trace("sql exception in upload file");
 			e.printStackTrace();
 			return false;
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			warn("File not found exception in upload file");
+			return false;
+		} catch (IOException e1) {
+			warn("IO exception in upload file");
+			e1.printStackTrace();
+			return false;
+		} catch(NullPointerException e) {
+			e.printStackTrace();
 		}
 		return true;
 	}
 
 	@Override
 	public File getFile(int fileId) {
-		String sql = "select * from file_table where file_id = ?";
-		String filename = "";
-		byte[] data = new byte[1_000_000];
 
+		byte[] data = new byte[1_000_000];
+		String filename = "";
+		String sql = "select * from file_table where file_id = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, fileId);
-
 			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				filename = rs.getString(3);
-				data = rs.getBytes(4);
+			rs.next();
+			filename = rs.getString(3);
+			File file = new File(filename);
+			FileOutputStream fos = new FileOutputStream(file);
+			InputStream is = rs.getBinaryStream(4);
+			int length;
+			while((length = is.read(data)) > 0) {
+				fos.write(data, 0, length);
 			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			trace("sql exception in getFile");
-			return null;
-		}
-		if (filename.equals("")) {
-			fatal("filename not initialized");
-			return null;
-		}
-		File file = new File(filename);
-		try (FileOutputStream fos = new FileOutputStream(file)) {
-			fos.write(data);
+			fos.close();
+			return file;
 		} catch (FileNotFoundException e) {
-			trace("file not found exception in get file");
+			error("file not found exception in get file");
 			e.printStackTrace();
 			return null;
 		} catch (IOException e) {
-			trace("IO exceptionn in get file");
+			error("IO exceptionn in get file");
+			e.printStackTrace();
+			return null;
+		} catch (SQLException e) {
+			trace("there was a sql exception in get file");
 			e.printStackTrace();
 			return null;
 		}
-		return file;
 	}
 }
