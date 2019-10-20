@@ -1,7 +1,7 @@
 class Reimbursement {
     constructor(reimbursement_id, employeeUsername, email, phone, eventTime, location, eventName, 
             eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
-            awardedAmount, statusId, submissionTime) {
+            awardedAmount, statusId, submissionTime, rejectedReason) {
         this.reimbursement_id = reimbursement_id;
         this.employeeUsername = employeeUsername;
         this.email = email; 
@@ -18,6 +18,7 @@ class Reimbursement {
         this.awardedAmount = awardedAmount;
         this.statusId = statusId;
         this.submissionTime = submissionTime;
+        this.rejectedReason = rejectedReason;
     }
 }
 
@@ -112,8 +113,11 @@ function formatGradingFormat(gradingFormat) {
     if (gradingFormat === "LETTER") {
         return "A - F";
     }
-    else {
+    else if (gradingFormat === "PERCENT") {
         return "0 - 100";
+    }
+    else {
+        return "Presentation";
     }
 }
 
@@ -137,6 +141,9 @@ function displaySingleReimbursement(id) {
                 modalTable.removeChild(modalTable.firstChild);
             }
             
+            if (c.rejectedReason !== null) {
+                showSingleRow(modalTable, "Reason Rejected", c.rejectedReason);
+            }
             showSingleRow(modalTable, "Username", c.employeeUsername);
             showSingleRow(modalTable, "Email", c.email);
             showSingleRow(modalTable, "Phone", c.phone);

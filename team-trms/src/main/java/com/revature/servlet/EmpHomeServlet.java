@@ -14,7 +14,6 @@ import com.revature.pojo.User;
 import com.revature.pojo.User.Role;
 import com.revature.service.ReimbursementService;
 import com.revature.service.ReimbursementServiceImpl;
-import com.revature.service.UserService;
 import com.revature.service.UserServiceImpl;
 
 /**
@@ -38,6 +37,8 @@ public class EmpHomeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = userService.getCurrentUser();
+		
+		
 		
 		if (user != null && user.getRoles().contains(Role.EMPLOYEE)) {
 			ObjectMapper om = new ObjectMapper();

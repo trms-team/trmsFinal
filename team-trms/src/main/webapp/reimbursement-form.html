@@ -39,38 +39,38 @@
 
 		<!-- Need to think about adding identifying name -->
 
-		<form>
+		<form action="reimbursement-form" method="POST">
 			<div class="form-group row">
 				<label for="input-email" class="col-sm-2 col-form-label">Email</label>
 				<div class="col-sm-3">
-					<input type="email" class="form-control" id="input-email" placeholder="email">
+					<input type="email" class="form-control" id="input-email" name="input-email" placeholder="email">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-phone" class="col-sm-2 col-form-label">Phone</label>
 				<div class="col-sm-3">
-					<input type="tel" class="form-control" id="input-phone" placeholder="phone">
+					<input type="tel" class="form-control" id="input-phone" name="input-phone" placeholder="phone">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-event-name" class="col-sm-2 col-form-label">Event Name</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="input-event-name" placeholder="event name">
+					<input type="text" class="form-control" id="input-event-name" name="input-event-name" placeholder="event name">
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<label for="input-event-type" class="col-sm-2 col-form-label">Event Type</label>
 				<div class="col-sm-3">
-					<select class="custom-select" required id = "input-event-type">
-						<option value="university-course">University Course</option>
-						<option value="seminar">Seminar</option>
-						<option value="cert-prep-class">Certification Preparation Class</option>
-						<option value="certification">Certification</option>
-						<option value="tech-training">Technical Training</option>
-						<option value="other">Other</option>
+					<select class="custom-select" id="input-event-type" name="input-event-type" required>
+						<option value="UNIVERSITY_COURSE">University Course</option>
+						<option value="SEMINAR">Seminar</option>
+						<option value="CERTIFICATION_PREP_CLASS">Certification Preparation Class</option>
+						<option value="CERTIFICATION">Certification</option>
+						<option value="TECH_TRAINING">Technical Training</option>
+						<option value="OTHER">Other</option>
 					</select>
 				</div>
 			</div>
@@ -78,37 +78,38 @@
 			<div class="form-group row">
 				<label for="input-event-date-time" class="col-sm-2 col-form-label">Event Time</label>
 				<div class="col-sm-3">
-					<input type="datetime-local" class="form-control" id="input-event-date-time">
+					<input type="datetime-local" class="form-control" id="input-event-date-time" name="input-event-date-time">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-location" class="col-sm-2 col-form-label">Location</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="input-location" placeholder="location">
+					<input type="text" class="form-control" id="input-location" name="input-location" placeholder="location">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-description" class="col-sm-2 col-form-label">Description</label>
 				<div class="col-sm-4">
-					<textarea class="form-control" id="input-description" placeholder="describe the event"></textarea>
+					<textarea class="form-control" id="input-description" name="input-description" placeholder="describe the event"></textarea>
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-cost" class="col-sm-2 col-form-label">Cost</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="input-cost" placeholder="xx.xx">
+					<input type="text" class="form-control" id="input-cost" name="input-cost" placeholder="xx.xx">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label for="input-grading-format" class="col-sm-2 col-form-label">Grading Format</label>
 				<div class="col-sm-3">
-					<select class="custom-select" id = "input-grading-format" required>
-						<option value="letter-grade">A - F</option>
-						<option value="percent-grade">0 - 100</option>
+					<select class="custom-select" id="input-grading-format" name="input-grading-format" required>
+						<option value="LETTER">A - F</option>
+						<option value="PERCENT">0 - 100</option>
+						<option value="PRESENTATION">Presentation</option>
 					</select>
 				</div>
 			</div>
@@ -116,21 +117,21 @@
 			<div class="form-group row">
 				<label for="input-work-rel-justification" class="col-sm-2 col-form-label">Work Related Justification</label>
 				<div class="col-sm-4">
-						<textarea class="form-control" id="input-work-rel-justification" placeholder="describe how this is work-related"></textarea>
+						<textarea class="form-control" id="input-work-rel-justification" name="input-work-rel-justification" placeholder="describe how this is work-related"></textarea>
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<label for="input-work-hours-missed" class="col-sm-2 col-form-label">Work Hours Missed</label>
 				<div class="col-sm-4">
-						<input type="text" class="form-control" id="input-work-hours-missed" placeholder="0">
+						<input type="text" class="form-control" id="input-work-hours-missed" name="input-work-hours-missed" placeholder="0">
 				</div>
 			</div>
 	
 			<div class="form-group row">
 				<label for="input-files" class="col-sm-2 col-form-label">Attachments</label>
 				<div class="col-sm-3">
-					<input type="file" class="form-control-file" id="input-files" multiple>
+					<input type="file" class="form-control-file" id="input-files" name="input-files" multiple>
 				</div>
 			</div>
 
@@ -139,12 +140,12 @@
 			<div class="form-group row">
 				<label for="read-reimburse" class="col-sm-2 col-form-label">Reimburse Amount</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" id="read-reimburse" value="$200.00" readonly>
+					<input type="text" class="form-control" id="read-reimburse" name="read-reimburse" value="$200.00" readonly>
 				</div>
 			</div>
 
 			<hr>
-			<button class="btn btn-success" id="submit-btn">Submit Form</button>
+			<input type="submit" class="btn btn-success" id="submit-btn" value="Submit Form">
 		</form>
 	</div>
 </body>

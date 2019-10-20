@@ -65,7 +65,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ReimFormServlet</servlet-name>
-		<url-pattern>/reimbursement-form/*</url-pattern>
+		<url-pattern>/reimbursement-form</url-pattern>
 	</servlet-mapping>
 
 </web-app>
