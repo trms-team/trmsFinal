@@ -1,7 +1,8 @@
 package com.revature.servlet;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+
+import static com.revature.util.LoggerUtil.warn;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,16 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.revature.pojo.Reimbursement;
-import com.revature.pojo.Reimbursement.EventType;
-import com.revature.pojo.Reimbursement.GradeFormat;
-import com.revature.pojo.Reimbursement.Status;
-import com.revature.pojo.User.Role;
 import com.revature.pojo.User;
-import com.revature.service.ReimbursementService;
+import com.revature.pojo.User.Role;
 import com.revature.service.ReimbursementServiceImpl;
 import com.revature.service.UserService;
 import com.revature.service.UserServiceImpl;
-import com.revature.util.ReimbursementCalculator;
+import com.revature.util.ReimbursementValidator;
 
 public class ReimFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +24,7 @@ public class ReimFormServlet extends HttpServlet {
 	
 	private static UserService userService = new UserServiceImpl();
 	
-	private static ReimbursementCalculator reimburseCalculator = new ReimbursementCalculator();
+	private static ReimbursementValidator reimbursementValidator = new ReimbursementValidator();
 	
 	/**
      * @see HttpServlet#HttpServlet()
@@ -62,21 +59,18 @@ public class ReimFormServlet extends HttpServlet {
 			String workRelatedJustification = request.getParameter("input-work-rel-justification");
 			String workHoursMissed = request.getParameter("input-work-hours-missed");
 			
-			double awardedAmount = reimburseCalculator.calculateAwardedAmount(reimbursementService.getPendingAndAwardedAmounts(user.getUsername()), 
-					EventType.valueOf(eventType), Double.parseDouble(cost));
+			Reimbursement checkedReimbursement = reimbursementValidator.validReimbursement(user.getUsername(), email,
+					phone, eventName, eventType, eventTimeStr, location, description, cost, 
+					gradingFormat, workRelatedJustification, workHoursMissed);
 			
+			if (checkedReimbursement != null) {
+				reimbursementService.addReimbursement(checkedReimbursement);
+			}
+			else {
+				warn("Reimbursement could not be saved");
+			}
 			
-			//LocalDateTime eventTime = ___;
-			
-			LocalDateTime submissionTime = LocalDateTime.now();
-			
-			/*Reimbursement newReimbursement = new Reimbursement(1, user.getUsername(),
-					email, phone, eventTime, location, eventName, EventType.valueOf(eventType), 
-					description, Double.parseDouble(cost), GradeFormat.valueOf(gradingFormat),
-					workRelatedJustification, Double.parseDouble(workHoursMissed), awardedAmount,
-					submissionTime, Status.PENDING, Status.PENDING, Status.PENDING, null,
-					null, null, null);
-			)*/
+			response.sendRedirect("employee-home.html");
 		}
 		
 	}

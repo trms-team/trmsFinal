@@ -13,6 +13,12 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	private static ReimbursementDAO reimbursementDAO = new ReimbursementDAOImpl();
 	
 	@Override
+	public void addReimbursement(Reimbursement reimbursement) {
+		info("adding reimbursement by employee " + reimbursement.getEmployeeUsername());
+		reimbursementDAO.createReimbursement(reimbursement);
+	}
+	
+	@Override
 	public List<Reimbursement> showEmployeePending(String username) {
 		info("showing pending requests by employee " + username);
 		return reimbursementDAO.getPendingReimbursementsByEmployee(username);
