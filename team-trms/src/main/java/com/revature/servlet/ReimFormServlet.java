@@ -52,7 +52,6 @@ public class ReimFormServlet extends HttpServlet {
 		if (user != null && user.getRoles().contains(Role.EMPLOYEE)) {
 			String email = request.getParameter("input-email");
 			String phone = request.getParameter("input-phone");
-			System.out.println(phone);
 			String eventName = request.getParameter("input-event-name");
 			String eventType = request.getParameter("input-event-type");
 			String eventTimeStr = request.getParameter("input-event-date-time");
