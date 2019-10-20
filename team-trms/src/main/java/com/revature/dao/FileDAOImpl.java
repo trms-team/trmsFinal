@@ -34,14 +34,13 @@ public class FileDAOImpl implements FileDAO {
 	public boolean uploadFile(File file, Reimbursement r) {
 		int reimbursementId = r.getReimbursement_id();
 		String filename = file.getPath();
-		String sql = "insert into file_table values (?, ?, ?, ?)";
+		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
 		
 		try(FileInputStream fis = new FileInputStream(file)) {
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, 1);
-			stmt.setInt(2, reimbursementId);
-			stmt.setString(3, filename);
-			stmt.setBinaryStream(4, fis);
+			stmt.setInt(1, reimbursementId);
+			stmt.setString(2, filename);
+			stmt.setBinaryStream(3, fis);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			trace("sql exception in upload file");
@@ -55,42 +54,17 @@ public class FileDAOImpl implements FileDAO {
 			warn("IO exception in upload file");
 			e1.printStackTrace();
 			return false;
+		} catch(NullPointerException e) {
+			e.printStackTrace();
 		}
 		return true;
 	}
 
 	@Override
 	public File getFile(int fileId) {
-//		String sql = "select * from file_table where file_id = ?";
-//		String filename = "";
-//		byte[] data = new byte[1_000_000];
-//		
-//		try {
-//			PreparedStatement stmt = conn.prepareStatement(sql);
-//			stmt.setInt(1, fileId);
-//
-//			ResultSet rs = stmt.executeQuery();
-//			
-//			while(rs.next()) {
-//				filename = rs.getString(3);
-//				data = rs.getBytes(4);
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			trace("sql exception in getFile");
-//			return null;
-//		}
-//		if(filename.equals("")) {
-//			fatal("filename not initialized");
-//			return null;
-//		}
-//		File file = new File(filename);
-//		
-		
+
 		byte[] data = new byte[1_000_000];
 		String filename = "";
-		FileOutputStream fos = null;
 		String sql = "select * from file_table where file_id = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -99,12 +73,13 @@ public class FileDAOImpl implements FileDAO {
 			rs.next();
 			filename = rs.getString(3);
 			File file = new File(filename);
-			fos = new FileOutputStream(file);
+			FileOutputStream fos = new FileOutputStream(file);
 			InputStream is = rs.getBinaryStream(4);
 			int length;
 			while((length = is.read(data)) > 0) {
 				fos.write(data, 0, length);
 			}
+			fos.close();
 			return file;
 		} catch (FileNotFoundException e) {
 			error("file not found exception in get file");
@@ -118,13 +93,6 @@ public class FileDAOImpl implements FileDAO {
 			trace("there was a sql exception in get file");
 			e.printStackTrace();
 			return null;
-		} finally {
-			try {
-				fos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
 }

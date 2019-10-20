@@ -32,21 +32,24 @@ public class FileDAOTest {
 	File myTxt;
 	File myDocx;
 	File myPDF;
-	Reimbursement r;
 
 	@Mock
-	Connection conn;
+	private Connection conn;
+	
+	@Mock
+	Reimbursement r;
 
 	@Spy
-	PreparedStatement stmtInsert;
+	FileDAOImpl fileDAO = new FileDAOImpl();
+	
+	String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
+	String sql2 = "select * from file_table where file_id = ?";
 	
 	@Spy
-	FileDAO fileDAO = new FileDAOImpl();
-
-	{
-		Connection myConn = ConnectionFactory.getConnection();
-		stmtInsert = myConn.prepareStatement("insert into file_table values (?, ?, ?, ?)");
-	}
+	PreparedStatement stmtInsert = ConnectionFactory.getConnection().prepareStatement(sql);
+	
+	@Spy
+	PreparedStatement stmtSelect = ConnectionFactory.getConnection().prepareStatement(sql2);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -67,10 +70,8 @@ public class FileDAOTest {
 		myPDF = new File(
 				"D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.pdf");
 		
+		fileDAO.setConn(conn);
 		
-		r = new Reimbursement(1, "jboni", "pisecojacob@gmail.com","300-352-4813", LocalDateTime.of(1,  2,  3 , 4, 5), 
-				"Siena College", "HistoryClass", Reimbursement.EventType.UNIVERSITY_COURSE, "it was a class in history",
-				543.21, Reimbursement.GradeFormat.LETTER, "I missed work because i love history sooooooo much", 55.55, 123.45, 1, LocalDateTime.now());
 	}
 
 	@After
@@ -79,10 +80,11 @@ public class FileDAOTest {
 
 	@Test
 	public void testUploadFileTxtFile() {
-		String sql = "insert into file_table values (?, ?, ?, ?)";
+		
+		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
 		try {
-			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
+			when(r.getReimbursement_id()).thenReturn(1);
 			assertEquals(true, fileDAO.uploadFile(myTxt, r));
 			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {
@@ -92,40 +94,46 @@ public class FileDAOTest {
 	
 	@Test
 	public void testUploadFileDocxFile() {
-		String sql = "insert into file_test values (?, ?, ?, ?)";
+		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
 		try {
 			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
+			when(r.getReimbursement_id()).thenReturn(1);
+			assertEquals(true, fileDAO.uploadFile(myDocx, r));
+			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {
 			fail("there was an sql exception");
 		}
-		assertEquals(true, fileDAO.uploadFile(myDocx, r));
 	}
 	
 	@Test
 	public void testUploadFilePDFFile() {
-		String sql = "insert into file_test values (?, ?, ?, ?)";
+		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
 		try {
+			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
+			when(r.getReimbursement_id()).thenReturn(1);
+			assertEquals(true, fileDAO.uploadFile(myPDF, r));
+			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {
 			fail("there was an sql exception");
 		}
-		assertEquals(true, fileDAO.uploadFile(myPDF, r));
 	}
 	
 	@Test
 	public void testGetFile() {
+		String sql = "select * from file_table where file_id = ?";
+		try {
+			when(conn.prepareStatement(sql)).thenReturn(stmtSelect);
+		} catch (SQLException e) {
+			fail("sql exception encounterd");
+			e.printStackTrace();
+		}
 		File dbFile =  fileDAO.getFile(1);
 		File myTxt = new File(
-				"D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.txt");
-		
+				"D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.txt");		
 		assertEquals(myTxt, dbFile);
 		
-	}
-
-	@Test
-	public void testUploadFileContents() {
-		fail("Not yet implemented");
 	}
 
 	public FileDAOTest() throws SQLException {
