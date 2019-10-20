@@ -175,7 +175,7 @@ function getPendingReimbursements() {
             if (xhr.status === 200) {
                 // In case a non-employee tries to access
                 if (xhr.responseText === "") {
-                    history.back();
+                	window.location.href = "unauthorized.html";
                 }
                 else {
                     displayReimbursements("pending", JSON.parse(xhr.responseText));
@@ -201,7 +201,7 @@ function getAcceptedReimbursements() {
             if (xhr.status === 200) {
                 // In case a non-employee tries to access
                 if (xhr.responseText === "") {
-                    history.back();
+                	window.location.href = "unauthorized.html";
                 }
                 else {
                     displayReimbursements("accepted", JSON.parse(xhr.responseText));
@@ -226,7 +226,7 @@ function getRejectedReimbursements() {
             if (xhr.status === 200) {
                 // In case a non-employee tries to access
                 if (xhr.responseText === "") {
-                    history.back();
+                	window.location.href = "unauthorized.html";
                 }
                 else {
                     displayReimbursements("rejected", JSON.parse(xhr.responseText));

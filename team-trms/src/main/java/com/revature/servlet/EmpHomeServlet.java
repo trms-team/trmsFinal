@@ -38,8 +38,6 @@ public class EmpHomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = userService.getCurrentUser();
 		
-		
-		
 		if (user != null && user.getRoles().contains(Role.EMPLOYEE)) {
 			ObjectMapper om = new ObjectMapper();
 			String name = request.getPathInfo();
@@ -55,8 +53,7 @@ public class EmpHomeServlet extends HttpServlet {
 			else if (name.substring(1).equals("rejected")) {
 				List<Reimbursement> rejected = reimbursementService.showEmployeeRejected(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(rejected));
-			}
-			
+			}	
 		}
 	}
 

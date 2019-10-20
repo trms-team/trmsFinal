@@ -2,9 +2,8 @@ package com.revature.util;
 
 import static com.revature.util.LoggerUtil.warn;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.revature.pojo.Reimbursement;
 import com.revature.pojo.Reimbursement.EventType;
@@ -52,8 +51,9 @@ public class ReimbursementValidator {
 		LocalDateTime parsedEventTime;
 		
 		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-			parsedEventTime = (LocalDateTime) formatter.parseObject(eventTimeStr);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			eventTimeStr = eventTimeStr.replace('T', ' ');
+			parsedEventTime = LocalDateTime.parse(eventTimeStr, formatter);
 		} catch(Exception e) {
 			warn(eventTimeStr + " is an invalid date and time on server-side");
 			return null;
@@ -108,7 +108,7 @@ public class ReimbursementValidator {
 		
 		LocalDateTime submissionTime = LocalDateTime.now();
 		
-		Reimbursement validReimbursement = new Reimbursement(1, username, email, phone, parsedEventTime, location,
+		Reimbursement validReimbursement = new Reimbursement(username, email, phone, parsedEventTime, location,
 				eventName, EventType.valueOf(eventType), description, parsedCost, GradeFormat.valueOf(gradingFormat),
 				workRelatedJustification, parsedWorkHoursMissed, awardedAmount, submissionTime, Status.PENDING, 
 				Status.PENDING, Status.PENDING, null, null, null, null);

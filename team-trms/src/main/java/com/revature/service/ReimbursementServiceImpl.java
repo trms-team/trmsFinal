@@ -14,8 +14,8 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	
 	@Override
 	public void addReimbursement(Reimbursement reimbursement) {
-		info("adding reimbursement by employee " + reimbursement.getEmployeeUsername());
 		reimbursementDAO.createReimbursement(reimbursement);
+		info("added reimbursement by employee " + reimbursement.getEmployeeUsername());
 	}
 	
 	@Override

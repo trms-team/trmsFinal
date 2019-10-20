@@ -28,44 +28,45 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	@Override
 	public void createReimbursement(Reimbursement reimbursement) {
 		// 22 fields in database
-		String sql = "insert into reimbursement_test values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-				+ "?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into reimbursement_test (employee_username, email, phone, event_time, location, event_name, "
+				+ "event_type, description, cost, format_id, work_related_just, work_hours_missed, awarded_amount, "
+				+ "submission_time, direct_sup_status, dep_head_status, ben_co_status, rejected_reason, "
+				+ "direct_sup_time, dep_head_time, ben_co_time) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, 1);
 			
-			stmt.setString(2, reimbursement.getEmployeeUsername());
-			stmt.setString(3, reimbursement.getEmail());
-			stmt.setString(4, reimbursement.getPhone());
-			stmt.setTimestamp(5, timeConvert(reimbursement.getEventTime()));
-			stmt.setString(6, reimbursement.getLocation());
-			stmt.setString(7, reimbursement.getEventName());
-			stmt.setString(8, reimbursement.getEventType().toString());
-			stmt.setString(9, reimbursement.getDescription());
-			stmt.setDouble(10, reimbursement.getCost());
+			stmt.setString(1, reimbursement.getEmployeeUsername());
+			stmt.setString(2, reimbursement.getEmail());
+			stmt.setString(3, reimbursement.getPhone());
+			stmt.setTimestamp(4, timeConvert(reimbursement.getEventTime()));
+			stmt.setString(5, reimbursement.getLocation());
+			stmt.setString(6, reimbursement.getEventName());
+			stmt.setString(7, reimbursement.getEventType().toString());
+			stmt.setString(8, reimbursement.getDescription());
+			stmt.setDouble(9, reimbursement.getCost());
 			
 			if (reimbursement.getGradingFormat() == GradeFormat.LETTER) {
-				stmt.setInt(11, 1);
+				stmt.setInt(10, 1);
 			}
 			else if (reimbursement.getGradingFormat() == GradeFormat.PERCENT) {
-				stmt.setInt(11, 2);
+				stmt.setInt(10, 2);
 			}
 			else if (reimbursement.getGradingFormat() == GradeFormat.PRESENTATION) {
-				stmt.setInt(11, 3);
+				stmt.setInt(10, 3);
 			}
 			
-			stmt.setString(12, reimbursement.getWorkRelatedJustification());
-			stmt.setDouble(13, reimbursement.getWorkHoursMissed());
-			stmt.setDouble(14, reimbursement.getAwardedAmount());
-			stmt.setTimestamp(15, timeConvert(reimbursement.getSubmissionTime()));
-			stmt.setString(16, reimbursement.getDirectSupervisorStatus().toString());
-			stmt.setString(17, reimbursement.getDepartmentHeadStatus().toString());
-			stmt.setString(18, reimbursement.getBencoStatus().toString());
-			stmt.setString(19, reimbursement.getRejectedReason());
+			stmt.setString(11, reimbursement.getWorkRelatedJustification());
+			stmt.setDouble(12, reimbursement.getWorkHoursMissed());
+			stmt.setDouble(13, reimbursement.getAwardedAmount());
+			stmt.setTimestamp(14, timeConvert(reimbursement.getSubmissionTime()));
+			stmt.setString(15, reimbursement.getDirectSupervisorStatus().toString());
+			stmt.setString(16, reimbursement.getDepartmentHeadStatus().toString());
+			stmt.setString(17, reimbursement.getBencoStatus().toString());
+			stmt.setString(18, reimbursement.getRejectedReason());
+			stmt.setTimestamp(19, null);
 			stmt.setTimestamp(20, null);
 			stmt.setTimestamp(21, null);
-			stmt.setTimestamp(22, null);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

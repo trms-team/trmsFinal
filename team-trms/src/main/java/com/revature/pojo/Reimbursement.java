@@ -64,6 +64,36 @@ public class Reimbursement {
 		super();
 	}
 
+	public Reimbursement(String employeeUsername, String email, String phone,
+			LocalDateTime eventTime, String location, String eventName, EventType eventType, String description,
+			double cost, GradeFormat gradingFormat, String workRelatedJustification, double workHoursMissed,
+			double awardedAmount, LocalDateTime submissionTime, Status directSupervisorStatus,
+			Status departmentHeadStatus, Status bencoStatus, String rejectedReason, LocalDateTime directSupervisorTime,
+			LocalDateTime departmentHeadTime, LocalDateTime bencoTime) {
+		super();
+		this.employeeUsername = employeeUsername;
+		this.email = email;
+		this.phone = phone;
+		this.eventTime = eventTime;
+		this.location = location;
+		this.eventName = eventName;
+		this.eventType = eventType;
+		this.description = description;
+		this.cost = cost;
+		this.gradingFormat = gradingFormat;
+		this.workRelatedJustification = workRelatedJustification;
+		this.workHoursMissed = workHoursMissed;
+		this.awardedAmount = awardedAmount;
+		this.submissionTime = submissionTime;
+		this.directSupervisorStatus = directSupervisorStatus;
+		this.departmentHeadStatus = departmentHeadStatus;
+		this.bencoStatus = bencoStatus;
+		this.rejectedReason = rejectedReason;
+		this.directSupervisorTime = directSupervisorTime;
+		this.departmentHeadTime = departmentHeadTime;
+		this.bencoTime = bencoTime;
+	}
+	
 	public Reimbursement(int reimbursement_id, String employeeUsername, String email, String phone,
 			LocalDateTime eventTime, String location, String eventName, EventType eventType, String description,
 			double cost, GradeFormat gradingFormat, String workRelatedJustification, double workHoursMissed,
