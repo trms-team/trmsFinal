@@ -1,7 +1,8 @@
 package com.revature.dao;
 
-import java.sql.Connection;
 import static com.revature.util.LoggerUtil.warn;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,10 +45,6 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
-	public void createUser(User user) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	// This converts array of String roles to list of enum roles
 	private List<Role> parseRoles(String[] roles) {

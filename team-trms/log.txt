@@ -26,3 +26,5 @@
 2019-10-20 17:43:07 TRACE root:30 - sql exception in upload file
 2019-10-20 17:49:09 TRACE root:30 - sql exception in upload file
 2019-10-20 17:49:10 TRACE root:30 - sql exception in upload file
+2019-10-20 14:09:29 WARN  root:18 - File not found exception in upload file
+
