@@ -40,6 +40,13 @@ public class ReimbursementDAOTest {
 	private Connection conn;
 	
 	@Spy
+	PreparedStatement createReimbursementStmt = ConnectionFactory.
+		getConnection().prepareStatement("insert into reimbursement_test (employee_username, email, phone, event_time, location, event_name, "
+				+ "event_type, description, cost, format_id, work_related_just, work_hours_missed, awarded_amount, "
+				+ "submission_time, direct_sup_status, dep_head_status, ben_co_status, rejected_reason, "
+				+ "direct_sup_time, dep_head_time, ben_co_time) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		
+	@Spy
 	PreparedStatement getPendingByEmployeeStmt = ConnectionFactory.
 		getConnection().prepareStatement("select * from reimbursement_test where (direct_sup_status = 'PENDING' or dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
 				+ " and employee_username = ? order by submission_time desc");
@@ -81,6 +88,23 @@ public class ReimbursementDAOTest {
 
 	@After
 	public void tearDown() throws Exception {
+	}
+	
+	@Test
+	public void testCreateReimbursement() {
+		sql = "insert into reimbursement_test (employee_username, email, phone, event_time, location, event_name, "
+				+ "event_type, description, cost, format_id, work_related_just, work_hours_missed, awarded_amount, "
+				+ "submission_time, direct_sup_status, dep_head_status, ben_co_status, rejected_reason, "
+				+ "direct_sup_time, dep_head_time, ben_co_time) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			when(conn.prepareStatement(sql)).thenReturn(createReimbursementStmt);
+			reimbursementDAO.setConn(conn);
+			reimbursementDAO.createReimbursement(reimbursement);
+			Mockito.verify(createReimbursementStmt).executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
