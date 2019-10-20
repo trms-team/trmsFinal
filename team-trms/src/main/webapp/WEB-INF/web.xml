@@ -59,4 +59,13 @@
 		<url-pattern>/benco-home/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>ReimFormServlet</servlet-name>
+		<servlet-class>com.revature.servlet.ReimFormServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReimFormServlet</servlet-name>
+		<url-pattern>/reimbursement-form</url-pattern>
+	</servlet-mapping>
+
 </web-app>

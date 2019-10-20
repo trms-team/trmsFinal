@@ -25,6 +25,7 @@ import com.revature.dao.ReimbursementDAOImpl;
 import com.revature.pojo.Reimbursement;
 import com.revature.pojo.Reimbursement.EventType;
 import com.revature.pojo.Reimbursement.GradeFormat;
+import com.revature.pojo.Reimbursement.Status;
 import com.revature.util.ConnectionFactory;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,22 +40,26 @@ public class ReimbursementDAOTest {
 	private Connection conn;
 	
 	@Spy
+	PreparedStatement createReimbursementStmt = ConnectionFactory.
+		getConnection().prepareStatement("insert into reimbursement_test (employee_username, email, phone, event_time, location, event_name, "
+				+ "event_type, description, cost, format_id, work_related_just, work_hours_missed, awarded_amount, "
+				+ "submission_time, direct_sup_status, dep_head_status, ben_co_status, rejected_reason, "
+				+ "direct_sup_time, dep_head_time, ben_co_time) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		
+	@Spy
 	PreparedStatement getPendingByEmployeeStmt = ConnectionFactory.
-		getConnection().prepareStatement("select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
-				+ " where (status_test.direct_sup_status = 'PENDING' or status_test.dep_head_status = 'PENDING' or status_test.ben_co_status = 'PENDING')"
-				+ " and reimbursement_test.employee_username = ? order by reimbursement_test.submission_time desc");
+		getConnection().prepareStatement("select * from reimbursement_test where (direct_sup_status = 'PENDING' or dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
+				+ " and employee_username = ? order by submission_time desc");
 	
 	@Spy
 	PreparedStatement getAcceptedByEmployeeStmt = ConnectionFactory.
-		getConnection().prepareStatement("select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
-				+ " where status_test.direct_sup_status = 'ACCEPTED' and status_test.dep_head_status = 'ACCEPTED' and status_test.ben_co_status = 'ACCEPTED'"
-				+ " and reimbursement_test.employee_username = ? order by reimbursement_test.submission_time desc");
+		getConnection().prepareStatement("select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and dep_head_status = 'ACCEPTED' and ben_co_status = 'ACCEPTED'"
+				+ " and employee_username = ? order by submission_time desc");
 	
 	@Spy
 	PreparedStatement getRejectedByEmployeeStmt = ConnectionFactory.
-		getConnection().prepareStatement("select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
-				+ " where (status_test.direct_sup_status = 'REJECTED' or status_test.dep_head_status = 'REJECTED' or status_test.ben_co_status = 'REJECTED')"
-				+ " and reimbursement_test.employee_username = ? order by reimbursement_test.submission_time desc");
+		getConnection().prepareStatement("select * from reimbursement_test where (direct_sup_status = 'REJECTED' or dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED')"
+				+ " and employee_username = ? order by submission_time desc");
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -66,12 +71,17 @@ public class ReimbursementDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		LocalDateTime eventLdt = LocalDateTime.of(2019, Month.OCTOBER, 18, 13, 20, 0);
-		LocalDateTime submitLdt = LocalDateTime.of(2019, Month.OCTOBER, 18, 13, 0, 0);
-		username = "nick";
-		reimbursement = new Reimbursement(3, username, "nick@gmail.com", "4081111111", eventLdt,
-				"Tampa", "Fun stuff", EventType.OTHER, "For relaxation", 90.00, GradeFormat.LETTER, "To help my work", 10.00,
-				80.00, 3, submitLdt);
+		LocalDateTime eventLdt = LocalDateTime.of(2019, Month.OCTOBER, 10, 12, 0, 0);
+		LocalDateTime submitLdt = LocalDateTime.of(2019, Month.OCTOBER, 12, 0, 0, 0);
+		LocalDateTime dirSupLdt = LocalDateTime.of(2019, Month.OCTOBER, 15, 16, 24, 0);
+		LocalDateTime depHeadLdt = LocalDateTime.of(2019, Month.OCTOBER, 17, 12, 1, 0);
+		LocalDateTime bencoLdt = LocalDateTime.of(2019, Month.OCTOBER, 17, 16, 30, 0);
+		
+		username = "brian";
+		reimbursement = new Reimbursement(2, username, "brian@gmail.com", "5555555555", eventLdt,
+				"Tampa", "OCA", EventType.CERTIFICATION, "I really really like Java", 245.00, GradeFormat.PERCENT, 
+				"I need a job", 2.00, 245.00, submitLdt, Status.ACCEPTED, Status.ACCEPTED, Status.ACCEPTED,
+				null, dirSupLdt, depHeadLdt, bencoLdt);
 		pendingReimbursements = new LinkedList<>();
 		pendingReimbursements.add(reimbursement);
 	}
@@ -79,12 +89,28 @@ public class ReimbursementDAOTest {
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	@Test
+	public void testCreateReimbursement() {
+		sql = "insert into reimbursement_test (employee_username, email, phone, event_time, location, event_name, "
+				+ "event_type, description, cost, format_id, work_related_just, work_hours_missed, awarded_amount, "
+				+ "submission_time, direct_sup_status, dep_head_status, ben_co_status, rejected_reason, "
+				+ "direct_sup_time, dep_head_time, ben_co_time) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			when(conn.prepareStatement(sql)).thenReturn(createReimbursementStmt);
+			reimbursementDAO.setConn(conn);
+			reimbursementDAO.createReimbursement(reimbursement);
+			Mockito.verify(createReimbursementStmt).executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void testGetPendingByEmployee() {
-		sql = "select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
-				+ " where (status_test.direct_sup_status = 'PENDING' or status_test.dep_head_status = 'PENDING' or status_test.ben_co_status = 'PENDING')"
-				+ " and reimbursement_test.employee_username = ? order by reimbursement_test.submission_time desc";
+		sql = "select * from reimbursement_test where (direct_sup_status = 'PENDING' or dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
+				+ " and employee_username = ? order by submission_time desc";
 		
 		try {
 			when(conn.prepareStatement(sql)).thenReturn(getPendingByEmployeeStmt);
@@ -97,9 +123,8 @@ public class ReimbursementDAOTest {
 	}
 	
 	public void testGetAcceptedByEmployee() {
-		sql = "select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
-				+ " where status_test.direct_sup_status = 'ACCEPTED' and status_test.dep_head_status = 'ACCEPTED' and status_test.ben_co_status = 'ACCEPTED'"
-				+ " and reimbursement_test.employee_username = ? order by reimbursement_test.submission_time desc";
+		sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and dep_head_status = 'ACCEPTED' and ben_co_status = 'ACCEPTED'"
+				+ " and employee_username = ? order by submission_time desc";
 		
 		try {
 			when(conn.prepareStatement(sql)).thenReturn(getAcceptedByEmployeeStmt);
@@ -112,9 +137,8 @@ public class ReimbursementDAOTest {
 	}
 	
 	public void testGetRejectedByEmployee() {
-		sql = "select * from reimbursement_test inner join status_test on reimbursement_test.status_id = status_test.status_id"
-				+ " where (status_test.direct_sup_status = 'REJECTED' or status_test.dep_head_status = 'REJECTED' or status_test.ben_co_status = 'REJECTED')"
-				+ " and reimbursement_test.employee_username = ? order by reimbursement_test.submission_time desc";
+		sql = "select * from reimbursement_test where (direct_sup_status = 'REJECTED' or dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED')"
+				+ " and employee_username = ? order by submission_time desc";
 		
 		try {
 			when(conn.prepareStatement(sql)).thenReturn(getRejectedByEmployeeStmt);

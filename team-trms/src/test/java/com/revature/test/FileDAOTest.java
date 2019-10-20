@@ -3,8 +3,12 @@ package com.revature.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -66,9 +70,13 @@ public class FileDAOTest {
 				"D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.pdf");
 		
 		
-		r = new Reimbursement(1, "jboni", "pisecojacob@gmail.com","300-352-4813", LocalDateTime.of(1,  2,  3 , 4, 5), 
-				"Siena College", "HistoryClass", Reimbursement.EventType.UNIVERSITY_COURSE, "it was a class in history",
-				543.21, Reimbursement.GradeFormat.LETTER, "I missed work because i love history sooooooo much", 55.55, 123.45, 1, LocalDateTime.now());
+		r = new Reimbursement(1, "brian", "brian @gmail.com", "5555555555", LocalDateTime.of(1,  2, 3, 4, 5),
+				"Ohio", "history class", Reimbursement.EventType.UNIVERSITY_COURSE, "I really like history",
+				543.21, Reimbursement.GradeFormat.LETTER, "history is really cool and i should be paid to learn about it",
+				40.5, 434.56, LocalDateTime.now(), Reimbursement.Status.PENDING, Reimbursement.Status.PENDING, 
+				Reimbursement.Status.PENDING, null, null, null, null);
+		
+		
 	}
 
 	@After
@@ -110,16 +118,29 @@ public class FileDAOTest {
 	
 	@Test
 	public void testGetFile() {
+			
 		
-		File myFile = new File("D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.txt");
+		byte[] myBytes = new byte[1_000_000];
+		try(FileOutputStream fos = new FileOutputStream(myTxt)) {
+			fos.write(myBytes);
+		} catch (IOException e) {
+			System.out.println("issue with making a test file");
+		}
 		
-		assertEquals(myFile, fileDAO.getFile(1));
+		File uploadedFile = fileDAO.getFile(1);
+		byte[] uploadedBytes = new byte[1_000_000];
+		try(FileOutputStream fos = new FileOutputStream(uploadedFile)) {
+			fos.write(uploadedBytes);
+		} catch (IOException e) {
+			fail("io exception thrown");
+		}
+		
+		assertArrayEquals(myBytes, uploadedBytes);
+		
+		
+		
 	}
-
-	@Test
-	public void testUploadFileContents() {
-		fail("Not yet implemented");
-	}
+	
 
 	public FileDAOTest() throws SQLException {
 		super();

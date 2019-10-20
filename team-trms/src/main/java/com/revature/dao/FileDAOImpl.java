@@ -33,8 +33,8 @@ public class FileDAOImpl implements FileDAO {
 	@Override
 	public boolean uploadFile(File file, Reimbursement r) {
 		String filename = file.getName();
-		int reimbursementId = r.getReimbursement_id();		
-		byte[] data = new byte[1_000_000]; //1 megabyte per file
+		int reimbursementId = r.getReimbursement_id();
+		byte[] data = new byte[1_000_000]; // 1 megabyte per file
 		try (FileInputStream fis = new FileInputStream(file)) {
 			fis.read(data);
 		} catch (FileNotFoundException e) {
@@ -46,9 +46,9 @@ public class FileDAOImpl implements FileDAO {
 			error("IO exception in upload file");
 			return false;
 		}
-		
+
 		String sql = "insert into file_test values (?, ?, ?, ?)";
-		
+
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, 1);
@@ -56,7 +56,7 @@ public class FileDAOImpl implements FileDAO {
 			stmt.setString(3, filename);
 			stmt.setBytes(4, data);
 		} catch (SQLException e) {
-			trace("sql exception in upload file");			
+			trace("sql exception in upload file");
 			e.printStackTrace();
 			return false;
 		}
@@ -68,29 +68,29 @@ public class FileDAOImpl implements FileDAO {
 		String sql = "select * from file_table where file_id = ?";
 		String filename = "";
 		byte[] data = new byte[1_000_000];
-		
+
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, fileId);
 
 			ResultSet rs = stmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				filename = rs.getString(3);
 				data = rs.getBytes(4);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			trace("sql exception in getFile");
 			return null;
 		}
-		if(filename.equals("")) {
+		if (filename.equals("")) {
 			fatal("filename not initialized");
 			return null;
 		}
 		File file = new File(filename);
-		try(FileOutputStream fos = new FileOutputStream(file)) {
+		try (FileOutputStream fos = new FileOutputStream(file)) {
 			fos.write(data);
 		} catch (FileNotFoundException e) {
 			trace("file not found exception in get file");

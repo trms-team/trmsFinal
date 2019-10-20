@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Tuition Reimbursement Form</title>
+	<link rel='stylesheet' type='text/css' media='screen' href='reimbursement-form.css'>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
+		<a class="navbar-brand" href="employee-home.html">J&J Inc.</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<!-- Need to implement JS for the collapse toggle button to expand -->
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link " href="employee-home.html">Dashboard</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link " href="reimbursement-form.html">New Reimbursement</a>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="collapse navbar-collapse justify-content-end">
+			<ul class="navbar-nav">
+				<a class="nav-link" href="#">Logout</a>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h2>Tuition Reimbursement Form</h2>
+		<hr>
+
+		<!-- Need to think about adding identifying name -->
+
+		<form action="reimbursement-form" method="POST">
+			<div class="form-group row">
+				<label for="input-email" class="col-sm-2 col-form-label">Email</label>
+				<div class="col-sm-3">
+					<input type="email" class="form-control" id="input-email" name="input-email" placeholder="email" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-phone" class="col-sm-2 col-form-label">Phone</label>
+				<div class="col-sm-3">
+					<input type="tel" pattern="[0-9]{10}" class="form-control" id="input-phone" name="input-phone" placeholder="phone number" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-event-name" class="col-sm-2 col-form-label">Event Name</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="input-event-name" name="input-event-name" placeholder="event name" required>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="input-event-type" class="col-sm-2 col-form-label">Event Type</label>
+				<div class="col-sm-3">
+					<select class="custom-select" id="input-event-type" name="input-event-type" required>
+						<option value="UNIVERSITY_COURSE">University Course</option>
+						<option value="SEMINAR">Seminar</option>
+						<option value="CERTIFICATION_PREP_CLASS">Certification Preparation Class</option>
+						<option value="CERTIFICATION">Certification</option>
+						<option value="TECH_TRAINING">Technical Training</option>
+						<option value="OTHER">Other</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="input-event-date-time" class="col-sm-2 col-form-label">Event Time</label>
+				<div class="col-sm-3">
+					<input type="datetime-local" class="form-control" id="input-event-date-time" name="input-event-date-time" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-location" class="col-sm-2 col-form-label">Location</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="input-location" name="input-location" placeholder="location" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-description" class="col-sm-2 col-form-label">Description</label>
+				<div class="col-sm-4">
+					<textarea class="form-control" id="input-description" name="input-description" placeholder="describe the event" required></textarea>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-cost" class="col-sm-2 col-form-label">Cost</label>
+				<div class="col-sm-3">
+					<input type="number" min="0.00" step="0.01" class="form-control" id="input-cost" name="input-cost" placeholder="xx.xx" required>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-grading-format" class="col-sm-2 col-form-label">Grading Format</label>
+				<div class="col-sm-3">
+					<select class="custom-select" id="input-grading-format" name="input-grading-format" required>
+						<option value="LETTER">A - F</option>
+						<option value="PERCENT">0 - 100</option>
+						<option value="PRESENTATION">Presentation</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="input-work-rel-justification" class="col-sm-2 col-form-label">Work Related Justification</label>
+				<div class="col-sm-4">
+						<textarea class="form-control" id="input-work-rel-justification" name="input-work-rel-justification" placeholder="describe how this is work-related" required></textarea>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="input-work-hours-missed" class="col-sm-2 col-form-label">Work Hours Missed</label>
+				<div class="col-sm-4">
+						<input type="number" min="0.00" step="0.01" class="form-control" id="input-work-hours-missed" name="input-work-hours-missed" placeholder="0.00" required>
+				</div>
+			</div>
+	
+			<div class="form-group row">
+				<label for="input-files" class="col-sm-2 col-form-label">Attachments</label>
+				<div class="col-sm-3">
+					<input type="file" class="form-control-file" id="input-files" name="input-files" multiple>
+				</div>
+			</div>
+
+			<!--type of approval, work time that will be missed?-->
+
+			<div class="form-group row">
+				<label for="read-reimburse" class="col-sm-2 col-form-label">Reimburse Amount</label>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" id="read-reimburse" name="read-reimburse" value="$0.00" readonly>
+				</div>
+			</div>
+
+			<hr>
+			<input type="submit" class="btn btn-success" id="submit-btn" value="Submit Form">
+		</form>
+	</div>
+	<script src='reimbursement-form.js'></script>
+</body>
+</html>
