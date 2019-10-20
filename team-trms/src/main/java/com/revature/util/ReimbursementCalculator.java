@@ -36,10 +36,10 @@ public class ReimbursementCalculator {
 		}
 		
 		if ((1000.00 - sum) > (cost * rate)) {
-			return cost * rate;
+			return Math.floor(cost * rate*100)/100;
 		}
 		else {
-			return 1000.00 - sum;
+			return Math.floor((1000.00 - sum)*100)/100;
 		}
 	}
 }
