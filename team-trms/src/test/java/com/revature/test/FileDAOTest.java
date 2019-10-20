@@ -17,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -27,8 +28,6 @@ import com.revature.util.ConnectionFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileDAOTest {
-
-	public static FileDAO fileDAO = new FileDAOImpl();
 	
 	File myTxt;
 	File myDocx;
@@ -40,10 +39,13 @@ public class FileDAOTest {
 
 	@Spy
 	PreparedStatement stmtInsert;
+	
+	@Spy
+	FileDAO fileDAO = new FileDAOImpl();
 
 	{
 		Connection myConn = ConnectionFactory.getConnection();
-		stmtInsert = myConn.prepareStatement("insert into file_test values (?, ?, ?, ?)");
+		stmtInsert = myConn.prepareStatement("insert into file_table values (?, ?, ?, ?)");
 	}
 
 	@BeforeClass
@@ -77,19 +79,26 @@ public class FileDAOTest {
 
 	@Test
 	public void testUploadFileTxtFile() {
-		String sql = "insert into file_test values (?, ?, ?, ?)";
+		String sql = "insert into file_table values (?, ?, ?, ?)";
 		try {
+			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
 		} catch (SQLException e) {
 			fail("there was an sql exception");
 		}
 		assertEquals(true, fileDAO.uploadFile(myTxt, r));
+		try {
+			Mockito.verify(stmtInsert).executeUpdate();
+		} catch (SQLException e) {
+			fail("SQL exception");
+		}
 	}
 	
 	@Test
 	public void testUploadFileDocxFile() {
 		String sql = "insert into file_test values (?, ?, ?, ?)";
 		try {
+			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
 		} catch (SQLException e) {
 			fail("there was an sql exception");
@@ -110,10 +119,9 @@ public class FileDAOTest {
 	
 	@Test
 	public void testGetFile() {
+		File dbFile =  fileDAO.getFile(1);
+		fail();
 		
-		File myFile = new File("D:\\Revature\\project1\\trms\\team-trms\\src\\test\\resources\\testFile.txt");
-		
-		assertEquals(myFile, fileDAO.getFile(1));
 	}
 
 	@Test

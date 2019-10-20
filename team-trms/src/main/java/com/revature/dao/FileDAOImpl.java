@@ -32,32 +32,49 @@ public class FileDAOImpl implements FileDAO {
 
 	@Override
 	public boolean uploadFile(File file, Reimbursement r) {
-		String filename = file.getName();
+		
+		
+//		String filename = file.getName();
+//		int reimbursementId = r.getReimbursement_id();		
+//		byte[] data = new byte[1_000_000]; //1 megabyte per file
+//		try (FileInputStream fis = new FileInputStream(file)) {
+//			
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//			warn("File not found exception in upload file");
+//			return false;
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			error("IO exception in upload file");
+//			return false;
+//		}
+		
+		
+		
+		
+		
 		int reimbursementId = r.getReimbursement_id();		
-		byte[] data = new byte[1_000_000]; //1 megabyte per file
-		try (FileInputStream fis = new FileInputStream(file)) {
-			fis.read(data);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			warn("File not found exception in upload file");
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			error("IO exception in upload file");
-			return false;
-		}
+		String filename = file.getName();
+		String sql = "insert into file_table values (?, ?, ?, ?)";
 		
-		String sql = "insert into file_test values (?, ?, ?, ?)";
-		
-		try {
+		try(FileInputStream fis = new FileInputStream(file)) {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, 1);
 			stmt.setInt(2, reimbursementId);
 			stmt.setString(3, filename);
-			stmt.setBytes(4, data);
+			stmt.setBinaryStream(4, fis);
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			trace("sql exception in upload file");			
 			e.printStackTrace();
+			return false;
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			warn("File not found exception in upload file");
+			return false;
+		} catch (IOException e1) {
+			warn("IO exception in upload file");
+			e1.printStackTrace();
 			return false;
 		}
 		return true;
