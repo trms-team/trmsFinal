@@ -4,7 +4,6 @@ import static com.revature.util.LoggerUtil.info;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -50,9 +49,6 @@ public class LoginServlet extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
-				//RequestDispatcher rd = request.getRequestDispatcher("employee-home.html");
-				
-				//rd.forward(request, response);
 				response.sendRedirect("employee-home.html");
 			}
 			// This order is to give people with both dep head and dir sup

@@ -1,8 +1,8 @@
 package com.revature.servlet;
 
-import java.io.IOException;
-
 import static com.revature.util.LoggerUtil.warn;
+
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,7 +37,7 @@ public class ReimFormServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 	}
     
 	/**

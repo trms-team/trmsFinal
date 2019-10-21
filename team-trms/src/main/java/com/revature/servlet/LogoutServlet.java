@@ -1,13 +1,16 @@
 package com.revature.servlet;
 
+import static com.revature.util.LoggerUtil.info;
+
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.revature.pojo.User;
 import com.revature.service.UserService;
 import com.revature.service.UserServiceImpl;
 
@@ -19,13 +22,16 @@ public class LogoutServlet extends HttpServlet {
 		
 	}
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		System.out.println("Logging out");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		HttpSession session = request.getSession(false);
 		
-		request.getSession(false).removeAttribute("user");
+		info(((User) session.getAttribute("user")).getUsername() + " is logging out");
 		
-		RequestDispatcher rd = request.getRequestDispatcher("login.html");
-		rd.forward(request, response);
+		if (session != null) {
+			session.invalidate();
+		}
+		
+		response.sendRedirect("login.html");
 	}
 
 }
