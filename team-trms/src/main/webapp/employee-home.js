@@ -66,61 +66,6 @@ function showSingleRow(table, key, value) {
     row.insertCell().innerHTML = value;
 }
 
-function formatEventType(eventType) {
-    if (eventType === "UNIVERSITY_COURSE") {
-        return "University Course";
-    }
-    else if (eventType === "SEMINAR") {
-        return "Seminar";
-    }
-    else if (eventType === "CERTIFICATION_PREP_CLASS") {
-        return "Certification Preparation Class";
-    }
-    else if (eventType === "CERTIFICATION") {
-        return "Certification";
-    }
-    else if (eventType === "TECHNICAL_TRAINING") {
-        return "Technical Training";
-    }
-    else {
-        return "Other";
-    }
-}
-
-function formatTime(hour, minute) {
-    let ampm;
-    let newHour = hour;
-
-    if (hour == 0) {
-        newHour = 12;
-        ampm = "AM";
-    }
-    else if (hour > 0 && hour < 12) {
-        ampm = "AM";
-    }
-    else if (hour == 12) {
-        ampm = "PM";
-    }
-    else {
-        newHour = hour - 12;
-        ampm = "PM";
-    }
-    let newMinute = (minute < 10) ? `${minute}0` : minute;
-    return `${newHour}:${newMinute} ${ampm}`;
-}
-
-function formatGradingFormat(gradingFormat) {
-    if (gradingFormat === "LETTER") {
-        return "A - F";
-    }
-    else if (gradingFormat === "PERCENT") {
-        return "0 - 100";
-    }
-    else {
-        return "Presentation";
-    }
-}
-
 function displaySingleReimbursement(id) {
     for (c of currentReims) {
         if (c.reimbursement_id == id) {
@@ -229,6 +174,7 @@ function getRejectedReimbursements() {
                 // In case a non-employee tries to access
                 if (xhr.responseText === "") {
                 	window.location.href = "unauthorized.html";
+                	
                 }
                 else {
                 	document.getElementById("hide").style.visibility = "visible";
