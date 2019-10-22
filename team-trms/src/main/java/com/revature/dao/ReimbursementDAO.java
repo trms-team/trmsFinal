@@ -15,5 +15,7 @@ public interface ReimbursementDAO {
 	
 	public List<Reimbursement> getRejectedReimbursementsByEmployee(String username);
 	
+	public List<Reimbursement> getPendingReimbursementsBySupervisor(String username);
+	
 	public List<Reimbursement> getAllReimbursements();
 }

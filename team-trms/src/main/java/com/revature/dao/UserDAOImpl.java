@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.revature.pojo.User;
@@ -45,6 +46,29 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	@Override
+	public List<User> getAllReportsToUser(String username) {
+		String sql = "select * from user_test where reportsto = ?";
+		
+		List<User> subordinates = new LinkedList<>();
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, username);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				subordinates.add(new User(rs.getString(1), rs.getString(2), rs.getString(3),
+						rs.getString(4), parseRoles((String[]) rs.getArray(5).getArray()), rs.getString(6)));
+			}
+		} catch (SQLException e) {
+			warn(e.getMessage());
+		}
+		
+		return subordinates;
+	}
+	
 	
 	// This converts array of String roles to list of enum roles
 	private List<Role> parseRoles(String[] roles) {
