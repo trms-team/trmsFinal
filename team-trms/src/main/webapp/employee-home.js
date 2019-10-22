@@ -178,6 +178,7 @@ function getPendingReimbursements() {
                 	window.location.href = "unauthorized.html";
                 }
                 else {
+                	document.getElementById("hide").style.visibility = "visible";
                     displayReimbursements("pending", JSON.parse(xhr.responseText));
                 }
                 
@@ -204,6 +205,7 @@ function getAcceptedReimbursements() {
                 	window.location.href = "unauthorized.html";
                 }
                 else {
+                	document.getElementById("hide").style.visibility = "visible";
                     displayReimbursements("accepted", JSON.parse(xhr.responseText));
                 }
             }
@@ -229,6 +231,7 @@ function getRejectedReimbursements() {
                 	window.location.href = "unauthorized.html";
                 }
                 else {
+                	document.getElementById("hide").style.visibility = "visible";
                     displayReimbursements("rejected", JSON.parse(xhr.responseText));
                 }
             }

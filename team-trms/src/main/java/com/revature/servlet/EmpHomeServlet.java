@@ -14,7 +14,6 @@ import com.revature.pojo.User;
 import com.revature.pojo.User.Role;
 import com.revature.service.ReimbursementService;
 import com.revature.service.ReimbursementServiceImpl;
-import com.revature.service.UserServiceImpl;
 
 /**
  * Servlet implementation class HomeServlet
@@ -24,7 +23,6 @@ public class EmpHomeServlet extends HttpServlet {
        
 	private static ReimbursementService reimbursementService = new ReimbursementServiceImpl();
     
-	private static UserServiceImpl userService = new UserServiceImpl();
 	/**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,7 +34,7 @@ public class EmpHomeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = userService.getCurrentUser();
+		User user = (User) (request.getSession().getAttribute("user"));
 		
 		if (user != null && user.getRoles().contains(Role.EMPLOYEE)) {
 			ObjectMapper om = new ObjectMapper();
@@ -55,6 +53,9 @@ public class EmpHomeServlet extends HttpServlet {
 				response.getWriter().write(om.writeValueAsString(rejected));
 			}	
 		}
+	
+		
+
 	}
 
 	/**

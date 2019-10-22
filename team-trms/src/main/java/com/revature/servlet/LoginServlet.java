@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -45,6 +45,9 @@ public class LoginServlet extends HttpServlet {
 		
 		if(user != null) {
 			info("User " + user.getUsername() + " has logged in successfully.");
+			
+			request.getSession().setAttribute("user", user);
+			
 			if (user.getRoles().contains(User.Role.EMPLOYEE)) {
 				response.sendRedirect("employee-home.html");
 			}

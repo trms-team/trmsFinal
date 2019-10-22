@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
+	<nav class="navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
 		<a class="navbar-brand" href="employee-home.html">J&J Inc.</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -28,7 +28,9 @@
 		
 		<div class="collapse navbar-collapse justify-content-end">
 			<ul class="navbar-nav">
-				<a class="nav-link" href="#">Logout</a>
+				<form action="logout" method="POST">
+					<input id="logout-link" type="submit" value="Logout">
+				</form>
 			</ul>
 		</div>
 	</nav>
@@ -39,7 +41,7 @@
 
 		<!-- Need to think about adding identifying name -->
 
-		<form action="reimbursement-form" method="POST">
+		<form class="reim-form" action="reimbursement-form" method="POST">
 			<div class="form-group row">
 				<label for="input-email" class="col-sm-2 col-form-label">Email</label>
 				<div class="col-sm-3">
