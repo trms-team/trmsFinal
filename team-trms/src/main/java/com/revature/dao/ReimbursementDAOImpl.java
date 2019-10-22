@@ -21,8 +21,56 @@ import com.revature.util.ConnectionFactory;
 public class ReimbursementDAOImpl implements ReimbursementDAO {
 	private Connection conn = ConnectionFactory.getConnection();
 	
+	private UserDAO userDAO = new UserDAOImpl();
+	
 	public void setConn(Connection conn) {
 		this.conn = conn;
+	}
+	
+	private List<Reimbursement> returnListReimbursements(String sql, String username) {
+		List<Reimbursement> returnedReimbursements = new LinkedList<>();
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, username);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
+						rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
+						rs.getDouble(14), rs.getTimestamp(15).toLocalDateTime(), Status.valueOf(rs.getString(16)), Status.valueOf(rs.getString(17)),
+						Status.valueOf(rs.getString(18)), rs.getString(19), null, null, null);
+				
+				if (rs.getInt(11) == 1) {
+					r.setGradingFormat(GradeFormat.LETTER);
+				}
+				else if (rs.getInt(11) == 2) {
+					r.setGradingFormat(GradeFormat.PERCENT);
+				}
+				else if (rs.getInt(11) == 3) {
+					r.setGradingFormat(GradeFormat.PRESENTATION);
+				}
+				
+				if (rs.getTimestamp(20) != null) {
+					r.setDirectSupervisorTime(rs.getTimestamp(20).toLocalDateTime());
+				}
+				
+				if (rs.getTimestamp(21) != null) {
+					r.setDepartmentHeadTime(rs.getTimestamp(21).toLocalDateTime());
+				}
+						
+				if (rs.getTimestamp(22) != null) {
+					r.setBencoTime(rs.getTimestamp(22).toLocalDateTime());
+				}		
+				
+				returnedReimbursements.add(r);
+			}
+		} catch (SQLException e) {
+			warn(e.getMessage());
+		}
+		return returnedReimbursements;
 	}
 	
 	@Override
@@ -90,52 +138,8 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		String sql = "select * from reimbursement_test where (direct_sup_status = 'PENDING' or dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
 				+ " and (direct_sup_status != 'REJECTED' or dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED')"
 				+ " and employee_username = ? order by submission_time desc";
-
-		List<Reimbursement> pendingReimbursements = new LinkedList<>();
 		
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, username);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
-						rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
-						rs.getDouble(14), rs.getTimestamp(15).toLocalDateTime(), Status.valueOf(rs.getString(16)), Status.valueOf(rs.getString(17)),
-						Status.valueOf(rs.getString(18)), rs.getString(19), null, null, null);
-				
-				if (rs.getInt(11) == 1) {
-					r.setGradingFormat(GradeFormat.LETTER);
-				}
-				else if (rs.getInt(11) == 2) {
-					r.setGradingFormat(GradeFormat.PERCENT);
-				}
-				else if (rs.getInt(11) == 3) {
-					r.setGradingFormat(GradeFormat.PRESENTATION);
-				}
-				
-				if (rs.getTimestamp(20) != null) {
-					r.setDirectSupervisorTime(rs.getTimestamp(20).toLocalDateTime());
-				}
-				
-				if (rs.getTimestamp(21) != null) {
-					r.setDepartmentHeadTime(rs.getTimestamp(21).toLocalDateTime());
-				}
-						
-				if (rs.getTimestamp(22) != null) {
-					r.setBencoTime(rs.getTimestamp(22).toLocalDateTime());
-				}
-				
-				
-				pendingReimbursements.add(r);
-			}
-		} catch (SQLException e) {
-			warn(e.getMessage());
-		}
-		
-		return pendingReimbursements;
+		return returnListReimbursements(sql, username);
 	}
 	
 	@Override
@@ -143,50 +147,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and dep_head_status = 'ACCEPTED' and ben_co_status = 'ACCEPTED'"
 				+ " and employee_username = ? order by submission_time desc";
 
-		List<Reimbursement> acceptedReimbursements = new LinkedList<>();
-		
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, username);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
-						rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
-						rs.getDouble(14), rs.getTimestamp(15).toLocalDateTime(), Status.valueOf(rs.getString(16)), Status.valueOf(rs.getString(17)),
-						Status.valueOf(rs.getString(18)), rs.getString(19), null, null, null);
-				
-				if (rs.getInt(11) == 1) {
-					r.setGradingFormat(GradeFormat.LETTER);
-				}
-				else if (rs.getInt(11) == 2) {
-					r.setGradingFormat(GradeFormat.PERCENT);
-				}
-				else if (rs.getInt(11) == 3) {
-					r.setGradingFormat(GradeFormat.PRESENTATION);
-				}
-				
-				if (rs.getTimestamp(20) != null) {
-					r.setDirectSupervisorTime(rs.getTimestamp(20).toLocalDateTime());
-				}
-				
-				if (rs.getTimestamp(21) != null) {
-					r.setDepartmentHeadTime(rs.getTimestamp(21).toLocalDateTime());
-				}
-						
-				if (rs.getTimestamp(22) != null) {
-					r.setBencoTime(rs.getTimestamp(22).toLocalDateTime());
-				}
-				
-				acceptedReimbursements.add(r);
-			}
-		} catch (SQLException e) {
-			warn(e.getMessage());
-		}
-		
-		return acceptedReimbursements;
+		return returnListReimbursements(sql, username);
 	}
 
 	@Override
@@ -194,50 +155,13 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		String sql = "select * from reimbursement_test where (direct_sup_status = 'REJECTED' or dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED')"
 				+ " and employee_username = ? order by submission_time desc";
 
-		List<Reimbursement> rejectedReimbursements = new LinkedList<>();
-		
-		try {
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, username);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				Reimbursement r = new Reimbursement(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getTimestamp(5).toLocalDateTime(), rs.getString(6), rs.getString(7), EventType.valueOf(rs.getString(8)), rs.getString(9),
-						rs.getDouble(10), null, rs.getString(12), rs.getDouble(13),
-						rs.getDouble(14), rs.getTimestamp(15).toLocalDateTime(), Status.valueOf(rs.getString(16)), Status.valueOf(rs.getString(17)),
-						Status.valueOf(rs.getString(18)), rs.getString(19), null, null, null);
-				
-				if (rs.getInt(11) == 1) {
-					r.setGradingFormat(GradeFormat.LETTER);
-				}
-				else if (rs.getInt(11) == 2) {
-					r.setGradingFormat(GradeFormat.PERCENT);
-				}
-				else if (rs.getInt(11) == 3) {
-					r.setGradingFormat(GradeFormat.PRESENTATION);
-				}
-				
-				if (rs.getTimestamp(20) != null) {
-					r.setDirectSupervisorTime(rs.getTimestamp(20).toLocalDateTime());
-				}
-				
-				if (rs.getTimestamp(21) != null) {
-					r.setDepartmentHeadTime(rs.getTimestamp(21).toLocalDateTime());
-				}
-						
-				if (rs.getTimestamp(22) != null) {
-					r.setBencoTime(rs.getTimestamp(22).toLocalDateTime());
-				}
-				
-				rejectedReimbursements.add(r);
-			}
-		} catch (SQLException e) {
-			warn(e.getMessage());
-		}
-		
-		return rejectedReimbursements;
+		return returnListReimbursements(sql, username);
+	}
+	
+	@Override
+	public List<Reimbursement> getPendingReimbursementsBySupervisor(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override
