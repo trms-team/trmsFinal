@@ -1,8 +1,8 @@
 class Reimbursement {
-    constructor(reimbursement_id, employeeUsername, email, phone, eventTime, location, eventName, 
+    constructor(reimbursementId, employeeUsername, email, phone, eventTime, location, eventName, 
             eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
             awardedAmount, submissionTime, rejectedReason) {
-        this.reimbursement_id = reimbursement_id;
+        this.reimbursementId = reimbursementId;
         this.employeeUsername = employeeUsername;
         this.email = email; 
         this.phone = phone;
@@ -35,10 +35,10 @@ function displayReimbursements(status, reimbursements) {
 
         let cell1 = newRow.insertCell(0);
         let a = document.createElement('a');
-        let linkText = document.createTextNode(r.reimbursement_id);
+        let linkText = document.createTextNode(r.reimbursementId);
         a.appendChild(linkText);
         a.href="#";
-        a.setAttribute("id", `reim-${r.reimbursement_id}`);
+        a.setAttribute("id", `reim-${r.reimbursementId}`);
         a.setAttribute("data-toggle", "modal");
         a.setAttribute("data-target", "#info-modal");
         cell1.appendChild(a);
@@ -67,9 +67,9 @@ function showSingleRow(table, key, value) {
 
 function displaySingleReimbursement(id) {
     for (c of currentReims) {
-        if (c.reimbursement_id == id) {
+        if (c.reimbursementId == id) {
             let reimTitle = document.createElement("h5");
-            reimTitle.innerHTML = `Reimbursement ID#${c.reimbursement_id}`;
+            reimTitle.innerHTML = `Reimbursement ID#${c.reimbursementId}`;
 
             // To make sure it doesn't keep on appending more
             let modalHeader = document.getElementById("modal-header");

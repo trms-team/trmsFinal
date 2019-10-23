@@ -1,7 +1,6 @@
 package com.revature.dao;
 
-import static com.revature.util.LoggerUtil.trace;
-import static com.revature.util.LoggerUtil.warn;
+import static com.revature.util.LoggerUtil.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +16,7 @@ import com.revature.pojo.Reimbursement.EventType;
 import com.revature.pojo.Reimbursement.GradeFormat;
 import com.revature.pojo.Reimbursement.Status;
 import com.revature.pojo.User;
+import com.revature.pojo.User.Role;
 import com.revature.util.ConnectionFactory;
 
 public class ReimbursementDAOImpl implements ReimbursementDAO {
@@ -236,6 +236,102 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		}
 		
 		return reimbursements;
+	}
+
+	@Override
+	public void updateReimbursementToAccepted(Reimbursement reimbursement, List<Role> roles) {
+		String sql = "";
+		
+		if (roles.contains(Role.DIRECT_SUPERVISOR) && roles.contains(Role.DEPARTMENT_HEAD)) {
+			sql = "update reimbursement_test set direct_sup_status = ?, dep_head_status = ?,"
+					+ " direct_sup_time = ?, direct_head_time = ? where reimbursement_id = ?";
+		
+			try {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setString(1, Status.ACCEPTED.name());
+				stmt.setString(2, Status.ACCEPTED.name());
+				Timestamp now = timeConvert(LocalDateTime.now());
+				stmt.setTimestamp(3, now);
+				stmt.setTimestamp(4,  now);
+				stmt.setInt(5, reimbursement.getReimbursementId());
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				error(e.getMessage());
+			}
+			return;
+		}
+		else if (roles.contains(Role.DIRECT_SUPERVISOR)) {
+			sql = "update reimbursement_test set direct_sup_status = ?,"
+					+ " direct_sup_time = ? where reimbursement_id = ?";
+		}
+		else if (roles.contains(Role.DEPARTMENT_HEAD)) {
+			sql = "update reimbursement_test set dep_head_status = ?,"
+					+ " dep_head_time = ? where reimbursement_id = ?";
+		}
+		else if (roles.contains(Role.BENCO)) {
+			sql = "update reimbursement_test set ben_co_status = ?,"
+					+ " ben_co_time = ? where reimbursement_id = ?";
+		}
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, Status.ACCEPTED.name());
+			stmt.setTimestamp(2, timeConvert(LocalDateTime.now()));
+			stmt.setInt(3, reimbursement.getReimbursementId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			error(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public void updateReimbursementToRejected(Reimbursement reimbursement, List<Role> roles, String reasonRejected) {
+		String sql = "";
+		
+		if (roles.contains(Role.DIRECT_SUPERVISOR) && roles.contains(Role.DEPARTMENT_HEAD)) {
+			sql = "update reimbursement_test set direct_sup_status = ?, dep_head_status = ?,"
+					+ " rejected_reason = ?, direct_sup_time = ?, direct_head_time = ?"
+					+ " where reimbursement_id = ?";
+		
+			try {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setString(1, Status.REJECTED.name());
+				stmt.setString(2, Status.REJECTED.name());
+				stmt.setString(3, reasonRejected);
+				Timestamp now = timeConvert(LocalDateTime.now());
+				stmt.setTimestamp(4, now);
+				stmt.setTimestamp(5,  now);
+				stmt.setInt(6, reimbursement.getReimbursementId());
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				error(e.getMessage());
+			}
+			return;
+		}
+		else if (roles.contains(Role.DIRECT_SUPERVISOR)) {
+			sql = "update reimbursement_test set direct_sup_status = ?, rejected_reason = ?,"
+					+ " direct_sup_time = ? where reimbursement_id = ?";
+		}
+		else if (roles.contains(Role.DEPARTMENT_HEAD)) {
+			sql = "update reimbursement_test set dep_head_status = ?, rejected_reason = ?,"
+					+ " dep_head_time = ? where reimbursement_id = ?";
+		}
+		else if (roles.contains(Role.BENCO)) {
+			sql = "update reimbursement_test set ben_co_status = ?, rejected_reason = ?,"
+					+ " ben_co_time = ? where reimbursement_id = ?";
+		}
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, Status.REJECTED.name());
+			stmt.setString(1, reasonRejected);
+			stmt.setTimestamp(3, timeConvert(LocalDateTime.now()));
+			stmt.setInt(4, reimbursement.getReimbursementId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			error(e.getMessage());
+		}
 	}
 
 }

@@ -3,6 +3,7 @@ package com.revature.service;
 import java.util.List;
 
 import com.revature.pojo.Reimbursement;
+import com.revature.pojo.User.Role;
 
 public interface ReimbursementService {
 	public void addReimbursement(Reimbursement reimbursement);
@@ -20,6 +21,10 @@ public interface ReimbursementService {
 	public List<Reimbursement> showSupervisorRejected(String username);
 	
 	public void submitReimbursement(Reimbursement newReimbursement);
+	
+	public void acceptReimbursement(Reimbursement reimbursement, List<Role> accepterRoles);
+	
+	public void rejectReimbursement(Reimbursement reimbursement, List<Role> rejecterRoles, String reasonRejected);
 	
 	public List<Double> getPendingAndAwardedAmounts(String username);
 }

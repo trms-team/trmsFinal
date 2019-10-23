@@ -54,8 +54,6 @@ public class DirSupHomeServlet extends HttpServlet {
 				response.getWriter().write(om.writeValueAsString(rejected));
 			}	
 		}
-	
-		
 
 	}
 

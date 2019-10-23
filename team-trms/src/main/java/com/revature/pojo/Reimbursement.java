@@ -125,12 +125,12 @@ public class Reimbursement {
 		this.bencoTime = bencoTime;
 	}
 
-	public int getReimbursement_id() {
+	public int getReimbursementId() {
 		return reimbursementId;
 	}
 
-	public void setReimbursement_id(int reimbursement_id) {
-		this.reimbursementId = reimbursement_id;
+	public void setReimbursementId(int reimbursementId) {
+		this.reimbursementId = reimbursementId;
 	}
 
 	public String getEmployeeUsername() {

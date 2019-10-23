@@ -84,7 +84,7 @@ public class FileDAOTest {
 		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
 		try {
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
-			when(r.getReimbursement_id()).thenReturn(1);
+			when(r.getReimbursementId()).thenReturn(1);
 			assertEquals(true, fileDAO.uploadFile(myTxt, r));
 			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {
@@ -98,7 +98,7 @@ public class FileDAOTest {
 		try {
 			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
-			when(r.getReimbursement_id()).thenReturn(1);
+			when(r.getReimbursementId()).thenReturn(1);
 			assertEquals(true, fileDAO.uploadFile(myDocx, r));
 			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {
@@ -112,7 +112,7 @@ public class FileDAOTest {
 		try {
 			fileDAO.setConn(conn);
 			when(conn.prepareStatement(sql)).thenReturn(stmtInsert);
-			when(r.getReimbursement_id()).thenReturn(1);
+			when(r.getReimbursementId()).thenReturn(1);
 			assertEquals(true, fileDAO.uploadFile(myPDF, r));
 			Mockito.verify(stmtInsert).executeUpdate();
 		} catch (SQLException e) {

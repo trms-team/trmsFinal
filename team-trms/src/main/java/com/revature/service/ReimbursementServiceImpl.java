@@ -8,6 +8,7 @@ import java.util.List;
 import com.revature.dao.ReimbursementDAO;
 import com.revature.dao.ReimbursementDAOImpl;
 import com.revature.pojo.Reimbursement;
+import com.revature.pojo.User.Role;
 
 public class ReimbursementServiceImpl implements ReimbursementService {
 	private static ReimbursementDAO reimbursementDAO = new ReimbursementDAOImpl();
@@ -56,10 +57,22 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	
 	@Override
 	public void submitReimbursement(Reimbursement newReimbursement) {
-		info("submitting reimbursement id#" + newReimbursement.getReimbursement_id());
+		info("submitting reimbursement id#" + newReimbursement.getReimbursementId());
 		reimbursementDAO.createReimbursement(newReimbursement);
 	}
+	
+	@Override
+	public void acceptReimbursement(Reimbursement reimbursement, List<Role> accepterRoles) {
+		info("Accepting reimbursement id#" + reimbursement.getReimbursementId());
+		reimbursementDAO.updateReimbursementToAccepted(reimbursement, accepterRoles);
+	}
 
+	@Override
+	public void rejectReimbursement(Reimbursement reimbursement, List<Role> rejecterRoles, String reasonRejected) {
+		info("Rejecting reimbursement id#" + reimbursement.getReimbursementId());
+		reimbursementDAO.updateReimbursementToRejected(reimbursement, rejecterRoles, reasonRejected);
+	}
+	
 	@Override
 	public List<Double> getPendingAndAwardedAmounts(String username) {
 		List<Reimbursement> reimbursements = showEmployeePending(username);
@@ -73,5 +86,5 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 		
 		return amounts;
 	}
-	
+
 }
