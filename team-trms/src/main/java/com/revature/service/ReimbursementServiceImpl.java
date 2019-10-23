@@ -41,7 +41,7 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 		info("submitting reimbursement id#" + newReimbursement.getReimbursement_id());
 		reimbursementDAO.createReimbursement(newReimbursement);
 	}
-	
+
 	@Override
 	public List<Double> getPendingAndAwardedAmounts(String username) {
 		List<Reimbursement> reimbursements = showEmployeePending(username);

@@ -1,7 +1,7 @@
 class Reimbursement {
     constructor(reimbursement_id, employeeUsername, email, phone, eventTime, location, eventName, 
             eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
-            awardedAmount, statusId, submissionTime, rejectedReason) {
+            awardedAmount, status_id, submissionTime, rejectedReason) {
         this.reimbursement_id = reimbursement_id;
         this.employeeUsername = employeeUsername;
         this.email = email; 
@@ -12,11 +12,11 @@ class Reimbursement {
         this.eventType = eventType;
         this.description = description;
         this.cost = cost;
+        this.status_id = status_id;
         this.gradingFormat = gradingFormat;
         this.workRelatedJustification = workRelatedJustification;
         this.workHoursMissed = workHoursMissed;
         this.awardedAmount = awardedAmount;
-        this.statusId = statusId;
         this.submissionTime = submissionTime;
         this.rejectedReason = rejectedReason;
     }
@@ -123,6 +123,7 @@ function getPendingReimbursements() {
                 	window.location.href = "unauthorized.html";
                 }
                 else {
+                	console.log(JSON.parse(xhr.responseText));
                 	document.getElementById("hide").style.visibility = "visible";
                     displayReimbursements("pending", JSON.parse(xhr.responseText));
                 }
@@ -139,6 +140,62 @@ function getPendingReimbursements() {
     xhr.open("GET", "employee-home/pending", true);
     xhr.send();
 }
+
+function formatEventType(eventType) {	
+    if (eventType === "UNIVERSITY_COURSE") {	
+        return "University Course";	
+    }	
+    else if (eventType === "SEMINAR") {	
+        return "Seminar";	
+    }	
+    else if (eventType === "CERTIFICATION_PREP_CLASS") {	
+        return "Certification Preparation Class";	
+    }	
+    else if (eventType === "CERTIFICATION") {	
+        return "Certification";	
+    }	
+    else if (eventType === "TECHNICAL_TRAINING") {	
+        return "Technical Training";	
+    }	
+    else {	
+        return "Other";	
+    }	
+}	
+
+function formatTime(hour, minute) {	
+    let ampm;	
+    let newHour = hour;	
+
+    if (hour == 0) {	
+        newHour = 12;	
+        ampm = "AM";	
+    }	
+    else if (hour > 0 && hour < 12) {	
+        ampm = "AM";	
+    }	
+    else if (hour == 12) {	
+        ampm = "PM";	
+    }	
+    else {	
+        newHour = hour - 12;	
+        ampm = "PM";	
+    }	
+    let newMinute = (minute < 10) ? `${minute}0` : minute;	
+    return `${newHour}:${newMinute} ${ampm}`;	
+}	
+
+function formatGradingFormat(gradingFormat) {	
+    if (gradingFormat === "LETTER") {	
+        return "A - F";	
+    }	
+    else if (gradingFormat === "PERCENT") {	
+        return "0 - 100";	
+    }	
+    else {	
+        return "Presentation";	
+    }	
+}
+
 
 function getAcceptedReimbursements() {
     let xhr = new XMLHttpRequest();
@@ -192,7 +249,6 @@ function getRejectedReimbursements() {
     xhr.open("GET", "employee-home/rejected", true);
     xhr.send();
 }
-
 
 document.addEventListener("click", function(e) {
     if (e.target && e.target.id.includes("reim")) {

@@ -16,6 +16,7 @@ import com.revature.pojo.Reimbursement;
 import com.revature.pojo.Reimbursement.EventType;
 import com.revature.pojo.Reimbursement.GradeFormat;
 import com.revature.pojo.Reimbursement.Status;
+import com.revature.pojo.User;
 import com.revature.util.ConnectionFactory;
 
 public class ReimbursementDAOImpl implements ReimbursementDAO {
@@ -160,8 +161,43 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	
 	@Override
 	public List<Reimbursement> getPendingReimbursementsBySupervisor(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> subordinates = userDAO.getAllReportsToUser(username);
+		List<Reimbursement> pendingReimbursements = new LinkedList<>();
+		String sql = "select * from reimbursement_test where direct_sup_status = 'PENDING'"
+				+ " and employee_username = ? order by submission_time desc";
+		for(User u : subordinates) {
+			String employeeUsername = u.getUsername();
+			pendingReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		return pendingReimbursements;
+	}
+	
+	@Override
+	public List<Reimbursement> getAcceptedReimbursementsBySupervisor(String username) {
+		List<User> subordinates = userDAO.getAllReportsToUser(username);
+		List<Reimbursement> acceptedReimbursements = new LinkedList<>();
+		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and"
+				+ " dep_head_status != 'REJECTED' and ben_co_status != 'REJECTED'" 
+				+ " and employee_username = ? order by direct_sup_time desc";
+		for(User u : subordinates) {
+			String employeeUsername = u.getUsername();
+			acceptedReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		return acceptedReimbursements;
+	}
+	
+	@Override
+	public List<Reimbursement> getRejectedReimbursementsBySupervisor(String username) {
+		List<User> subordinates = userDAO.getAllReportsToUser(username);
+		List<Reimbursement> rejectedReimbursements = new LinkedList<>();
+		String sql = "select * from reimbursement_test where direct_sup_status = 'REJECTED' or"
+				+ " dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED'"
+				+ " and employee_username = ? order by direct_sup_time desc";
+		for(User u : subordinates) {
+			String employeeUsername = u.getUsername();
+			rejectedReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		return rejectedReimbursements;
 	}
 	
 	@Override
