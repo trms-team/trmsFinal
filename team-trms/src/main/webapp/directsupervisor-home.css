@@ -13,3 +13,12 @@ h2 {
 .tab-content {
     padding-top: 30px;
 }
+
+#hide{
+	visibility: hidden;
+}
+
+.btn {
+	margin-left: 5px;
+	margin-right: 5px;
+}

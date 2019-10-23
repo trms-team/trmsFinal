@@ -1,7 +1,7 @@
 class Reimbursement {
     constructor(reimbursement_id, employeeUsername, email, phone, eventTime, location, eventName, 
             eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
-            awardedAmount, status_id, submissionTime, rejectedReason) {
+            awardedAmount, submissionTime, rejectedReason) {
         this.reimbursement_id = reimbursement_id;
         this.employeeUsername = employeeUsername;
         this.email = email; 
@@ -12,7 +12,6 @@ class Reimbursement {
         this.eventType = eventType;
         this.description = description;
         this.cost = cost;
-        this.status_id = status_id;
         this.gradingFormat = gradingFormat;
         this.workRelatedJustification = workRelatedJustification;
         this.workHoursMissed = workHoursMissed;

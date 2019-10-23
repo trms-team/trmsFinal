@@ -13,6 +13,12 @@ public interface ReimbursementService {
 	
 	public List<Reimbursement> showEmployeeRejected(String username);
 	
+	public List<Reimbursement> showSupervisorPending(String username);
+	
+	public List<Reimbursement> showSupervisorAccepted(String username);
+	
+	public List<Reimbursement> showSupervisorRejected(String username);
+	
 	public void submitReimbursement(Reimbursement newReimbursement);
 	
 	public List<Double> getPendingAndAwardedAmounts(String username);
