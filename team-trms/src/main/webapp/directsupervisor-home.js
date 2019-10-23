@@ -69,8 +69,8 @@ function displayReimbursements(status, reimbursements) {
                 + r.submissionTime[2] + "/" + r.submissionTime[0]));
         	
         	let cell7 = newRow.insertCell(6);
-            cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success' name='accept-btn'>Accept</button>`
-            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger' name='accept-btn'>Reject</button>`;
+            cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success btn-block' name='accept-btn'>Accept</button>`
+            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger btn-block' name='accept-btn'>Reject</button>`;
         }
         else if (status === 'inprogress') {
         	let cell6 = newRow.insertCell(5);
@@ -356,7 +356,8 @@ function acceptReimbursement(id) {
             xhr.onreadystatechange = function() {
             	if (xhr.readyState === 4) {
             		if (xhr.status === 200) {
-            			console.log("Seems like it works....");
+            			console.log(`Reimbursement id#${id} successfully accepted`);
+            			getPendingReimbursements();
             		}
             		else {
             			console.log("failed to accept reimbursement");

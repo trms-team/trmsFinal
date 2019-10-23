@@ -81,8 +81,8 @@ public class DirSupHomeServlet extends HttpServlet {
 			System.out.println(reimbursement.toString());
 			
 			if (name.substring(1).equals("accept")) {
-				//reimbursementService.acceptReimbursement(reimbursement, user.getRoles());
-				System.out.println("accepting " + reimbursement.getReimbursementId());
+				reimbursementService.acceptReimbursement(reimbursement, user.getRoles());
+				//System.out.println("accepting " + reimbursement.getReimbursementId());
 			}
 			else if (name.substring(1).equals("reject")) {
 				reimbursementService.rejectReimbursement(reimbursement, user.getRoles(), reimbursement.getRejectedReason());
