@@ -32,7 +32,7 @@ public class FileDAOImpl implements FileDAO {
 
 	@Override
 	public boolean uploadFile(File file, Reimbursement r) {
-		int reimbursementId = r.getReimbursement_id();
+		int reimbursementId = r.getReimbursementId();
 		String filename = file.getPath();
 		String sql = "insert into file_table (reimbursement_id, filename, file) values (?, ?, ?)";
 		
