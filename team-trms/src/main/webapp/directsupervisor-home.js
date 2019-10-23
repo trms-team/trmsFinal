@@ -129,6 +129,30 @@ function displaySingleReimbursement(id) {
             if (c.rejectedReason !== null) {
                 showSingleRow(modalTable, "Reason Rejected", c.rejectedReason);
             }
+            
+            if (c.directSupervisorStatus === 'ACCEPTED' && (c.departmentHeadStatus === 'PENDING' 
+	        		|| c.bencoStatus === 'PENDING')) {
+	        	showSingleRow(modalTable, "Date Accepted By You",
+	            `${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);  	
+	        }
+	        else if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' 
+	        		&& c.bencoStatus === 'ACCEPTED') {
+	        	showSingleRow(modalTable, "Date Approved By BenCo",
+	            	`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
+	        }
+	        else if (c.directSupervisorStatus === 'REJECTED') {
+	        	showSingleRow(modalTable, "Date Rejected By You",
+	    			`${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);
+	        }
+	        else if (c.departmentHeadStatus === 'REJECTED') {
+	        	showSingleRow(modalTable, "Date Rejected By Department Head",
+	    			`${r.departmentHeadTime[1]}/${r.departmentHeadTime[2]}/${r.departmentHeadTime[0]}`);  	
+	        }
+	        else if (c.bencoStatus === 'REJECTED') {
+	        	showSingleRow(modalTable, "Date Rejected By BenCo",
+	        		`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
+	        }
+            
             showSingleRow(modalTable, "Employee Username", c.employeeUsername);
             
             let row = modalTable.insertRow();
@@ -150,33 +174,9 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Work Related Justification", c.workRelatedJustification);
             showSingleRow(modalTable, "Work Hours Missed", c.workHoursMissed.toFixed(2));
             showSingleRow(modalTable, "Awarded Amount", `$${c.awardedAmount.toFixed(2)}`);
-            
-            if (c.directSupervisorStatus === 'PENDING') {
-            	showSingleRow(modalTable, "Date Submitted",
-                	`${r.submissionTime[1]}/${r.submissionTime[2]}/${r.submissionTime[0]}`);
-            }
-            else if (c.directSupervisorStatus === 'ACCEPTED' && (c.departmentHeadStatus === 'PENDING' 
-            		|| c.bencoStatus === 'PENDING')) {
-            	showSingleRow(modalTable, "Date Accepted",
-                `${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);  	
-            }
-            else if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' 
-            		&& c.bencoStatus === 'ACCEPTED') {
-            	showSingleRow(modalTable, "Date Approved",
-                	`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
-            }
-            else if (c.directSupervisorStatus === 'REJECTED') {
-            	showSingleRow(modalTable, "Date Rejected",
-        			`${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);
-            }
-            else if (c.departmentHeadStatus === 'REJECTED') {
-            	showSingleRow(modalTable, "Date Rejected",
-        			`${r.departmentHeadTime[1]}/${r.departmentHeadTime[2]}/${r.departmentHeadTime[0]}`);  	
-            }
-            else if (c.bencoStatus === 'REJECTED') {
-            	showSingleRow(modalTable, "Date Rejected",
-            		`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
-            }
+
+        	showSingleRow(modalTable, "Date Submitted",
+            	`${r.submissionTime[1]}/${r.submissionTime[2]}/${r.submissionTime[0]}`);
             
             break;
         }
