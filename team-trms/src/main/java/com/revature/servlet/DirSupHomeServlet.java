@@ -78,19 +78,12 @@ public class DirSupHomeServlet extends HttpServlet {
 			
 			Reimbursement reimbursement = om.readValue(body, Reimbursement.class);
 			
-			System.out.println(reimbursement.toString());
-			
 			if (name.substring(1).equals("accept")) {
 				reimbursementService.acceptReimbursement(reimbursement, user.getRoles());
-				//System.out.println("accepting " + reimbursement.getReimbursementId());
 			}
 			else if (name.substring(1).equals("reject")) {
 				reimbursementService.rejectReimbursement(reimbursement, user.getRoles(), reimbursement.getRejectedReason());
 			}
-			
-			// Maybe check id of reimbursement to see if it exists
-
-			//response.getWriter().write("Success");
 			
 		}
 	}

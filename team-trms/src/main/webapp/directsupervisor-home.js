@@ -69,8 +69,8 @@ function displayReimbursements(status, reimbursements) {
                 + r.submissionTime[2] + "/" + r.submissionTime[0]));
         	
         	let cell7 = newRow.insertCell(6);
-            cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success btn-block' name='accept-btn'>Accept</button>`
-            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger btn-block' name='accept-btn'>Reject</button>`;
+            cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success btn-sm btn-block' name='accept-btn'>Accept</button>`
+            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger btn-sm btn-block' name='accept-btn'>Reject</button>`;
         }
         else if (status === 'inprogress') {
         	let cell6 = newRow.insertCell(5);
@@ -344,23 +344,23 @@ function getRejectedReimbursements() {
     xhr.send();
 }
 
-function acceptReimbursement(id) {
+function acceptOrRejectReimbursement(id, action, reason) {
 	for (c of currentReims) {
         if (c.reimbursementId == id) {
         	let reimbursement = new Reimbursement(c.reimbursementId, c.employeeUsername, c.email, c.phone, c.eventTime, c.location, c.eventName, 
         			c.eventType, c.description, c.cost, c.gradingFormat, c.workRelatedJustification, c.workHoursMissed,
         			c.awardedAmount, c.submissionTime, c.directSupervisorStatus, c.departmentHeadStatus, c.bencoStatus,
-        			c.rejectedReason, c.directSupervisorTime, c.departmentHeadTime, c.bencoTime);
-        		
+        			reason, c.directSupervisorTime, c.departmentHeadTime, c.bencoTime);
+        	
         	let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function() {
             	if (xhr.readyState === 4) {
             		if (xhr.status === 200) {
-            			console.log(`Reimbursement id#${id} successfully accepted`);
+            			console.log(`Reimbursement id#${id} successfully ${action}ed`);
             			getPendingReimbursements();
             		}
             		else {
-            			console.log("failed to accept reimbursement");
+            			console.log(`failed to ${action} reimbursement`);
             		}
             	}
             	else {
@@ -368,7 +368,7 @@ function acceptReimbursement(id) {
             	}
             }
             
-            xhr.open("POST", "directsupervisor-home/accept", true);
+            xhr.open("POST", `directsupervisor-home/${action}`, true);
         	xhr.send(JSON.stringify(reimbursement));
             
         	break;
@@ -382,10 +382,17 @@ document.addEventListener("click", function(e) {
     }
     if (e.target && e.target.id.includes("accept-button")) {
     	console.log(e.target.id.substring(14));
-    	acceptReimbursement(e.target.id.substring(14));
+    	acceptOrRejectReimbursement(e.target.id.substring(14), "accept", null);
     }
     else if (e.target && e.target.id.includes("reject-button")) {
-    	rejectReimbursement(e.target.id.substring(14));
+    	e.preventDefault();
+    	let reason = prompt("Please explain why you're rejecting");
+    	if (reason == null || reason == "") {
+    		console.log("Cancelled rejection");
+    	}
+    	else {
+    		acceptOrRejectReimbursement(e.target.id.substring(14), "reject", reason);
+    	}
     }
 });
 

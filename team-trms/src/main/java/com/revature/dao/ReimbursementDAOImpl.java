@@ -340,7 +340,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, Status.REJECTED.name());
-			stmt.setString(1, reasonRejected);
+			stmt.setString(2, reasonRejected);
 			stmt.setTimestamp(3, timeConvert(LocalDateTime.now()));
 			stmt.setInt(4, reimbursement.getReimbursementId());
 			stmt.executeUpdate();
