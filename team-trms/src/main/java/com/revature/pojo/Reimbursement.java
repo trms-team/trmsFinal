@@ -2,18 +2,44 @@ package com.revature.pojo;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 public class Reimbursement {
 	public enum EventType {
-		UNIVERSITY_COURSE, SEMINAR, CERTIFICATION_PREP_CLASS, CERTIFICATION,
-		TECHNICAL_TRAINING, OTHER;
+		@JsonProperty("UNIVERSITY_COURSE")
+		UNIVERSITY_COURSE,
+		@JsonProperty("SEMINAR")
+		SEMINAR,
+		@JsonProperty("CERTIFICATION_PREP_CLASS")
+		CERTIFICATION_PREP_CLASS,
+		@JsonProperty("CERTIFICATION")
+		CERTIFICATION,
+		@JsonProperty("TECHNICAL_TRAINING")
+		TECHNICAL_TRAINING, 
+		@JsonProperty("OTHER")
+		OTHER;
 	}
 	
 	public enum GradeFormat {
-		LETTER, PERCENT, PRESENTATION;
+		@JsonProperty("LETTER")
+		LETTER, 
+		@JsonProperty("PERCENT")
+		PERCENT, 
+		@JsonProperty("PRESENTATION")
+		PRESENTATION;
 	}
 	
 	public enum Status {
-		PENDING, REJECTED, ACCEPTED;
+		@JsonProperty("PENDING")
+		PENDING,
+		@JsonProperty("REJECTED")
+		REJECTED,
+		@JsonProperty("ACCEPTED")
+		ACCEPTED;
 	}
 	
 	private int reimbursementId;
@@ -24,6 +50,8 @@ public class Reimbursement {
 	
 	private String phone;
 	
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime eventTime;
 	
 	private String location;
@@ -44,6 +72,8 @@ public class Reimbursement {
 	
 	private double awardedAmount;
 	
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime submissionTime;
 	
 	private Status directSupervisorStatus;
@@ -54,10 +84,16 @@ public class Reimbursement {
 	
 	private String rejectedReason;
 	
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime directSupervisorTime;
 	
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime departmentHeadTime;
 	
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime bencoTime;
 	
 	public Reimbursement() {

@@ -13,16 +13,12 @@ import com.revature.pojo.Reimbursement;
 import com.revature.pojo.User;
 import com.revature.pojo.User.Role;
 import com.revature.service.ReimbursementServiceImpl;
-import com.revature.service.UserService;
-import com.revature.service.UserServiceImpl;
 import com.revature.util.ReimbursementValidator;
 
 public class ReimFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private static ReimbursementServiceImpl reimbursementService = new ReimbursementServiceImpl();
-	
-	private static UserService userService = new UserServiceImpl();
 	
 	private static ReimbursementValidator reimbursementValidator = new ReimbursementValidator();
 	

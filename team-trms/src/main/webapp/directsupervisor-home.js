@@ -1,9 +1,8 @@
 class Reimbursement {
     constructor(reimbursementId, employeeUsername, email, phone, eventTime, location, eventName, 
             eventType, description, cost, gradingFormat, workRelatedJustification, workHoursMissed,
-            awardedAmount, directSupervisorStatus, departmentHeadStatus, bencoStatus,
-            submissionTime, directSupervisorTime, departmentHeadTime, bencoTime,
-            rejectedReason) {
+            awardedAmount, submissionTime, directSupervisorStatus, departmentHeadStatus, bencoStatus,
+            rejectedReason, directSupervisorTime, departmentHeadTime, bencoTime) {
         this.reimbursementId = reimbursementId;
         this.employeeUsername = employeeUsername;
         this.email = email; 
@@ -18,14 +17,14 @@ class Reimbursement {
         this.workRelatedJustification = workRelatedJustification;
         this.workHoursMissed = workHoursMissed;
         this.awardedAmount = awardedAmount;
+        this.submissionTime = submissionTime;
         this.directSupervisorStatus = directSupervisorStatus;
         this.departmentHeadStatus = departmentHeadStatus;
         this.bencoStatus = bencoStatus;
-        this.submissionTime = submissionTime;
+        this.rejectedReason = rejectedReason;
         this.directSupervisorTime = directSupervisorTime;
         this.departmentHeadTime = departmentHeadTime;
         this.bencoTime = bencoTime;
-        this.rejectedReason = rejectedReason;
     }
 }
 
@@ -66,36 +65,37 @@ function displayReimbursements(status, reimbursements) {
         
         if (status === 'pending') {
         	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.submissionTime.monthValue + "/" 
-                + r.submissionTime.dayOfMonth + "/" + r.submissionTime.year));
+            cell6.appendChild(document.createTextNode(r.submissionTime[1] + "/" 
+                + r.submissionTime[2] + "/" + r.submissionTime[0]));
         	
         	let cell7 = newRow.insertCell(6);
-            cell7.innerHTML = `<button class='btn btn-success' name='accept-btn'>Accept</button><button class='btn btn-danger' name='accept-btn'>Reject</button>`;
+            cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success' name='accept-btn'>Accept</button>`
+            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger' name='accept-btn'>Reject</button>`;
         }
         else if (status === 'inprogress') {
         	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.directSupervisorTime.monthValue + "/" 
-                + r.directSupervisorTime.dayOfMonth + "/" + r.directSupervisorTime.year));
+            cell6.appendChild(document.createTextNode(r.directSupervisorTime[1] + "/" 
+                + r.directSupervisorTime[2] + "/" + r.directSupervisorTime[0]));
         }
         else if (status === 'accepted') {
         	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.bencoTime.monthValue + "/" 
-                + r.bencoTime.dayOfMonth + "/" + r.bencoTime.year));
+            cell6.appendChild(document.createTextNode(r.bencoTime[1] + "/" 
+                + r.bencoTime[2] + "/" + r.bencoTime[0]));
         }
         else if (r.directSupervisorStatus === 'REJECTED') {
         	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.directSupervisorTime.monthValue + "/" 
-                + r.directSupervisorTime.dayOfMonth + "/" + r.directSupervisorTime.year));
+            cell6.appendChild(document.createTextNode(r.directSupervisorTime[1] + "/" 
+                + r.directSupervisorTime[2] + "/" + r.directSupervisorTime[0]));
         }
         else if (r.departmentHeadStatus === 'REJECTED') {
         	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.departmentHeadTime.monthValue + "/" 
-                + r.departmentHeadTime.dayOfMonth + "/" + r.departmentHeadTime.year));
+            cell6.appendChild(document.createTextNode(r.departmentHeadTime[1] + "/" 
+                + r.departmentHeadTime[2] + "/" + r.departmentHeadTime[0]));
         }
         else if (r.bencoStatus === 'REJECTED') {
         	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.bencoTime.monthValue + "/" 
-                + r.bencoTime.dayOfMonth + "/" + r.bencoTime.year));
+            cell6.appendChild(document.createTextNode(r.bencoTime[1] + "/" 
+                + r.bencoTime[2] + "/" + r.bencoTime[0]));
         }
     }
 }
@@ -139,9 +139,9 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Event Name", c.eventName);
             let fixedEventType = formatEventType(c.eventType);
             showSingleRow(modalTable, "Event Type", fixedEventType);
-            let fixedTime = formatTime(r.eventTime.hour, r.eventTime.minute);
+            let fixedTime = formatTime(r.eventTime[3], r.eventTime[4]);
             showSingleRow(modalTable, "Event Time", 
-                `${r.eventTime.monthValue}/${r.eventTime.dayOfMonth}/${r.eventTime.year} - ${fixedTime}`);
+                `${r.eventTime[1]}/${r.eventTime[2]}/${r.eventTime[0]} - ${fixedTime}`);
             showSingleRow(modalTable, "Location", c.location);
             showSingleRow(modalTable, "Description", c.description);
             showSingleRow(modalTable, "Cost", `$${c.cost.toFixed(2)}`);
@@ -153,30 +153,29 @@ function displaySingleReimbursement(id) {
             
             if (c.directSupervisorStatus === 'PENDING') {
             	showSingleRow(modalTable, "Date Submitted",
-                	`${r.submissionTime.monthValue}/${r.submissionTime.dayOfMonth}/${r.submissionTime.year}`);
+                	`${r.submissionTime[1]}/${r.submissionTime[2]}/${r.submissionTime[0]}`);
             }
             else if (c.directSupervisorStatus === 'ACCEPTED' && (c.departmentHeadStatus === 'PENDING' 
             		|| c.bencoStatus === 'PENDING')) {
             	showSingleRow(modalTable, "Date Accepted",
-                `${r.directSupervisorTime.monthValue}/${r.directSupervisorTime.dayOfMonth}/${r.directSupervisorTime.year}`);  	
+                `${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);  	
             }
             else if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' 
             		&& c.bencoStatus === 'ACCEPTED') {
             	showSingleRow(modalTable, "Date Approved",
-                	`${r.bencoTime.monthValue}/${r.bencoTime.dayOfMonth}/${r.bencoTime.year}`);  	
+                	`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
             }
             else if (c.directSupervisorStatus === 'REJECTED') {
             	showSingleRow(modalTable, "Date Rejected",
-        			`${r.directSupervisorTime.monthValue}/${r.directSupervisorTime.dayOfMonth}/${r.directSupervisorTime.year}`);  	
-            	
+        			`${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);
             }
             else if (c.departmentHeadStatus === 'REJECTED') {
             	showSingleRow(modalTable, "Date Rejected",
-        			`${r.departmentHeadTime.monthValue}/${r.departmentHeadTime.dayOfMonth}/${r.departmentHeadTime.year}`);  	
+        			`${r.departmentHeadTime[1]}/${r.departmentHeadTime[2]}/${r.departmentHeadTime[0]}`);  	
             }
             else if (c.bencoStatus === 'REJECTED') {
             	showSingleRow(modalTable, "Date Rejected",
-            		`${r.bencoTime.monthValue}/${r.bencoTime.dayOfMonth}/${r.bencoTime.year}`);  	
+            		`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
             }
             
             break;
@@ -345,9 +344,47 @@ function getRejectedReimbursements() {
     xhr.send();
 }
 
+function acceptReimbursement(id) {
+	for (c of currentReims) {
+        if (c.reimbursementId == id) {
+        	let reimbursement = new Reimbursement(c.reimbursementId, c.employeeUsername, c.email, c.phone, c.eventTime, c.location, c.eventName, 
+        			c.eventType, c.description, c.cost, c.gradingFormat, c.workRelatedJustification, c.workHoursMissed,
+        			c.awardedAmount, c.submissionTime, c.directSupervisorStatus, c.departmentHeadStatus, c.bencoStatus,
+        			c.rejectedReason, c.directSupervisorTime, c.departmentHeadTime, c.bencoTime);
+        		
+        	let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+            	if (xhr.readyState === 4) {
+            		if (xhr.status === 200) {
+            			console.log("Seems like it works....");
+            		}
+            		else {
+            			console.log("failed to accept reimbursement");
+            		}
+            	}
+            	else {
+            		console.log("processing request");
+            	}
+            }
+            
+            xhr.open("POST", "directsupervisor-home/accept", true);
+        	xhr.send(JSON.stringify(reimbursement));
+            
+        	break;
+        }
+	}
+}
+
 document.addEventListener("click", function(e) {
     if (e.target && e.target.id.includes("reim")) {
         displaySingleReimbursement(e.target.id.substring(5));
+    }
+    if (e.target && e.target.id.includes("accept-button")) {
+    	console.log(e.target.id.substring(14));
+    	acceptReimbursement(e.target.id.substring(14));
+    }
+    else if (e.target && e.target.id.includes("reject-button")) {
+    	rejectReimbursement(e.target.id.substring(14));
     }
 });
 

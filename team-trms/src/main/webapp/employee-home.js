@@ -54,8 +54,8 @@ function displayReimbursements(status, reimbursements) {
         cell4.appendChild(document.createTextNode("$" + r.awardedAmount.toFixed(2)));
 
         let cell5 = newRow.insertCell(4);
-        cell5.appendChild(document.createTextNode(r.submissionTime.monthValue + "/" 
-            + r.submissionTime.dayOfMonth + "/" + r.submissionTime.year));
+        cell5.appendChild(document.createTextNode(r.submissionTime[1] + "/" 
+            + r.submissionTime[2] + "/" + r.submissionTime[0]));
     }
 }
 
@@ -94,9 +94,9 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Event Name", c.eventName);
             let fixedEventType = formatEventType(c.eventType);
             showSingleRow(modalTable, "Event Type", fixedEventType);
-            let fixedTime = formatTime(r.eventTime.hour, r.eventTime.minute);
+            let fixedTime = formatTime(r.eventTime[3], r.eventTime[4]);
             showSingleRow(modalTable, "Event Time", 
-                `${r.eventTime.monthValue}/${r.eventTime.dayOfMonth}/${r.eventTime.year} - ${fixedTime}`);
+                `${c.eventTime[1]}/${c.eventTime[2]}/${c.eventTime[0]} - ${fixedTime}`);
             showSingleRow(modalTable, "Location", c.location);
             showSingleRow(modalTable, "Description", c.description);
             showSingleRow(modalTable, "Cost", `$${c.cost.toFixed(2)}`);
@@ -106,7 +106,7 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Work Hours Missed", c.workHoursMissed.toFixed(2));
             showSingleRow(modalTable, "Awarded Amount", `$${c.awardedAmount.toFixed(2)}`);
             showSingleRow(modalTable, "Date Submitted",
-                `${r.submissionTime.monthValue}/${r.submissionTime.dayOfMonth}/${r.submissionTime.year}`);
+                `${c.submissionTime[1]}/${c.submissionTime[2]}/${c.submissionTime[0]}`);
             break;
         }
     }
@@ -122,7 +122,6 @@ function getPendingReimbursements() {
                 	window.location.href = "unauthorized.html";
                 }
                 else {
-                	console.log(JSON.parse(xhr.responseText));
                 	document.getElementById("hide").style.visibility = "visible";
                     displayReimbursements("pending", JSON.parse(xhr.responseText));
                 }

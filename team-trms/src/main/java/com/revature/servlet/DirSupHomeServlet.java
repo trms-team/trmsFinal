@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.revature.pojo.Reimbursement;
 import com.revature.pojo.User;
 import com.revature.pojo.User.Role;
@@ -65,7 +66,33 @@ public class DirSupHomeServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		User user = (User) (request.getSession().getAttribute("user"));
+		
+		if (user != null && user.getRoles().contains(Role.DIRECT_SUPERVISOR)) {
+			ObjectMapper om = new ObjectMapper();
+			om.registerModule(new JavaTimeModule());
+			
+			String body = request.getReader().readLine();
+			
+			String name = request.getPathInfo();
+			
+			Reimbursement reimbursement = om.readValue(body, Reimbursement.class);
+			
+			System.out.println(reimbursement.toString());
+			
+			if (name.substring(1).equals("accept")) {
+				//reimbursementService.acceptReimbursement(reimbursement, user.getRoles());
+				System.out.println("accepting " + reimbursement.getReimbursementId());
+			}
+			else if (name.substring(1).equals("reject")) {
+				reimbursementService.rejectReimbursement(reimbursement, user.getRoles(), reimbursement.getRejectedReason());
+			}
+			
+			// Maybe check id of reimbursement to see if it exists
+
+			//response.getWriter().write("Success");
+			
+		}
 	}
 
 	
