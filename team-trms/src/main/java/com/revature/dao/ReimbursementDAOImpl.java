@@ -173,11 +173,26 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	}
 	
 	@Override
+	public List<Reimbursement> getInProgressReimbursementsBySupervisor(String username) {
+		List<User> subordinates = userDAO.getAllReportsToUser(username);
+		List<Reimbursement> inProgressReimbursements = new LinkedList<>();
+		
+		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and (dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
+				+ " and employee_username = ? order by direct_sup_time desc";
+		
+		for(User u : subordinates) {
+			String employeeUsername = u.getUsername();
+			inProgressReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		return inProgressReimbursements;
+	}
+	
+	@Override
 	public List<Reimbursement> getAcceptedReimbursementsBySupervisor(String username) {
 		List<User> subordinates = userDAO.getAllReportsToUser(username);
 		List<Reimbursement> acceptedReimbursements = new LinkedList<>();
 		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and"
-				+ " dep_head_status != 'REJECTED' and ben_co_status != 'REJECTED'" 
+				+ " dep_head_status = 'ACCEPTED' and ben_co_status = 'ACCEPTED'" 
 				+ " and employee_username = ? order by direct_sup_time desc";
 		for(User u : subordinates) {
 			String employeeUsername = u.getUsername();

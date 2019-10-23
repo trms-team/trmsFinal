@@ -44,6 +44,12 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	}
 
 	@Override
+	public List<Reimbursement> showSupervisorInProgress(String username) {
+		info("showing in progress requests by supervisor " + username);
+		return reimbursementDAO.getInProgressReimbursementsBySupervisor(username);
+	}
+	
+	@Override
 	public List<Reimbursement> showSupervisorAccepted(String username) {
 		info("showing accepted requests by supervisor " + username);
 		return reimbursementDAO.getAcceptedReimbursementsBySupervisor(username);

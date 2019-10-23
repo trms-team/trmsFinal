@@ -46,6 +46,11 @@
 				<a class="nav-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" 
 					aria-controls="pending" aria-selected="true">Pending</a>
 			</li>
+			
+			<li class="nav-item">
+				<a class="nav-link" id="inprogress-tab" data-toggle="tab" href="#inprogress" role="tab" 
+					aria-controls="inprogress" aria-selected="false">In Progress</a>
+			</li>
 
 			<li class="nav-item">
 				<a class="nav-link" id="accepted-tab" data-toggle="tab" href="#accepted" role="tab" 
@@ -80,6 +85,28 @@
 					</tbody>
 				</table>
 			</div>
+			
+			<div class="tab-pane fade" id="inprogress" role="tabpanel" aria-labelledby="inprogress-tab">
+				<table class="table" id="inprogress-table">
+					<thead class="thead-light">
+						<tr>
+							<th>ID</th>
+							<th>Employee Name</th>
+							<th>Event Name</th>
+							<th>Event Type</th>
+							<th>Reimburse Amount</th>
+							<th>Accepted Date</th>
+							<th>Actions</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+
+					<tbody id="inprogress-body">	
+						
+					</tbody>
+				</table>
+			</div>
 
 			<div class="tab-pane fade" id="accepted" role="tabpanel" aria-labelledby="accepted-tab">
 				<table class="table" id="accepted-table">
@@ -90,7 +117,7 @@
 							<th>Event Name</th>
 							<th>Event Type</th>
 							<th>Reimburse Amount</th>
-							<th>Submitted Date</th>
+							<th>Awarded Date</th>
 						</tr>
 					</thead>
 
@@ -109,7 +136,7 @@
 							<th>Event Name</th>
 							<th>Event Type</th>
 							<th>Reimburse Amount</th>
-							<th>Submitted Date</th>
+							<th>Rejected Date</th>
 						</tr>
 					</thead>
 

@@ -45,6 +45,10 @@ public class DirSupHomeServlet extends HttpServlet {
 				List<Reimbursement> pending = reimbursementService.showSupervisorPending(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(pending));
 			}
+			else if (name.substring(1).equals("inprogress")) {
+				List<Reimbursement> inProgress = reimbursementService.showSupervisorInProgress(user.getUsername());
+				response.getWriter().write(om.writeValueAsString(inProgress));
+			}
 			else if (name.substring(1).equals("accepted")) {
 				List<Reimbursement> accepted = reimbursementService.showSupervisorAccepted(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(accepted));

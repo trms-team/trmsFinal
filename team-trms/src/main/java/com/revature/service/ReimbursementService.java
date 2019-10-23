@@ -16,6 +16,8 @@ public interface ReimbursementService {
 	
 	public List<Reimbursement> showSupervisorPending(String username);
 	
+	public List<Reimbursement> showSupervisorInProgress(String username);
+	
 	public List<Reimbursement> showSupervisorAccepted(String username);
 	
 	public List<Reimbursement> showSupervisorRejected(String username);
