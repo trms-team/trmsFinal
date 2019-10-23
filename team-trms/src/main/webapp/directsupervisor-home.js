@@ -98,7 +98,11 @@ function displaySingleReimbursement(id) {
                 showSingleRow(modalTable, "Reason Rejected", c.rejectedReason);
             }
             showSingleRow(modalTable, "Employee Username", c.employeeUsername);
-            showSingleRow(modalTable, "Email", c.email);
+            
+            let row = modalTable.insertRow();
+            row.insertCell().innerHTML = `<b>Email</b>`;
+            row.insertCell().innerHTML = `<a href='mailto:${c.email}'>${c.email}</a>`;
+            
             showSingleRow(modalTable, "Phone", c.phone);
             showSingleRow(modalTable, "Event Name", c.eventName);
             let fixedEventType = formatEventType(c.eventType);
@@ -126,7 +130,7 @@ function getPendingReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                // In case a non-employee tries to access
+                // In case a non-supervisor tries to access
                 if (xhr.responseText === "") {
                 	window.location.href = "unauthorized.html";
                 }
@@ -209,7 +213,7 @@ function getAcceptedReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                // In case a non-employee tries to access
+                // In case a non-supervisor tries to access
                 if (xhr.responseText === "") {
                 	window.location.href = "unauthorized.html";
                 }
@@ -235,7 +239,7 @@ function getRejectedReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                // In case a non-employee tries to access
+                // In case a non-supervisor tries to access
                 if (xhr.responseText === "") {
                 	window.location.href = "unauthorized.html";
                 	
