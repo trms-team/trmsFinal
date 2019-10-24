@@ -16,19 +16,15 @@ import com.revature.pojo.User.Role;
 import com.revature.service.ReimbursementService;
 import com.revature.service.ReimbursementServiceImpl;
 
-public class DirSupHomeServlet extends HttpServlet {
+public class DepHeadHomeServlet extends HttpServlet {
+	private static final long serialVersionUID = 4371725641830753785L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5870131680717008313L;
-	
 	private static ReimbursementService reimbursementService = new ReimbursementServiceImpl();
 
 	/**
      * @see HttpServlet#HttpServlet()
      */
-    public DirSupHomeServlet() {
+    public DepHeadHomeServlet() {
         super();
     }
 
@@ -38,39 +34,37 @@ public class DirSupHomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) (request.getSession().getAttribute("user"));
 		
-		if (user != null && user.getRoles().contains(Role.DIRECT_SUPERVISOR) &&
-				!user.getRoles().contains(Role.DEPARTMENT_HEAD)) {
+		if (user != null && user.getRoles().contains(Role.DEPARTMENT_HEAD)) {
 			ObjectMapper om = new ObjectMapper();
 			String name = request.getPathInfo();
 			
 			if (name.substring(1).equals("pending")) {
-				List<Reimbursement> pending = reimbursementService.showSupervisorPending(user.getUsername());
+				List<Reimbursement> pending = reimbursementService.showDepartmentHeadPending(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(pending));
 			}
 			else if (name.substring(1).equals("inprogress")) {
-				List<Reimbursement> inProgress = reimbursementService.showSupervisorInProgress(user.getUsername());
+				List<Reimbursement> inProgress = reimbursementService.showDepartmentHeadInProgress(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(inProgress));
 			}
 			else if (name.substring(1).equals("accepted")) {
-				List<Reimbursement> accepted = reimbursementService.showSupervisorAccepted(user.getUsername());
+				List<Reimbursement> accepted = reimbursementService.showDepartmentHeadAccepted(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(accepted));
 			}
 			else if (name.substring(1).equals("rejected")) {
-				List<Reimbursement> rejected = reimbursementService.showSupervisorRejected(user.getUsername());
+				System.out.println(user.getUsername());
+				List<Reimbursement> rejected = reimbursementService.showDepartmentHeadRejected(user.getUsername());
 				response.getWriter().write(om.writeValueAsString(rejected));
-			}	
+			}
 		}
-
 	}
-
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) (request.getSession().getAttribute("user"));
-
-		if (user != null && user.getRoles().contains(Role.DIRECT_SUPERVISOR) &&
-				!user.getRoles().contains(Role.DEPARTMENT_HEAD)) {
+		
+		if (user != null && user.getRoles().contains(Role.DEPARTMENT_HEAD)) {
 			ObjectMapper om = new ObjectMapper();
 			om.registerModule(new JavaTimeModule());
 			
@@ -86,9 +80,7 @@ public class DirSupHomeServlet extends HttpServlet {
 			else if (name.substring(1).equals("reject")) {
 				reimbursementService.rejectReimbursement(reimbursement, user.getRoles(), reimbursement.getRejectedReason());
 			}
-			
 		}
+		
 	}
-
-	
 }

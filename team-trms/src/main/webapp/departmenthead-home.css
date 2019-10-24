@@ -1,0 +1,19 @@
+h2 {
+    padding-top: 40px;
+}
+
+.nav-link {
+	color: #777;
+}
+
+.nav-tabs {
+    padding-top: 40px;
+}
+
+.tab-content {
+    padding-top: 30px;
+}
+
+#hide{
+	visibility: hidden;
+}

@@ -22,6 +22,14 @@ public interface ReimbursementService {
 	
 	public List<Reimbursement> showSupervisorRejected(String username);
 	
+	public List<Reimbursement> showDepartmentHeadPending(String username);
+	
+	public List<Reimbursement> showDepartmentHeadInProgress(String username);
+	
+	public List<Reimbursement> showDepartmentHeadAccepted(String username);
+	
+	public List<Reimbursement> showDepartmentHeadRejected(String username);
+	
 	public void submitReimbursement(Reimbursement newReimbursement);
 	
 	public void acceptReimbursement(Reimbursement reimbursement, List<Role> accepterRoles);
