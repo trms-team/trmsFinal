@@ -86,6 +86,24 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	}
 	
 	@Override
+	public List<Reimbursement> showBenCoPending(String username) {
+		info("showing pending requests by benco " + username);
+		return reimbursementDAO.getPendingReimbursementsByBenCo(username);
+	}
+
+	@Override
+	public List<Reimbursement> showBenCoAccepted(String username) {
+		info("showing accepted requests by benco " + username);
+		return reimbursementDAO.getAcceptedReimbursementsByBenCo(username);
+	}
+
+	@Override
+	public List<Reimbursement> showBenCoRejected(String username) {
+		info("showing rejected requests by benco " + username);
+		return reimbursementDAO.getRejectedReimbursementsByBenCo(username);
+	}
+	
+	@Override
 	public void submitReimbursement(Reimbursement newReimbursement) {
 		info("submitting reimbursement id#" + newReimbursement.getReimbursementId());
 		reimbursementDAO.createReimbursement(newReimbursement);

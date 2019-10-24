@@ -94,7 +94,7 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Event Name", c.eventName);
             let fixedEventType = formatEventType(c.eventType);
             showSingleRow(modalTable, "Event Type", fixedEventType);
-            let fixedTime = formatTime(r.eventTime[3], r.eventTime[4]);
+            let fixedTime = formatTime(c.eventTime[3], c.eventTime[4]);
             showSingleRow(modalTable, "Event Time", 
                 `${c.eventTime[1]}/${c.eventTime[2]}/${c.eventTime[0]} - ${fixedTime}`);
             showSingleRow(modalTable, "Location", c.location);

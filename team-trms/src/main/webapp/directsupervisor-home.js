@@ -133,24 +133,24 @@ function displaySingleReimbursement(id) {
             if (c.directSupervisorStatus === 'ACCEPTED' && (c.departmentHeadStatus === 'PENDING' 
 	        		|| c.bencoStatus === 'PENDING')) {
 	        	showSingleRow(modalTable, "Date Accepted By You",
-	            `${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);  	
+	            `${c.directSupervisorTime[1]}/${c.directSupervisorTime[2]}/${c.directSupervisorTime[0]}`);  	
 	        }
 	        else if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' 
 	        		&& c.bencoStatus === 'ACCEPTED') {
 	        	showSingleRow(modalTable, "Date Approved By BenCo",
-	            	`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
+	            	`${c.bencoTime[1]}/${c.bencoTime[2]}/${c.bencoTime[0]}`);  	
 	        }
 	        else if (c.directSupervisorStatus === 'REJECTED') {
 	        	showSingleRow(modalTable, "Date Rejected By You",
-	    			`${r.directSupervisorTime[1]}/${r.directSupervisorTime[2]}/${r.directSupervisorTime[0]}`);
+	    			`${c.directSupervisorTime[1]}/${c.directSupervisorTime[2]}/${c.directSupervisorTime[0]}`);
 	        }
 	        else if (c.departmentHeadStatus === 'REJECTED') {
 	        	showSingleRow(modalTable, "Date Rejected By Department Head",
-	    			`${r.departmentHeadTime[1]}/${r.departmentHeadTime[2]}/${r.departmentHeadTime[0]}`);  	
+	    			`${c.departmentHeadTime[1]}/${c.departmentHeadTime[2]}/${c.departmentHeadTime[0]}`);  	
 	        }
 	        else if (c.bencoStatus === 'REJECTED') {
 	        	showSingleRow(modalTable, "Date Rejected By BenCo",
-	        		`${r.bencoTime[1]}/${r.bencoTime[2]}/${r.bencoTime[0]}`);  	
+	        		`${c.bencoTime[1]}/${c.bencoTime[2]}/${c.bencoTime[0]}`);  	
 	        }
             
             showSingleRow(modalTable, "Employee Username", c.employeeUsername);
@@ -163,9 +163,9 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Event Name", c.eventName);
             let fixedEventType = formatEventType(c.eventType);
             showSingleRow(modalTable, "Event Type", fixedEventType);
-            let fixedTime = formatTime(r.eventTime[3], r.eventTime[4]);
+            let fixedTime = formatTime(c.eventTime[3], c.eventTime[4]);
             showSingleRow(modalTable, "Event Time", 
-                `${r.eventTime[1]}/${r.eventTime[2]}/${r.eventTime[0]} - ${fixedTime}`);
+                `${c.eventTime[1]}/${c.eventTime[2]}/${c.eventTime[0]} - ${fixedTime}`);
             showSingleRow(modalTable, "Location", c.location);
             showSingleRow(modalTable, "Description", c.description);
             showSingleRow(modalTable, "Cost", `$${c.cost.toFixed(2)}`);
@@ -176,7 +176,7 @@ function displaySingleReimbursement(id) {
             showSingleRow(modalTable, "Awarded Amount", `$${c.awardedAmount.toFixed(2)}`);
 
         	showSingleRow(modalTable, "Date Submitted",
-            	`${r.submissionTime[1]}/${r.submissionTime[2]}/${r.submissionTime[0]}`);
+            	`${c.submissionTime[1]}/${c.submissionTime[2]}/${c.submissionTime[0]}`);
             
             break;
         }
