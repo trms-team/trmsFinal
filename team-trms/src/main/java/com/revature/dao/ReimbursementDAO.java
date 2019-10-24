@@ -43,4 +43,6 @@ public interface ReimbursementDAO {
 	public void updateReimbursementToAccepted(Reimbursement reimbursement, List<Role> roles);
 	
 	public void updateReimbursementToRejected(Reimbursement reimbursement, List<Role> roles, String reasonRejected);
+
+	public void updateReimbursementAmount(Reimbursement reimbursement);
 }

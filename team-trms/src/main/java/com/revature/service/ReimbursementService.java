@@ -42,5 +42,7 @@ public interface ReimbursementService {
 	
 	public void rejectReimbursement(Reimbursement reimbursement, List<Role> rejecterRoles, String reasonRejected);
 	
+	public void updateReimbursementAmount(Reimbursement reimbursement);
+	
 	public List<Double> getPendingAndAwardedAmounts(String username);
 }

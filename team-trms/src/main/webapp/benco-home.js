@@ -54,6 +54,12 @@ function displayReimbursements(status, reimbursements) {
         cell2.appendChild(document.createTextNode(r.employeeUsername));
 
         let cell3 = newRow.insertCell(2);
+        let currentDate = new Date();
+        let eventDate = new Date(r.eventTime[0], r.eventTime[1] - 1, r.eventTime[2]);
+        // This is checking difference in milliseconds
+        if (eventDate - currentDate < 1209600000 && status === 'pending') {
+        	cell3.setAttribute("style", "text-decoration: underline; text-decoration-color: red;");
+        }
         cell3.appendChild(document.createTextNode(r.eventName));
         
         let cell4 = newRow.insertCell(3);
@@ -70,7 +76,8 @@ function displayReimbursements(status, reimbursements) {
         	
         	let cell7 = newRow.insertCell(6);
             cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success btn-sm btn-block' name='accept-btn'>Accept</button>`
-            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger btn-sm btn-block' name='accept-btn'>Reject</button>`;
+            	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger btn-sm btn-block' name='accept-btn'>Reject</button>`
+            	+`<button id='update-amt-button-${r.reimbursementId}' class='btn btn-primary btn-sm btn-block' name='update-amt-btn'>Amount</button>`;
         }
         else if (status === 'accepted') {
         	let cell6 = newRow.insertCell(5);
@@ -321,12 +328,43 @@ function acceptOrRejectReimbursement(id, action, reason) {
 	}
 }
 
+function updateAmountReimbursement(id, amount) {
+	for (c of currentReims) {
+        if (c.reimbursementId == id) {
+        	let reimbursement = new Reimbursement(c.reimbursementId, c.employeeUsername, c.email, c.phone, c.eventTime, c.location, c.eventName, 
+        			c.eventType, c.description, c.cost, c.gradingFormat, c.workRelatedJustification, c.workHoursMissed,
+        			amount, c.submissionTime, c.directSupervisorStatus, c.departmentHeadStatus, c.bencoStatus,
+        			c.rejectedReason, c.directSupervisorTime, c.departmentHeadTime, c.bencoTime);
+        	
+        	let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+            	if (xhr.readyState === 4) {
+            		if (xhr.status === 200) {
+            			console.log(`Reimbursement id#${id} successfully updated amount to $${amount}`);
+            			getPendingReimbursements();
+            		}
+            		else {
+            			console.log(`Failed to update reimbursement amount`);
+            		}
+            	}
+            	else {
+            		console.log("processing request");
+            	}
+            }
+            
+            xhr.open("POST", `benco-home/updateAmount`, true);
+        	xhr.send(JSON.stringify(reimbursement));
+            
+        	break;
+        }
+	}
+}
+
 document.addEventListener("click", function(e) {
     if (e.target && e.target.id.includes("reim")) {
         displaySingleReimbursement(e.target.id.substring(5));
     }
     if (e.target && e.target.id.includes("accept-button")) {
-    	console.log(e.target.id.substring(14));
     	acceptOrRejectReimbursement(e.target.id.substring(14), "accept", null);
     }
     else if (e.target && e.target.id.includes("reject-button")) {
@@ -339,7 +377,25 @@ document.addEventListener("click", function(e) {
     		acceptOrRejectReimbursement(e.target.id.substring(14), "reject", reason);
     	}
     }
+    else if (e.target && e.target.id.includes("update-amt-button")) {
+    	e.preventDefault();
+    	// Need to do some checking with 2 decimal digits
+    	let updatedAmount = null;
+    	do {
+    		updatedAmount = prompt("New reimbursement cost?");
+        	if (updatedAmount == null || updatedAmount == "") {
+        		break;
+        		console.log("Cancelled amount update");
+        	}
+    	} while(isNaN(updatedAmount) || updatedAmount == null || updatedAmount == "");
+    	
+    	if (updatedAmount != null && updatedAmount != "") {
+    		updateAmountReimbursement(e.target.id.substring(18), parseFloat(updatedAmount));
+    	}
+    }
 });
+
+
 
 window.onload = function() {
     this.getPendingReimbursements();
