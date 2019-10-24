@@ -554,4 +554,19 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		}
 	}
 
+	@Override
+	public void updateReimbursementAmount(Reimbursement reimbursement) {
+		String sql = "update reimbursement_test set awarded_amount = ? where reimbursement_id = ?";
+		
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, reimbursement.getAwardedAmount());
+			stmt.setInt(2, reimbursement.getReimbursementId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			error(e.getMessage());
+		}
+		
+	}
+
 }

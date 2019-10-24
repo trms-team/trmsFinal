@@ -122,6 +122,13 @@ public class ReimbursementServiceImpl implements ReimbursementService {
 	}
 	
 	@Override
+	public void updateReimbursementAmount(Reimbursement reimbursement) {
+		info("Updating reimbursement id#" + reimbursement.getReimbursementId() 
+			+ " to $" + reimbursement.getAwardedAmount());
+		reimbursementDAO.updateReimbursementAmount(reimbursement);
+	}
+	
+	@Override
 	public List<Double> getPendingAndAwardedAmounts(String username) {
 		List<Reimbursement> reimbursements = showEmployeePending(username);
 		reimbursements.addAll(showEmployeeAccepted(username));

@@ -80,6 +80,9 @@ public class BenCoHomeServlet extends HttpServlet {
 			else if (name.substring(1).equals("reject")) {
 				reimbursementService.rejectReimbursement(reimbursement, user.getRoles(), reimbursement.getRejectedReason());
 			}
+			else if (name.substring(1).equals("updateAmount")) {
+				reimbursementService.updateReimbursementAmount(reimbursement);
+			}
 		}
 		
 	}
