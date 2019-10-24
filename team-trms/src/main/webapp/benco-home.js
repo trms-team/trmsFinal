@@ -72,20 +72,10 @@ function displayReimbursements(status, reimbursements) {
             cell7.innerHTML = `<button id='accept-button-${r.reimbursementId}' class='btn btn-success btn-sm btn-block' name='accept-btn'>Accept</button>`
             	+`<button id='reject-button-${r.reimbursementId}' class='btn btn-danger btn-sm btn-block' name='accept-btn'>Reject</button>`;
         }
-        else if (status === 'inprogress') {
-        	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.departmentHeadTime[1] + "/" 
-                + r.departmentHeadTime[2] + "/" + r.departmentHeadTime[0]));
-        }
         else if (status === 'accepted') {
         	let cell6 = newRow.insertCell(5);
             cell6.appendChild(document.createTextNode(r.bencoTime[1] + "/" 
                 + r.bencoTime[2] + "/" + r.bencoTime[0]));
-        }
-        else if (r.departmentHeadStatus === 'REJECTED') {
-        	let cell6 = newRow.insertCell(5);
-            cell6.appendChild(document.createTextNode(r.departmentHeadTime[1] + "/" 
-                + r.departmentHeadTime[2] + "/" + r.departmentHeadTime[0]));
         }
         else if (r.bencoStatus === 'REJECTED') {
         	let cell6 = newRow.insertCell(5);
@@ -124,23 +114,14 @@ function displaySingleReimbursement(id) {
             if (c.rejectedReason !== null) {
                 showSingleRow(modalTable, "Reason Rejected", c.rejectedReason);
             }
-            
-            if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' && 
-            		c.bencoStatus === 'PENDING') {
-	        	showSingleRow(modalTable, "Date Accepted By You",
-	            	`${c.departmentHeadTime[1]}/${c.departmentHeadTime[2]}/${c.departmentHeadTime[0]}`);  	
-	        }
-	        else if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' 
+
+	        if (c.directSupervisorStatus === 'ACCEPTED' && c.departmentHeadStatus === 'ACCEPTED' 
 	        		&& c.bencoStatus === 'ACCEPTED') {
-	        	showSingleRow(modalTable, "Date Approved By BenCo",
+	        	showSingleRow(modalTable, "Date Approved By You",
 	            	`${c.bencoTime[1]}/${c.bencoTime[2]}/${c.bencoTime[0]}`);  	
 	        }
-	        else if (c.departmentHeadStatus === 'REJECTED') {
-	        	showSingleRow(modalTable, "Date Rejected By You",
-	    			`${c.departmentHeadTime[1]}/${c.departmentHeadTime[2]}/${c.departmentHeadTime[0]}`);
-	        }
 	        else if (c.bencoStatus === 'REJECTED') {
-	        	showSingleRow(modalTable, "Date Rejected By BenCo",
+	        	showSingleRow(modalTable, "Date Rejected By You",
 	        		`${c.bencoTime[1]}/${c.bencoTime[2]}/${c.bencoTime[0]}`);  	
 	        }
             
@@ -179,7 +160,7 @@ function getPendingReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                // In case a non-departmenthead tries to access
+                // In case a non-benco tries to access
                 if (xhr.responseText === "") {
                 	window.location.href = "unauthorized.html";
                 }
@@ -197,7 +178,7 @@ function getPendingReimbursements() {
             console.log("fetching request");
         }
     }
-    xhr.open("GET", "departmenthead-home/pending", true);
+    xhr.open("GET", "benco-home/pending", true);
     xhr.send();
 }
 
@@ -256,38 +237,12 @@ function formatGradingFormat(gradingFormat) {
     }	
 }
 
-function getInProgressReimbursements() {
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-            	// In case a non-departmenthead tries to access
-                if (xhr.responseText === "") {
-                	window.location.href = "unauthorized.html";
-                }
-                else {
-                	document.getElementById("hide").style.visibility = "visible";
-                    displayReimbursements("inprogress", JSON.parse(xhr.responseText));
-                }
-            }
-            else {
-                console.log("failed to retrieve reimbursements");
-            }
-        }
-        else {
-            console.log("fetching request");
-        }
-    }
-    xhr.open("GET", "departmenthead-home/inprogress", true);
-    xhr.send();
-}
-
 function getAcceptedReimbursements() {
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-            	// In case a non-departmenthead tries to access
+            	// In case a non-benco tries to access
                 if (xhr.responseText === "") {
                 	window.location.href = "unauthorized.html";
                 }
@@ -304,7 +259,7 @@ function getAcceptedReimbursements() {
             console.log("fetching request");
         }
     }
-    xhr.open("GET", "departmenthead-home/accepted", true);
+    xhr.open("GET", "benco-home/accepted", true);
     xhr.send();
 }
 
@@ -313,10 +268,9 @@ function getRejectedReimbursements() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-            	// In case a non-departmenthead tries to access
+            	// In case a non-benco tries to access
                 if (xhr.responseText === "") {
-                	window.location.href = "unauthorized.html";
-                	
+                	window.location.href = "unauthorized.html";        	
                 }
                 else {
                 	document.getElementById("hide").style.visibility = "visible";
@@ -331,7 +285,7 @@ function getRejectedReimbursements() {
             console.log("fetching request");
         }
     }
-    xhr.open("GET", "departmenthead-home/rejected", true);
+    xhr.open("GET", "benco-home/rejected", true);
     xhr.send();
 }
 
@@ -359,7 +313,7 @@ function acceptOrRejectReimbursement(id, action, reason) {
             	}
             }
             
-            xhr.open("POST", `departmenthead-home/${action}`, true);
+            xhr.open("POST", `benco-home/${action}`, true);
         	xhr.send(JSON.stringify(reimbursement));
             
         	break;
@@ -390,7 +344,6 @@ document.addEventListener("click", function(e) {
 window.onload = function() {
     this.getPendingReimbursements();
     this.document.getElementById("pending-tab").addEventListener("click", getPendingReimbursements, false);
-    this.document.getElementById("inprogress-tab").addEventListener("click", getInProgressReimbursements, false);
     this.document.getElementById("accepted-tab").addEventListener("click", getAcceptedReimbursements, false);
     this.document.getElementById("rejected-tab").addEventListener("click", getRejectedReimbursements, false);
 }

@@ -30,6 +30,12 @@ public interface ReimbursementService {
 	
 	public List<Reimbursement> showDepartmentHeadRejected(String username);
 	
+	public List<Reimbursement> showBenCoPending(String username);
+	
+	public List<Reimbursement> showBenCoAccepted(String username);
+	
+	public List<Reimbursement> showBenCoRejected(String username);
+	
 	public void submitReimbursement(Reimbursement newReimbursement);
 	
 	public void acceptReimbursement(Reimbursement reimbursement, List<Role> accepterRoles);

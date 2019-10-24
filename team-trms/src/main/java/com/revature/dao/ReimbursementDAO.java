@@ -32,6 +32,12 @@ public interface ReimbursementDAO {
 	
 	public List<Reimbursement> getRejectedReimbursementsByDepartmentHead(String username);
 	
+	public List<Reimbursement> getPendingReimbursementsByBenCo(String username);
+	
+	public List<Reimbursement> getAcceptedReimbursementsByBenCo(String username);
+	
+	public List<Reimbursement> getRejectedReimbursementsByBenCo(String username);
+	
 	public List<Reimbursement> getAllReimbursements();
 	
 	public void updateReimbursementToAccepted(Reimbursement reimbursement, List<Role> roles);

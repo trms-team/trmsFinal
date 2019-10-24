@@ -137,7 +137,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	@Override
 	public List<Reimbursement> getPendingReimbursementsByEmployee(String username) {
 		String sql = "select * from reimbursement_test where (direct_sup_status = 'PENDING' or dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
-				+ " and (direct_sup_status != 'REJECTED' or dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED')"
+				+ " and direct_sup_status != 'REJECTED' and dep_head_status != 'REJECTED' and ben_co_status != 'REJECTED'"
 				+ " and employee_username = ? order by submission_time desc";
 		
 		return returnListReimbursements(sql, username);
@@ -178,7 +178,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		List<Reimbursement> inProgressReimbursements = new LinkedList<>();
 		
 		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and (dep_head_status = 'PENDING' or ben_co_status = 'PENDING')"
-				+ " and employee_username = ? order by direct_sup_time desc";
+				+ " and (dep_head_status != 'REJECTED' and ben_co_status != 'REJECTED') and employee_username = ? order by direct_sup_time desc";
 		
 		for(User u : subordinates) {
 			String employeeUsername = u.getUsername();
@@ -205,8 +205,8 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	public List<Reimbursement> getRejectedReimbursementsBySupervisor(String username) {
 		List<User> subordinates = userDAO.getAllReportsToUser(username);
 		List<Reimbursement> rejectedReimbursements = new LinkedList<>();
-		String sql = "select * from reimbursement_test where direct_sup_status = 'REJECTED' or"
-				+ " dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED'"
+		String sql = "select * from reimbursement_test where (direct_sup_status = 'REJECTED' or"
+				+ " dep_head_status = 'REJECTED' or ben_co_status = 'REJECTED')"
 				+ " and employee_username = ? order by direct_sup_time desc";
 		for(User u : subordinates) {
 			String employeeUsername = u.getUsername();
@@ -326,6 +326,89 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 			}
 			else {
 				employeesReportingToUser.addAll(userDAO.getAllReportsToUser(u.getUsername()));
+			}
+		}
+		
+		for (User e : employeesReportingToUser) {
+			String employeeUsername = e.getUsername();
+			rejectedReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		
+		return rejectedReimbursements;
+	}
+	
+	@Override
+	public List<Reimbursement> getPendingReimbursementsByBenCo(String username) {
+		List<Reimbursement> pendingReimbursements = new LinkedList<>();
+		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and"
+				+ " dep_head_status = 'ACCEPTED' and ben_co_status = 'PENDING' and employee_username = ?"
+				+ " order by submission_time desc";
+		
+		List<User> employeesReportingToUser = new LinkedList<>();
+		
+		for(User u : userDAO.getAllReportsToUser(username)) {
+			for (User e : userDAO.getAllReportsToUser(u.getUsername())) {
+				if (e.getRoles().contains(Role.EMPLOYEE)) {
+					employeesReportingToUser.add(e);
+				}
+				else {
+					employeesReportingToUser.addAll(userDAO.getAllReportsToUser(e.getUsername()));
+				}
+			}
+		}
+		
+		for (User e : employeesReportingToUser) {
+			String employeeUsername = e.getUsername();
+			pendingReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		
+		return pendingReimbursements;
+	}
+
+	@Override
+	public List<Reimbursement> getAcceptedReimbursementsByBenCo(String username) {
+		List<Reimbursement> acceptedReimbursements = new LinkedList<>();
+		String sql = "select * from reimbursement_test where direct_sup_status = 'ACCEPTED' and"
+				+ " dep_head_status = 'ACCEPTED' and ben_co_status = 'ACCEPTED' and employee_username = ?"
+				+ " order by ben_co_time desc";
+		
+		List<User> employeesReportingToUser = new LinkedList<>();
+		
+		for(User u : userDAO.getAllReportsToUser(username)) {
+			for (User e : userDAO.getAllReportsToUser(u.getUsername())) {
+				if (e.getRoles().contains(Role.EMPLOYEE)) {
+					employeesReportingToUser.add(e);
+				}
+				else {
+					employeesReportingToUser.addAll(userDAO.getAllReportsToUser(e.getUsername()));
+				}
+			}
+		}
+		
+		for (User e : employeesReportingToUser) {
+			String employeeUsername = e.getUsername();
+			acceptedReimbursements.addAll(returnListReimbursements(sql, employeeUsername));
+		}
+		
+		return acceptedReimbursements;
+	}
+
+	@Override
+	public List<Reimbursement> getRejectedReimbursementsByBenCo(String username) {
+		List<Reimbursement> rejectedReimbursements = new LinkedList<>();
+		String sql = "select * from reimbursement_test where ben_co_status = 'REJECTED'"
+				+ " and employee_username = ? order by ben_co_time desc";
+		
+		List<User> employeesReportingToUser = new LinkedList<>();
+		
+		for(User u : userDAO.getAllReportsToUser(username)) {
+			for (User e : userDAO.getAllReportsToUser(u.getUsername())) {
+				if (e.getRoles().contains(Role.EMPLOYEE)) {
+					employeesReportingToUser.add(e);
+				}
+				else {
+					employeesReportingToUser.addAll(userDAO.getAllReportsToUser(e.getUsername()));
+				}
 			}
 		}
 		
