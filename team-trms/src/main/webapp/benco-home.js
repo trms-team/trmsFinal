@@ -54,6 +54,12 @@ function displayReimbursements(status, reimbursements) {
         cell2.appendChild(document.createTextNode(r.employeeUsername));
 
         let cell3 = newRow.insertCell(2);
+        let currentDate = new Date();
+        let eventDate = new Date(r.eventTime[0], r.eventTime[1] - 1, r.eventTime[2]);
+        // This is checking difference in milliseconds
+        if (eventDate - currentDate < 1209600000 && status === 'pending') {
+        	cell3.setAttribute("style", "text-decoration: underline; text-decoration-color: red;");
+        }
         cell3.appendChild(document.createTextNode(r.eventName));
         
         let cell4 = newRow.insertCell(3);

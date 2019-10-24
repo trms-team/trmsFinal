@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     public LoginServlet() {
         super();
     }
-
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -55,7 +55,6 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("departmenthead-home.html");
 			}
 			else if (user.getRoles().contains(User.Role.DIRECT_SUPERVISOR)) {
-				System.out.println("directsupervisor");
 				response.sendRedirect("directsupervisor-home.html");
 			}
 			else {
