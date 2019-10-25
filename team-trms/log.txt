@@ -28,3 +28,21 @@
 2019-10-20 17:49:10 TRACE root:30 - sql exception in upload file
 2019-10-20 14:09:29 WARN  root:18 - File not found exception in upload file
 
+2019-10-25 06:02:30 INFO  root:26 - Invalid username / password
+2019-10-25 06:03:00 INFO  root:26 - Invalid username / password
+2019-10-25 06:05:03 INFO  root:26 - Invalid username / password
+2019-10-25 06:05:44 INFO  root:26 - Invalid username / password
+2019-10-25 06:06:14 INFO  root:26 - User jboni is registered in the database and their password matches.
+2019-10-25 06:06:14 INFO  root:26 - User jboni has logged in successfully.
+2019-10-25 06:06:50 INFO  root:26 - User jboni is registered in the database and their password matches.
+2019-10-25 06:06:50 INFO  root:26 - User jboni has logged in successfully.
+2019-10-25 06:07:30 INFO  root:26 - User jboni is registered in the database and their password matches.
+2019-10-25 06:07:30 INFO  root:26 - User jboni has logged in successfully.
+2019-10-25 06:08:05 INFO  root:26 - User jboni is registered in the database and their password matches.
+2019-10-25 06:08:05 INFO  root:26 - User jboni has logged in successfully.
+2019-10-25 06:12:31 INFO  root:26 - User jboni is registered in the database and their password matches.
+2019-10-25 06:12:31 INFO  root:26 - User jboni has logged in successfully.
+2019-10-25 06:17:57 INFO  root:26 - User jboni is registered in the database and their password matches.
+2019-10-25 06:17:57 INFO  root:26 - User jboni has logged in successfully.
+2019-10-25 06:35:30 INFO  root:26 - Logging out
+2019-10-25 06:36:33 INFO  root:26 - Logging out

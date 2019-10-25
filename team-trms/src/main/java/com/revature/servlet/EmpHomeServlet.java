@@ -33,7 +33,7 @@ public class EmpHomeServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) (request.getSession().getAttribute("user"));
 		
 		if (user != null && user.getRoles().contains(Role.EMPLOYEE)) {
